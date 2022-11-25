@@ -1,0 +1,139 @@
+﻿<Window x:Class="Mayhem.Launcher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Mayhem.Launcher"
+        mc:Ignorable="d"
+    WindowStartupLocation="CenterScreen" 
+        Title="MainWindow"
+        WindowStyle="None"
+        Height="1080"
+        Width="1920"
+        MaxHeight="{Binding Height, Source={x:Static SystemParameters.WorkArea}}"
+        MaxWidth="{Binding Width, Source={x:Static SystemParameters.WorkArea}}"
+        WindowState="Maximized"
+        ResizeMode="NoResize">
+    <Grid>
+        <Image Source="/img/MainBackground.png" Stretch="Fill"/>
+
+
+        <Button x:Name="QuitButton" Click="QuitButton_Click" Height="45" Width="45" FontSize="28" FontWeight="Bold" Foreground="#FF696266" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Right" Padding="10,1,21,1" RenderTransformOrigin="0.525,0.75" BorderBrush="#00707070">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border
+                                    x:Name="border"
+                                    Background="#00FF0000"
+                                    BorderBrush="#000000FF"
+                                    BorderThickness="0"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="White">
+                                    <Grid>
+                                        <Image
+                                            x:Name="buttonImage"
+                                            Source="/Img/Button/CloseIconDefault.png"
+                                            Stretch="UniformToFill" />
+                                        <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                    </Grid>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="true">
+                                        <Setter TargetName="border" Property="Background" Value="#00FF0000" />
+                                        <Setter TargetName="border" Property="BorderBrush" Value="#00FF0000" />
+                                        <Setter TargetName="buttonImage" Property="Source" Value="/Img/Button/CloseIconHover.jpg" />
+
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="true">
+                                        <Setter TargetName="border" Property="Background" Value="#00FF0000" />
+                                        <Setter TargetName="border" Property="BorderBrush" Value="#00FF0000" />
+                                        <Setter TargetName="buttonImage" Property="Source" Value="/Img/Button/CloseIconClick.jpg" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button x:Name="MinimalizeButton" Click="MinimalizeButton_Click" Height="45" Width="45" FontSize="28" FontWeight="Bold" Foreground="#FF696266" Margin="0,0,45,0" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" BorderBrush="#00707070">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border
+                                    x:Name="border"
+                                    Background="#00FF0000"
+                                    BorderBrush="#000000FF"
+                                    BorderThickness="0"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="White">
+                                    <Grid>
+                                        <Image
+                                            x:Name="buttonImage"
+                                            Source="/Img/Button/MinimalizationIconDefault.png"
+                                            Stretch="UniformToFill" />
+                                        <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                    </Grid>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="true">
+                                        <Setter TargetName="border" Property="Background" Value="#00FF0000" />
+                                        <Setter TargetName="border" Property="BorderBrush" Value="#00FF0000" />
+                                        <Setter TargetName="buttonImage" Property="Source" Value="/Img/Button/MinimalizationIconHover.jpg" />
+
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="true">
+                                        <Setter TargetName="border" Property="Background" Value="#00FF0000" />
+                                        <Setter TargetName="border" Property="BorderBrush" Value="#00FF0000" />
+                                        <Setter TargetName="buttonImage" Property="Source" Value="/Img/Button/MinimalizationIconClick.jpg" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+
+        <TextBlock  x:Name="InstalledGameListTitleText" Text="MOJE GRY" Margin="35,137,1721,871" FontSize="24" Foreground="#FFF2F2F2" FontFamily="Nulshock Rg"/>
+        <TextBlock  x:Name="TopDownShooterGameNameText" Text="TOP-DOWN SHOOTER" Margin="60,213,1592,798" FontSize="18" Foreground="#FFF2F2F2" FontFamily="Montserrat"/>
+
+        <StackPanel Orientation="Horizontal" Margin="60,250,1432,755">
+            <StackPanel Margin="5,0" Orientation="Horizontal">
+                <TextBlock  x:Name="TopDownShooterGameVersionText" Text="V1.0.0   " FontSize="16" Foreground="#66F2F2F2" FontFamily="Montserrat"/>
+                <TextBlock  x:Name="TopDownShooterGameVersionStatusText" Text="Aktualna" FontSize="16" Foreground="#FF00D62E" FontFamily="Montserrat" Width="124"/>
+            </StackPanel>
+        </StackPanel>
+
+        <TextBlock  x:Name="AvailableGameListTitleText" Text="GRY" Margin="35,1011,1761,5" FontSize="24" Foreground="#FFF2F2F2" FontFamily="Nulshock Rg"/>
+
+        <TextBlock  x:Name="NewsTitleText" Text="AKTUALNOŚCI" Margin="681,137,1013,865" FontSize="24" Foreground="#FFF2F2F2" FontFamily="Nulshock Rg" RenderTransformOrigin="0.456,-0.605"/>
+
+
+        <!--<Button Visibility="Hidden" Name="PlayButton" Content="Checking For Updates" Click="PlayButton_Click" Height="60" FontSize="28" FontWeight="Bold" Foreground="#DDFFFFFF" Margin="0, 0, 0, 35" VerticalAlignment="Bottom" HorizontalAlignment="Center" MinWidth="150" Background="#FFFF9700" Padding="10,1,10,1"/>
+        <Grid Margin="100,324,100,207" RenderTransformOrigin="0.36,-1.645">
+            <ProgressBar Visibility="Hidden" Minimum="0" Maximum="100" Value="0" Name="ProgressBarStatus" />
+        </Grid>
+        <StackPanel HorizontalAlignment="Center">
+
+            <Label Background="White" Content="Current version"/>
+
+            <TextBox x:Name="CurrentVersionTextBox"
+                IsReadOnly="True"/>
+
+            <Button x:Name="UpdateButton" Click="UpdateButton_Click"
+                Margin="0,15,0,0" IsEnabled="False" Content="Update"/>
+            <Button Click="CheckForUpdatesButton_Click" Content="Check"/>
+        </StackPanel>-->
+    </Grid>
+</Window>

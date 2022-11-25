@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>CryptoMayhemLauncher</id>
+    <version>0.0.0</version>
+    <title>Mayhem Launcher</title>
+    <authors>Adria Games</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>https://cryptomayhem.io/</projectUrl>
+    <iconUrl>https://cryptomayhem.io/img/cryptoIcon.ico</iconUrl>
+    <description>Mayhem Launcher</description>
+    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <copyright>$copyright$</copyright>
+    <tags>Launcher Game</tags>
+	<dependencies>
+		<group targetFramework=".NETFramework4.8"/>
+	</dependencies>
+  </metadata>
+  
+  <files>
+    <file src="bin\Release\**" target="lib\net45\" exclude="**\*.pdb;**\*.nupkg;**\*.vshost.*"/>
+  </files>
+</package>
