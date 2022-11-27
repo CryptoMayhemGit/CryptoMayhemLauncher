@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Mayhem.Launcher
@@ -101,6 +102,12 @@ namespace Mayhem.Launcher
         private void QuitButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+            this.DragMove();
         }
 
         public Task ActivateAsync(object parameter)

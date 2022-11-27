@@ -7,10 +7,14 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using CryptoMayhemLauncher.Interfaces;
 using Mayhem.Dal.Dto.Dtos;
 using Mayhem.Dal.Tables;
+using Mayhem.Launcher.Helpers;
 using Microsoft.Extensions.Logging;
 using Squirrel;
 
@@ -71,48 +75,11 @@ namespace Mayhem.Launcher
 
         private void Initialize()
         {
-            AddScreenResolutionEvent();
-
             InitializeComponent();
             Loaded += (s, e) =>
             {
                 MainWindow_Loaded(s, e);
             };
-            UpdateScreenResolution();
-        }
-
-        /// <summary>
-        /// Below code is required to refresh window:
-        /// WindowState = WindowState.Normal;
-        /// WindowState = WindowState.Maximized;
-        /// </summary>
-        private void AddScreenResolutionEvent()
-        {
-            SystemParameters.StaticPropertyChanged += (sender, args) =>
-            {
-                if (args.PropertyName == nameof(SystemParameters.WorkArea))
-                {
-                    this.Dispatcher.Invoke(() =>
-                    {
-                        UpdateScreenResolution();
-                    });
-                }
-            };
-        }
-
-        private void UpdateScreenResolution()
-        {
-            this.MaxWidth = SystemParameters.WorkArea.Width;
-            this.Width = SystemParameters.WorkArea.Width;
-            this.MaxHeight = SystemParameters.WorkArea.Height;
-            this.Height = SystemParameters.WorkArea.Height;
-            this.Left = SystemParameters.WorkArea.Left;
-            loggerMainWindow.LogWarning($"SystemParameters.WorkArea.Left: {SystemParameters.WorkArea.Left}");
-            this.Top = SystemParameters.WorkArea.Top;
-            loggerMainWindow.LogWarning($"SystemParameters.WorkArea.Top: {SystemParameters.WorkArea.Top}");
-
-            this.WindowState = WindowState.Normal;
-            //this.WindowState = WindowState.Maximized;
         }
 
         private void SetPaths()
@@ -354,9 +321,115 @@ namespace Mayhem.Launcher
             Close();
         }
 
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+            this.DragMove();
+        }
+
         public Task ActivateAsync(object parameter)
         {
             return Task.CompletedTask;
+        }
+
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsLanguage_Click(sender, e);
+
+            DisableBackgroundButton.Visibility = Visibility.Visible;
+            SettingsWindowStackPanel.Visibility = Visibility.Visible;
+
+        }
+
+        private void WalletSettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void InstallButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DisableBackground_Click(object sender, RoutedEventArgs e)
+        {
+            DisableBackgroundButton.Visibility = Visibility.Hidden;
+            SettingsWindowStackPanel.Visibility = Visibility.Hidden;
+        }
+
+        private void QuitWindowSettings_Click(object sender, RoutedEventArgs e)
+        {
+            DisableBackgroundButton.Visibility = Visibility.Hidden;
+            SettingsWindowStackPanel.Visibility = Visibility.Hidden;
+        }
+
+        private void SettingsDocuments_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsLanguageActiveImage.ImageSource = null;
+            SettingsLauncherUpdateActiveImage.ImageSource = null;
+            SettingsDocumentsActiveImage.ImageSource = new BitmapImage(ResourceAccessor.Get("Img/Button/SettingsButtonActive.png"));
+
+            SettingsDocuments.Visibility = Visibility.Visible;
+            SettingsLauncherUpdate.Visibility = Visibility.Hidden;
+            SettingsLanguageStackPanel.Visibility = Visibility.Hidden;
+        }
+
+        private void SettingsLauncherUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsLanguageActiveImage.ImageSource = null;
+            SettingsLauncherUpdateActiveImage.ImageSource = new BitmapImage(ResourceAccessor.Get("Img/Button/SettingsButtonActive.png"));
+            SettingsDocumentsActiveImage.ImageSource = null;
+
+            SettingsDocuments.Visibility = Visibility.Hidden;
+            SettingsLauncherUpdate.Visibility = Visibility.Visible;
+            SettingsLanguageStackPanel.Visibility = Visibility.Hidden;
+        }
+
+        private void SettingsLanguage_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsLanguageActiveImage.ImageSource = new BitmapImage(ResourceAccessor.Get("Img/Button/SettingsButtonActive.png"));
+            SettingsLauncherUpdateActiveImage.ImageSource = null;
+            SettingsDocumentsActiveImage.ImageSource = null;
+
+            SettingsDocuments.Visibility = Visibility.Hidden;
+            SettingsLauncherUpdate.Visibility = Visibility.Hidden;
+            SettingsLanguageStackPanel.Visibility = Visibility.Visible;
+        }
+
+        private void EnglishLanguage_Click(object sender, RoutedEventArgs e)
+        {
+            EnglishIcon.Source = new BitmapImage(ResourceAccessor.Get("Img/Button/LanguageRadioButtonClick.png"));
+            PolishIcon.Source = new BitmapImage(ResourceAccessor.Get("Img/Button/LanguageRadioButtonDefault.png"));
+        }
+
+        private void PolishLanguage_Click(object sender, RoutedEventArgs e)
+        {
+            PolishIcon.Source = new BitmapImage(ResourceAccessor.Get("Img/Button/LanguageRadioButtonClick.png"));
+            EnglishIcon.Source = new BitmapImage(ResourceAccessor.Get("Img/Button/LanguageRadioButtonDefault.png"));
+        }
+
+        private void ThirdPartyDocuments_Click(object sender, RoutedEventArgs e)
+        {
+            GoToWebside("https://www.tenset.io/en");
+        }
+
+        private void TermsAndConditions_Click(object sender, RoutedEventArgs e)
+        {
+            GoToWebside("https://adriagames.com/");
+        }
+
+        private void PrivacyPolicy_Click(object sender, RoutedEventArgs e)
+        {
+            GoToWebside("https://comcreo.com/");
+        }
+
+        private static void GoToWebside(string url)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = url,
+                UseShellExecute = true
+            });
         }
     }
 }

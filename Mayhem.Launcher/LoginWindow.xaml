@@ -5,11 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mayhem.Launcher"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="600" Width="482"
         WindowStartupLocation="CenterScreen"
+        Title="LoginWindow" 
         WindowStyle="None"
-        ResizeMode="NoResize">
+        Height="600" Width="482"
+        ResizeMode="CanMinimize">
     <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="ResourcesDirectorys/Button/QuitButtonStyle.xaml"/>
+                    <ResourceDictionary Source="ResourcesDirectorys/Button/MinimalizeButtonStyle.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+        
         <Image Stretch="Fill" Source="/img/PathSettingsBackgroundBlur.png" OpacityMask="#FF717172"/>
         <Image Stretch="None" Source="/img/Logo.png" OpacityMask="#FF717172" Margin="0,-160,0,160" RenderTransformOrigin="0.5,0.5">
             <Image.RenderTransform>
@@ -22,99 +32,15 @@
             </Image.RenderTransform>
         </Image>
 
-        <Button x:Name="QuitButton" Click="QuitButton_Click" Height="45" Width="45" FontSize="28" FontWeight="Bold" Foreground="#FF696266" Margin="436,1,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="10,1,21,1" RenderTransformOrigin="0.525,0.75" BorderBrush="#00707070">
-            <Button.Style>
-                <Style TargetType="{x:Type Button}">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="Button">
-                                <Border
-                                    x:Name="border"
-                                    Background="#00FF0000"
-                                    BorderBrush="#000000FF"
-                                    BorderThickness="0"
-                                    CornerRadius="0"
-                                    TextBlock.Foreground="White">
-                                    <Grid>
-                                        <Image
-                                            x:Name="buttonImage"
-                                            Source="/Img/Button/CloseIconDefault.png"
-                                            Stretch="UniformToFill" />
-                                        <ContentPresenter
-                                            Margin="{TemplateBinding Padding}"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center" />
-                                    </Grid>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="true">
-                                        <Setter TargetName="border" Property="Background" Value="#00FF0000" />
-                                        <Setter TargetName="border" Property="BorderBrush" Value="#00FF0000" />
-                                        <Setter TargetName="buttonImage" Property="Source" Value="/Img/Button/CloseIconHover.jpg" />
-
-                                    </Trigger>
-                                    <Trigger Property="IsPressed" Value="true">
-                                        <Setter TargetName="border" Property="Background" Value="#00FF0000" />
-                                        <Setter TargetName="border" Property="BorderBrush" Value="#00FF0000" />
-                                        <Setter TargetName="buttonImage" Property="Source" Value="/Img/Button/CloseIconClick.jpg" />
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Button.Style>
-        </Button>
-        <Button x:Name="MinimalizeButton" Click="MinimalizeButton_Click" Height="45" Width="45" FontSize="28" FontWeight="Bold" Foreground="#FF696266" Margin="391,1,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" BorderBrush="#00707070">
-            <Button.Style>
-                <Style TargetType="{x:Type Button}">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="Button">
-                                <Border
-                                    x:Name="border"
-                                    Background="#00FF0000"
-                                    BorderBrush="#000000FF"
-                                    BorderThickness="0"
-                                    CornerRadius="0"
-                                    TextBlock.Foreground="White">
-                                    <Grid>
-                                        <Image
-                                            x:Name="buttonImage"
-                                            Source="/Img/Button/MinimalizationIconDefault.png"
-                                            Stretch="UniformToFill" />
-                                        <ContentPresenter
-                                            Margin="{TemplateBinding Padding}"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center" />
-                                    </Grid>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="true">
-                                        <Setter TargetName="border" Property="Background" Value="#00FF0000" />
-                                        <Setter TargetName="border" Property="BorderBrush" Value="#00FF0000" />
-                                        <Setter TargetName="buttonImage" Property="Source" Value="/Img/Button/MinimalizationIconHover.jpg" />
-
-                                    </Trigger>
-                                    <Trigger Property="IsPressed" Value="true">
-                                        <Setter TargetName="border" Property="Background" Value="#00FF0000" />
-                                        <Setter TargetName="border" Property="BorderBrush" Value="#00FF0000" />
-                                        <Setter TargetName="buttonImage" Property="Source" Value="/Img/Button/MinimalizationIconClick.jpg" />
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Button.Style>
-        </Button>
+        <Button Style="{StaticResource QuitButtonStyle}" x:Name="QuitButton" Click="QuitButton_Click" Height="45" Width="45" FontSize="28" FontWeight="Bold" Foreground="#FF696266" Margin="436,1,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="10,1,21,1" RenderTransformOrigin="0.525,0.75" BorderBrush="#00707070" />
+        <Button Style="{StaticResource MinimalizeButtonStyle}" x:Name="MinimalizeButton" Click="MinimalizeButton_Click" Height="45" Width="45" FontSize="28" FontWeight="Bold" Foreground="#FF696266" Margin="391,1,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" BorderBrush="#00707070" />
 
 
 
 
-        <Button x:Name="LoginButton" Content="POŁĄCZ PORTFEL" Click="InstallButton_Click" Height="46" Width="338" FontSize="16" FontWeight="Bold" Margin="0,419,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" FontFamily="Montserrat" BorderBrush="#00844646" Foreground="#FFF2F2F2">
+        <Button Cursor="Hand" x:Name="LoginButton" Content="POŁĄCZ PORTFEL" Click="InstallButton_Click" Height="46" Width="338" FontSize="16" FontWeight="Bold" Margin="0,419,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" FontFamily="Montserrat" BorderBrush="#00844646" Foreground="#FFF2F2F2">
             <Button.Background>
-                <ImageBrush ImageSource="/ContinueButton.png"/>
+                <ImageBrush ImageSource="Img/Button/ContinueButton.png"/>
             </Button.Background>
         </Button>
         <TextBlock x:Name="CurrentActionText" Text="Logowanie portfelem" FontSize="24" Margin="78,136,0,0" Foreground="#FFF2F2F2" FontFamily="Montserrat" TextTrimming="CharacterEllipsis" LineStackingStrategy="BlockLineHeight" TextWrapping="WrapWithOverflow" TextAlignment="Center" Width="338" HorizontalAlignment="Left" VerticalAlignment="Center"/>

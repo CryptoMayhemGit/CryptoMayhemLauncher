@@ -10,6 +10,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Interop;
 
 namespace Mayhem.Launcher
@@ -162,6 +163,12 @@ namespace Mayhem.Launcher
         {
             SetWaitingContent();
             GoToLoginPage();
+        }
+
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+            this.DragMove();
         }
 
         private void SetWaitingContent()

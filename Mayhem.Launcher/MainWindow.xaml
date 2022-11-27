@@ -5,20 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mayhem.Launcher"
         mc:Ignorable="d"
-    WindowStartupLocation="CenterScreen" 
+        WindowStartupLocation="CenterScreen" 
         Title="MainWindow"
         WindowStyle="None"
-        Height="1080"
-        Width="1920"
-        MaxHeight="{Binding Height, Source={x:Static SystemParameters.WorkArea}}"
-        MaxWidth="{Binding Width, Source={x:Static SystemParameters.WorkArea}}"
-        WindowState="Maximized"
-        ResizeMode="NoResize">
+        ResizeMode="CanMinimize"
+        Height="864"
+        Width="1536"
+        MaxHeight="864"
+        MaxWidth="1536">
+
     <Grid>
-        <Image Source="/img/MainBackground.png" Stretch="Fill"/>
-
-
-        <Button x:Name="QuitButton" Click="QuitButton_Click" Height="45" Width="45" FontSize="28" FontWeight="Bold" Foreground="#FF696266" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Right" Padding="10,1,21,1" RenderTransformOrigin="0.525,0.75" BorderBrush="#00707070">
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="ResourcesDirectorys/Button/QuitButtonStyle.xaml"/>
+                    <ResourceDictionary Source="ResourcesDirectorys/Button/MinimalizeButtonStyle.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+        
+        <Button x:Name="DisableBackgroundButton" Click="DisableBackground_Click" Foreground="#FF696266" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Right" Padding="10,1,21,1" RenderTransformOrigin="0.525,0.75" BorderBrush="#00707070" Panel.ZIndex="20">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="Template">
@@ -26,42 +32,207 @@
                             <ControlTemplate TargetType="Button">
                                 <Border
                                     x:Name="border"
-                                    Background="#00FF0000"
-                                    BorderBrush="#000000FF"
                                     BorderThickness="0"
                                     CornerRadius="0"
                                     TextBlock.Foreground="White">
                                     <Grid>
                                         <Image
+                                            x:Name="buttonImage"
+                                            Source="/Img/DisableBackground.png"
+                                            Stretch="UniformToFill" />
+                                        <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                    </Grid>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="true">
+                                        <Setter TargetName="border" Property="Background" Value="#00FF0000" />
+                                        <Setter TargetName="border" Property="BorderBrush" Value="#00FF0000" />
+                                        <Setter TargetName="buttonImage" Property="Source" Value="/Img/DisableBackground.png" />
+
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+
+
+
+        <StackPanel Name="SettingsWindowStackPanel" Panel.ZIndex="30" Width="650.7" Height="334.8" >
+            <StackPanel.Background>
+                <ImageBrush ImageSource="Img/PopupBackground.png"/>
+            </StackPanel.Background>
+
+            <Button Cursor="Hand" x:Name="QuitWindowSettingsButton" Click="QuitWindowSettings_Click" Height="45" Width="45" Foreground="#FF696266" Margin="22,20,23.6,0" VerticalAlignment="Top" HorizontalAlignment="Right" Padding="10,1,21,1" RenderTransformOrigin="0.525,0.75" BorderBrush="#00707070">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Border
+                                    x:Name="border"
+                                    Background="#00FF0000"
+                                    BorderBrush="#000000FF"
+                                    BorderThickness="0"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="White">
+                                        <Grid>
+                                            <Image
                                             x:Name="buttonImage"
                                             Source="/Img/Button/CloseIconDefault.png"
                                             Stretch="UniformToFill" />
-                                        <ContentPresenter
+                                            <ContentPresenter
                                             Margin="{TemplateBinding Padding}"
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center" />
-                                    </Grid>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="true">
-                                        <Setter TargetName="border" Property="Background" Value="#00FF0000" />
-                                        <Setter TargetName="border" Property="BorderBrush" Value="#00FF0000" />
-                                        <Setter TargetName="buttonImage" Property="Source" Value="/Img/Button/CloseIconHover.jpg" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#00FF0000" />
+                                            <Setter TargetName="border" Property="BorderBrush" Value="#00FF0000" />
+                                            <Setter TargetName="buttonImage" Property="Source" Value="/Img/Button/CloseIconHover.jpg" />
 
-                                    </Trigger>
-                                    <Trigger Property="IsPressed" Value="true">
-                                        <Setter TargetName="border" Property="Background" Value="#00FF0000" />
-                                        <Setter TargetName="border" Property="BorderBrush" Value="#00FF0000" />
-                                        <Setter TargetName="buttonImage" Property="Source" Value="/Img/Button/CloseIconClick.jpg" />
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Button.Style>
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter TargetName="border" Property="Background" Value="#00FF0000" />
+                                            <Setter TargetName="border" Property="BorderBrush" Value="#00FF0000" />
+                                            <Setter TargetName="buttonImage" Property="Source" Value="/Img/Button/CloseIconClick.jpg" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+
+            <TextBlock x:Name="LauncherTitleText" Text="ustawienia launchera" FontSize="20" Foreground="#FFF2F2F2" FontFamily="Nulshock Rg" Height="36" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="59,32,0,0"/>
+
+            <Button Cursor="Hand" Click="SettingsLanguage_Click" HorizontalContentAlignment="Left"  Height="38.4" Width="192.8" Panel.ZIndex="3" BorderBrush="#00707070" Padding="8,0,0,0" Margin="-356,40,0,0">
+                <Button.Background>
+                    <ImageBrush x:Name="SettingsLanguageActiveImage" ImageSource="{x:Null}"/>
+                </Button.Background>
+                <StackPanel Orientation="Horizontal" Width="auto">
+                    <StackPanel Width="auto" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="/img/Button/SettingsLocalizationIcon.png" Width="21" Height="21" Stretch="Fill"/>
+                    </StackPanel>
+                    <StackPanel Width="64" VerticalAlignment="Center">
+                        <TextBlock Width="auto" Height="auto" Text="Język" Background="Transparent" FontFamily="Montserrat" Foreground="#FFF2F2F2" FontWeight="Normal" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+            </Button>
+            
+            <Button Cursor="Hand" Click="SettingsLauncherUpdate_Click" HorizontalContentAlignment="Left" Height="38.4" Width="192.8" Panel.ZIndex="3" BorderBrush="#00707070" Padding="8,0,0,0" Margin="-353,6,0,0">
+                <Button.Background>
+                    <ImageBrush x:Name="SettingsLauncherUpdateActiveImage" ImageSource="{x:Null}"/>
+                </Button.Background>
+                <StackPanel Orientation="Horizontal" Width="auto">
+                    <StackPanel Width="auto" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="/img/Button/SettingsUpdateIcon.png" Width="21" Height="21" Stretch="Fill"/>
+                    </StackPanel>
+                    <StackPanel Width="117" VerticalAlignment="Center">
+                        <TextBlock Width="auto" Height="auto" Text="Aktualizacja" Background="Transparent" FontFamily="Montserrat" Foreground="#FFF2F2F2" FontWeight="Normal" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+            </Button>
+            <Button Cursor="Hand" Click="SettingsDocuments_Click" HorizontalContentAlignment="Left" Height="38.4" Width="192.8" Panel.ZIndex="3" BorderBrush="#00707070" Padding="8,0,0,0" Margin="-354.8,6,0,0">
+                <Button.Background>
+                    <ImageBrush x:Name="SettingsDocumentsActiveImage" ImageSource="{x:Null}"/>
+                </Button.Background>
+                <StackPanel Orientation="Horizontal" Height="38.4" Width="192.8">
+                    <StackPanel Width="auto" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="/img/Button/SettingsDocumentsIcon.png" Width="21" Height="21" Stretch="Fill"/>
+                    </StackPanel>
+                    <StackPanel Width="176" VerticalAlignment="Center">
+                        <TextBlock Width="auto" Height="auto" Text="Dokumenty prawne" Background="Transparent" FontFamily="Montserrat" Foreground="#FFF2F2F2" FontWeight="Normal" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+            </Button>
+
+            <StackPanel Name="SettingsLanguageStackPanel" Height="100" Width="296" Margin="191,-96,0,0" Visibility="Hidden">
+                <Button Cursor="Hand" Click="EnglishLanguage_Click" HorizontalContentAlignment="Left" Width="112" Panel.ZIndex="3" Background="#00DDDDDD" BorderBrush="#00707070" Margin="-133,6,0,0" Height="41">
+                    <StackPanel Orientation="Horizontal" Width="auto">
+                        <StackPanel Width="auto" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Image x:Name="EnglishIcon" Source="/img/Button/LanguageRadioButtonClick.png" Width="21" Height="21" Stretch="Fill"/>
+                        </StackPanel>
+                        <StackPanel Width="82" VerticalAlignment="Center">
+                            <TextBlock Width="auto" Height="auto" Text="English" Background="Transparent" FontFamily="Montserrat" Foreground="#FFF2F2F2" FontWeight="Normal" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Button>
+                <Button Cursor="Hand" Click="PolishLanguage_Click" HorizontalContentAlignment="Left" Height="41" Width="112" Panel.ZIndex="3" Background="#00DDDDDD" BorderBrush="#00707070" Margin="-133,6,0,0">
+                    <StackPanel Orientation="Horizontal" Width="auto">
+                        <StackPanel Width="auto" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Image x:Name="PolishIcon" Source="/img/Button/LanguageRadioButtonDefault.png" Width="21" Height="21" Stretch="Fill"/>
+                        </StackPanel>
+                        <StackPanel Width="72" VerticalAlignment="Center">
+                            <TextBlock Width="auto" Height="auto" Text="Polski" Background="Transparent" FontFamily="Montserrat" Foreground="#FFF2F2F2" FontWeight="Normal" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Button>
+
+            </StackPanel>
+            <StackPanel Name="SettingsLauncherUpdate" Height="100" Width="296" Margin="223,-96,0,0" Visibility="Visible" Orientation="Horizontal">
+                <TextBlock Text="V1.3.2" FontSize="14" Foreground="#FFF2F2F2" FontFamily="Montserrat"/>
+                <TextBlock Text="   Aktualna" FontSize="14" Foreground="#FF00D62E" FontFamily="Montserrat" Width="124"/>
+            </StackPanel>
+
+            <StackPanel Name="SettingsDocuments" Height="100" Width="296" Margin="223,-96,0,0" Visibility="Hidden" >
+                <Button Background="Transparent" BorderBrush="Transparent" Width="auto" HorizontalAlignment="Left" Margin="0,2,0,2" Click="ThirdPartyDocuments_Click">
+                    <TextBlock HorizontalAlignment="Left" Foreground="#FFF2F2F2" FontFamily="Montserrat" FontSize="14">Strony trzecie</TextBlock>
+                </Button>
+                <Button Background="Transparent" BorderBrush="Transparent" Width="auto" HorizontalAlignment="Left" Margin="0,2,0,2" Click="TermsAndConditions_Click">
+                    <TextBlock HorizontalAlignment="Left" Foreground="#FFF2F2F2" FontFamily="Montserrat" FontSize="14">Warunki użytkownika</TextBlock>
+                </Button>
+                <Button Background="Transparent" BorderBrush="Transparent" Width="auto" HorizontalAlignment="Left" Margin="0,2,0,2" Click="PrivacyPolicy_Click">
+                    <TextBlock HorizontalAlignment="Left" Foreground="#FFF2F2F2" FontFamily="Montserrat" FontSize="14">Informacje o polityce prywatności</TextBlock>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+
+
+
+
+
+
+
+        <Image Source="/img/MainBackground.png" Stretch="Fill"/>
+        <Image Source="/img/MiniLogo.png" Width="72" Height="36" Stretch="Fill" Panel.ZIndex="10" Margin="10,10,1454,818"/>
+        <Image Source="/img/OfflineIcon.png" Width="30" Height="30" Stretch="Fill" Panel.ZIndex="10" Margin="1108,19,398,815"/>
+
+        <Button Cursor="Hand" Padding="10, 0, 0, 0" x:Name="WalletSettingsButton" Click="WalletSettingsButton_Click" HorizontalContentAlignment="Left" Width="auto" Margin="1221,23,138,819" Panel.ZIndex="3" Background="#00DDDDDD" BorderBrush="#00707070">
+            <StackPanel Orientation="Horizontal" Width="auto">
+                <StackPanel Width="auto" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Image Source="/img/Button/WalletIconDefault.png" Width="21.06" Height="19.83" Stretch="Fill"/>
+                </StackPanel>
+                <StackPanel Width="100" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Width="auto" Height="auto" Text="0x92...3341" Background="Transparent" FontFamily="Montserrat" Foreground="#FFF2F2F2" FontWeight="Normal" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Width="auto" Height="auto" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Image Source="/img/Button/ArrowRight.png" Width="25" Height="25" Stretch="Fill" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="90"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                </StackPanel>
+            </StackPanel>
         </Button>
-        <Button x:Name="MinimalizeButton" Click="MinimalizeButton_Click" Height="45" Width="45" FontSize="28" FontWeight="Bold" Foreground="#FF696266" Margin="0,0,45,0" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" BorderBrush="#00707070">
+
+        <Button Style="{StaticResource QuitButtonStyle}" x:Name="QuitButton" Click="QuitButton_Click" Height="45" Width="45" Foreground="#FF696266" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Right" Padding="10,1,21,1" RenderTransformOrigin="0.525,0.75" BorderBrush="#00707070" />
+        <Button Style="{StaticResource MinimalizeButtonStyle}" x:Name="MinimalizeButton" Click="MinimalizeButton_Click" Height="45" Width="45" Foreground="#FF696266" Margin="0,0,45,0" VerticalAlignment="Top" HorizontalAlignment="Right" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" BorderBrush="#00707070" />
+        
+        <Button Cursor="Hand" x:Name="SettingsButton" Click="SettingsButton_Click" Height="26" Width="25" Foreground="#FF696266" Margin="0,21,337,0" VerticalAlignment="Top" HorizontalAlignment="Right" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" BorderBrush="#00707070">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="Template">
@@ -77,7 +248,7 @@
                                     <Grid>
                                         <Image
                                             x:Name="buttonImage"
-                                            Source="/Img/Button/MinimalizationIconDefault.png"
+                                            Source="/Img/Button/SettingsIconClick.png"
                                             Stretch="UniformToFill" />
                                         <ContentPresenter
                                             Margin="{TemplateBinding Padding}"
@@ -89,13 +260,8 @@
                                     <Trigger Property="IsMouseOver" Value="true">
                                         <Setter TargetName="border" Property="Background" Value="#00FF0000" />
                                         <Setter TargetName="border" Property="BorderBrush" Value="#00FF0000" />
-                                        <Setter TargetName="buttonImage" Property="Source" Value="/Img/Button/MinimalizationIconHover.jpg" />
+                                        <Setter TargetName="buttonImage" Property="Source" Value="/Img/Button/SettingsIconHover.png" />
 
-                                    </Trigger>
-                                    <Trigger Property="IsPressed" Value="true">
-                                        <Setter TargetName="border" Property="Background" Value="#00FF0000" />
-                                        <Setter TargetName="border" Property="BorderBrush" Value="#00FF0000" />
-                                        <Setter TargetName="buttonImage" Property="Source" Value="/Img/Button/MinimalizationIconClick.jpg" />
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
@@ -105,19 +271,139 @@
             </Button.Style>
         </Button>
 
-        <TextBlock  x:Name="InstalledGameListTitleText" Text="MOJE GRY" Margin="35,137,1721,871" FontSize="24" Foreground="#FFF2F2F2" FontFamily="Nulshock Rg"/>
-        <TextBlock  x:Name="TopDownShooterGameNameText" Text="TOP-DOWN SHOOTER" Margin="60,213,1592,798" FontSize="18" Foreground="#FFF2F2F2" FontFamily="Montserrat"/>
+        <TextBlock x:Name="InstalledGameListTitleText" Text="MOJE GRY" Margin="35,137,1312,645" FontSize="24" Foreground="#FFF2F2F2" FontFamily="Nulshock Rg"/>
 
-        <StackPanel Orientation="Horizontal" Margin="60,250,1432,755">
-            <StackPanel Margin="5,0" Orientation="Horizontal">
-                <TextBlock  x:Name="TopDownShooterGameVersionText" Text="V1.0.0   " FontSize="16" Foreground="#66F2F2F2" FontFamily="Montserrat"/>
-                <TextBlock  x:Name="TopDownShooterGameVersionStatusText" Text="Aktualna" FontSize="16" Foreground="#FF00D62E" FontFamily="Montserrat" Width="124"/>
+        <StackPanel Orientation="Horizontal" Height="343.4" Width="1155.15" Margin="358,137,22,344">
+            <StackPanel.Background>
+                <ImageBrush TileMode="None" ImageSource="Img/NeewsBaner.png"/>
+            </StackPanel.Background>
+            <StackPanel Margin="30,0,0,0" Orientation="Vertical" Height="177" Width="404">
+                <TextBlock Text="DOSTĘP DO INNYCH GIER" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="25" Width="269"/>
+                <TextBlock Text="Nasz launcher to nie tylko gra Top-Down Shooter. To miejsce w którym w przyszłości odkryjesz również inne gry spoza projektu Crypto Mayhem. &#x0d;&#x0a;&#x0d;&#x0a;Launcher da Ci możliwość eksploracji i zanurzenia się w świecie gier." FontSize="12" Foreground="#66F2F2F2" FontFamily="Montserrat" Width="395" HorizontalAlignment="Left" Height="143" TextWrapping="Wrap"/>
             </StackPanel>
         </StackPanel>
 
-        <TextBlock  x:Name="AvailableGameListTitleText" Text="GRY" Margin="35,1011,1761,5" FontSize="24" Foreground="#FFF2F2F2" FontFamily="Nulshock Rg"/>
+        <StackPanel Orientation="Horizontal" Height="300.9" Width="369.75" Margin="405,533,761,30">
+            <StackPanel.Background>
+                <ImageBrush TileMode="None" ImageSource="Img/OtherGames.png"/>
+            </StackPanel.Background>
+            <StackPanel Margin="30,0,0,-200" Orientation="Vertical" Height="86" Width="306">
+                <TextBlock Text="W OCZEKIWANIU" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="25" Width="269"/>
+                <TextBlock Text="Każda nowa gra trafiająca do launchera zostanie ogłoszona i przedstawiona w sekcji gry." FontSize="12" Foreground="#66F2F2F2" FontFamily="Montserrat" Width="305" HorizontalAlignment="Left" Height="46" TextWrapping="Wrap"/>
+            </StackPanel>
+        </StackPanel>
 
-        <TextBlock  x:Name="NewsTitleText" Text="AKTUALNOŚCI" Margin="681,137,1013,865" FontSize="24" Foreground="#FFF2F2F2" FontFamily="Nulshock Rg" RenderTransformOrigin="0.456,-0.605"/>
+        <StackPanel Orientation="Horizontal" Height="226" Width="241.5" Margin="57,206,1237,432">
+            <StackPanel.Background>
+                <ImageBrush TileMode="None" ImageSource="Img/InstalledGameTDS.png"/>
+            </StackPanel.Background>
+            <StackPanel Margin="23,0,0,-155" Orientation="Vertical" Height="106" Width="199">
+                <TextBlock Text="TOP-DOWN SHOOTER" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="19" Width="181"/>
+                <StackPanel Orientation="Horizontal" >
+                    <StackPanel Margin="5,0" Orientation="Horizontal">
+                        <TextBlock  x:Name="TopDownShooterGameVersionText" Text="V1.0.0   " FontSize="16" Foreground="#66F2F2F2" FontFamily="Montserrat"/>
+                        <TextBlock  x:Name="TopDownShooterGameVersionStatusText" Text="Aktualna" FontSize="16" Foreground="#FF00D62E" FontFamily="Montserrat" Width="124"/>
+                    </StackPanel>
+                </StackPanel>
+                <Button Cursor="Hand" x:Name="InstallButtonx" Click="InstallButton_Click" Height="33.75" Width="135.75" Foreground="#FF696266" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" BorderBrush="#00707070" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                    <TextBlock FontSize="13" FontFamily="Montserrat" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFF2F2F2" FontWeight="Medium">GRAJ</TextBlock>
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border
+                                    x:Name="border"
+                                    Background="#00FF0000"
+                                    BorderBrush="#000000FF"
+                                    BorderThickness="0"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="White">
+                                            <Grid>
+                                                <Image
+                                            x:Name="buttonImage"
+                                            Source="/Img/Button/ButtonBorderActive.png"
+                                            Stretch="UniformToFill" />
+                                                <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                            </Grid>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+
+
+        <StackPanel Orientation="Horizontal" Height="300.9" Width="369.75" Margin="35,533,1131,30">
+            <StackPanel.Background>
+                <ImageBrush TileMode="None" ImageSource="Img/NewGameTDS.png"/>
+            </StackPanel.Background>
+            <StackPanel Margin="33,0,0,-155" Orientation="Vertical" Height="111" Width="299">
+                <TextBlock Text="TOP-DOWN SHOOTER" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="60" Width="269"/>
+
+                <Button Cursor="Hand" x:Name="InstallButton" Click="InstallButton_Click" Height="33.75" Width="135.75" Foreground="#FF696266" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" BorderBrush="#00707070" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                    <TextBlock FontSize="13" FontFamily="Montserrat" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFF2F2F2" FontWeight="Medium">ZAINSTALUJ</TextBlock>
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border
+                                    x:Name="border"
+                                    Background="#00FF0000"
+                                    BorderBrush="#000000FF"
+                                    BorderThickness="0"
+                                    CornerRadius="0"
+                                    TextBlock.Foreground="White">
+                                            <Grid>
+                                                <Image
+                                            x:Name="buttonImage"
+                                            Source="/Img/Button/ButtonBorderActive.png"
+                                            Stretch="UniformToFill" />
+                                                <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                            </Grid>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+            </StackPanel>
+
+        </StackPanel>
+
+        <TextBlock x:Name="AvailableGameListTitleText" Text="GRY" Margin="35,476,1358,298" FontSize="24" Foreground="#FFF2F2F2" FontFamily="Nulshock Rg"/>
+
+        <TextBlock x:Name="NewsTitleText" Text="AKTUALNOŚCI" Margin="681,137,626,690" FontSize="24" Foreground="#FFF2F2F2" FontFamily="Nulshock Rg" RenderTransformOrigin="0.456,-0.605"/>
+        <StackPanel Orientation="Horizontal" Height="300.9" Width="369.75" Margin="768,533,398,30">
+            <StackPanel.Background>
+                <ImageBrush TileMode="None" ImageSource="Img/OtherGames.png"/>
+            </StackPanel.Background>
+            <StackPanel Margin="30,0,0,-200" Orientation="Vertical" Height="86" Width="306">
+                <TextBlock Text="W OCZEKIWANIU" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="25" Width="269"/>
+                <TextBlock Text="Każda nowa gra trafiająca do launchera zostanie ogłoszona i przedstawiona w sekcji gry." FontSize="12" Foreground="#66F2F2F2" FontFamily="Montserrat" Width="305" HorizontalAlignment="Left" Height="46" TextWrapping="Wrap"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Height="300.9" Width="369.75" Margin="1138,533,28,30">
+            <StackPanel.Background>
+                <ImageBrush TileMode="None" ImageSource="Img/OtherGames.png"/>
+            </StackPanel.Background>
+            <StackPanel Margin="30,0,0,-200" Orientation="Vertical" Height="86" Width="306">
+                <TextBlock Text="W OCZEKIWANIU" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="25" Width="269"/>
+                <TextBlock Text="Każda nowa gra trafiająca do launchera zostanie ogłoszona i przedstawiona w sekcji gry." FontSize="12" Foreground="#66F2F2F2" FontFamily="Montserrat" Width="305" HorizontalAlignment="Left" Height="41" TextWrapping="Wrap"/>
+            </StackPanel>
+        </StackPanel>
 
 
         <!--<Button Visibility="Hidden" Name="PlayButton" Content="Checking For Updates" Click="PlayButton_Click" Height="60" FontSize="28" FontWeight="Bold" Foreground="#DDFFFFFF" Margin="0, 0, 0, 35" VerticalAlignment="Bottom" HorizontalAlignment="Center" MinWidth="150" Background="#FFFF9700" Padding="10,1,10,1"/>
