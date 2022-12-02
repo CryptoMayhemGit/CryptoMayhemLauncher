@@ -18,7 +18,6 @@ namespace Mayhem.Launcher
             else
             {
                 var app = new App(args);
-                //app.InitializeComponent();
             }
         }
 

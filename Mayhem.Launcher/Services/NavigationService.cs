@@ -1,8 +1,7 @@
 ﻿using CryptoMayhemLauncher.Interfaces;
-using System.Threading.Tasks;
-using System.Windows;
-using System;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Windows;
 
 namespace CryptoMayhemLauncher.Services
 {
@@ -15,45 +14,40 @@ namespace CryptoMayhemLauncher.Services
             this.serviceProvider = serviceProvider;
         }
 
+        public Window Show<T>() where T : Window
+        {
+            bool isWindowOpen = false;
+            Window result = null;
+            foreach (Window w in Application.Current.Windows)
+            {
+                if (w is T)
+                {
+                    isWindowOpen = true;
+                    w.Activate();
+                    w.Show();
+                    result = w;
+                }
+            }
+
+            if (!isWindowOpen)
+            {
+                Window newWindow = serviceProvider.GetService<T>();
+                newWindow.Show();
+                result = newWindow;
+            }
+            return result;
+        }
+
+        public void Close<T>() where T : Window
+        {
+            Window window = serviceProvider.GetService<T>();
+            window.Close();
+        }
+
         public void Hide<T>() where T : Window
         {
-            var window = serviceProvider.GetRequiredService<T>();
-            window.Close();
+            Window window = serviceProvider.GetService<T>();
             window.Hide();
-        }
-
-        public T Show<T>() where T : Window
-        {
-            var window = serviceProvider.GetRequiredService<T>();
-            window.Show();
-            return window;
-            //MainWindow windowToRun = serviceProvider.GetRequiredService<MainWindow>();
-            //refInstance.Run(windowToRun);  
-        }
-
-        public async Task ShowAsync<T>(object parameter = null) where T : Window
-        {
-            var window = serviceProvider.GetRequiredService<T>();
-            if (window is IActivable activableWindow)
-            {
-                await activableWindow.ActivateAsync(parameter);
-            }
-
-            window.Show();
-            //MainWindow windowToRun = serviceProvider.GetRequiredService<MainWindow>();
-            //refInstance.Run(windowToRun);
-        }
-
-        public async Task<bool?> ShowDialogAsync<T>(object parameter = null)
-            where T : Window
-        {
-            var window = serviceProvider.GetRequiredService<T>();
-            if (window is IActivable activableWindow)
-            {
-                await activableWindow.ActivateAsync(parameter);
-            }
-
-            return window.ShowDialog();
         }
     }
 }

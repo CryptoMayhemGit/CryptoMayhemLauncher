@@ -16,14 +16,15 @@ namespace Mayhem.Launcher
         private readonly ISettingsFileService settingsFileService;
         private readonly INavigationService navigationService;
         private readonly ISqurrielHandleEvents squrrielHandleEvents;
+        //private readonly ILocalizationService localizationService;
 
-            public App(string[] args)
-            {
-
+        public App(string[] args)
+        {
             host = new HostBuilder()
                     .ConfigureServices((hostContext, services) =>
                     {
                         ConfigureServices(services);
+                        services.BuildServiceProvider();
 
                     }).ConfigureLogging(logBuilder =>
                     {
@@ -32,36 +33,35 @@ namespace Mayhem.Launcher
 
                     }).Build();
 
-                logger = (ILogger<App>)host.Services.GetService(typeof(ILogger<App>));
-                settingsFileService = (ISettingsFileService)host.Services.GetService(typeof(ISettingsFileService));
-                navigationService = (INavigationService)host.Services.GetService(typeof(INavigationService));
-                squrrielHandleEvents = (ISqurrielHandleEvents)host.Services.GetService(typeof(ISqurrielHandleEvents));
-                logger.LogWarning(string.Join(",", args));
-                Init();
-            }
+            logger = (ILogger<App>)host.Services.GetService(typeof(ILogger<App>));
+            settingsFileService = (ISettingsFileService)host.Services.GetService(typeof(ISettingsFileService));
+            navigationService = (INavigationService)host.Services.GetService(typeof(INavigationService));
+            squrrielHandleEvents = (ISqurrielHandleEvents)host.Services.GetService(typeof(ISqurrielHandleEvents));
+            // = (ILocalizationService)host.Services.GetService(typeof(ILocalizationService));
+            logger.LogWarning(string.Join(",", args));
+            Init();
+        }
 
-            private void ConfigureServices(IServiceCollection services)
+        private void ConfigureServices(IServiceCollection services)
             {
                 services.AddScoped<INavigationService, NavigationService>();
                 services.AddScoped<ISettingsFileService, SettingsFileService>();
                 services.AddScoped<IVersionService, VersionService>();
                 services.AddScoped<ISqurrielHandleEvents, SqurrielHandleEvents>();
-                services.AddTransient<MainWindow>();
-                services.AddTransient<PathSettings>();
-                services.AddTransient<LoginWindow>();
+                services.AddScoped<ILocalizationService, LocalizationService>();
+                services.AddSingleton<MainWindow>();
+                services.AddSingleton<PathSettings>();
+                services.AddSingleton<LoginWindow>();
                 services.AddHttpClient();
-
             }
 
             private void Init()
             {
-            logger.LogInformation($"Loggg");
             /*foreach (string item in e.Args)
             {
                 logger.LogInformation($"Params 123 => {item}");
             }*/
             SingleApplicationCheck();
-            //AddProtocol();
             squrrielHandleEvents.SetDefaultConfiguration();
 
             /*foreach (string item in e.Args)
@@ -94,7 +94,7 @@ namespace Mayhem.Launcher
                 windows = navigationService.Show<LoginWindow>();
             }
 
-            settingsFileService.UpdateWallet(string.Empty);
+           settingsFileService.UpdateWallet(string.Empty);
             Run(windows);
         }
 

@@ -59,7 +59,11 @@ namespace CryptoMayhemLauncher.Services
                 }
                 else if (line.Contains("Wallet="))
                 {
-                    fileSettings.GameVersion = new BuildVersion(line.Replace("Wallet=", ""));
+                    fileSettings.Wallet = line.Replace("Wallet=", "");
+                }
+                else if (line.Contains("CurrentCulture="))
+                {
+                    fileSettings.CurrentCulture = line.Replace("CurrentCulture=", "");
                 }
             }
 
@@ -107,13 +111,22 @@ namespace CryptoMayhemLauncher.Services
             Save(fileSettings);
         }
 
+        public void SetCurrentCulture(string newCurrentCulture)
+        {
+            FileSettings fileSettings = GetContent();
+            fileSettings.CurrentCulture = newCurrentCulture;
+
+            Save(fileSettings);
+        }
+
         private void Save(FileSettings fileSettings)
         {
             string[] lines =
             {
                $"GameVersion={fileSettings.GameVersion}",
                 $"GamePath={fileSettings.GamePath}",
-                $"Wallet={fileSettings.Wallet}"
+                $"Wallet={fileSettings.Wallet}",
+                $"CurrentCulture={fileSettings.CurrentCulture}"
             };
 
             File.WriteAllLines(localSettingsFilePath, lines);

@@ -4,17 +4,16 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using CryptoMayhemLauncher.Interfaces;
 using Mayhem.Dal.Dto.Dtos;
 using Mayhem.Dal.Tables;
 using Mayhem.Launcher.Helpers;
+using Mayhem.Launcher.Models;
 using Microsoft.Extensions.Logging;
 using Squirrel;
 
@@ -24,17 +23,21 @@ namespace Mayhem.Launcher
     {
         private readonly IVersionService versionService;
         private readonly ISettingsFileService settingsFileService;
+        private readonly ILocalizationService localizationService;
         private readonly ISqurrielHandleEvents squrrielHandleEvents;
+        private readonly INavigationService navigationService;
         private readonly ILogger<MainWindow> loggerMainWindow;
 
-        //private UpdateManager manager;
+        private UpdateManager manager;
 
-        public MainWindow(ISqurrielHandleEvents squrrielHandleEvents, ISettingsFileService settingsFileService, IVersionService versionService, ILogger<MainWindow> loggerMainWindow)
+        public MainWindow(INavigationService navigationService, ISqurrielHandleEvents squrrielHandleEvents, ISettingsFileService settingsFileService, IVersionService versionService, ILogger<MainWindow> loggerMainWindow, ILocalizationService localizationService)
         {
+            this.navigationService = navigationService;
             this.loggerMainWindow = loggerMainWindow;
             this.settingsFileService = settingsFileService;
             this.squrrielHandleEvents = squrrielHandleEvents;
             this.versionService = versionService;
+            this.localizationService = localizationService;
             Initialize();
         }
 
@@ -53,19 +56,15 @@ namespace Mayhem.Launcher
                 switch (status)
                 {
                     case LauncherStatus.ready:
-                        //PlayButton.Content = "Play";
+                        PlayButtonTextBlock.Text = "Graj";
                         break;
                     case LauncherStatus.failed:
-                        //PlayButton.Content = "Update Failed - Retry";
-                        break;
-                    case LauncherStatus.downloadingUpdate:
-                        //PlayButton.Content = "Downloading Update";
+                        //PlayButtonTextBlock.Text = "Play"; // TODO Co z tym?
                         break;
                     case LauncherStatus.install:
-                        //PlayButton.Content = "Install Game";
                         break;
                     case LauncherStatus.updateGame:
-                        //PlayButton.Content = "Update Game";
+                        PlayButtonTextBlock.Text = "Aktualizuj";
                         break;
                     default:
                         break;
@@ -75,11 +74,44 @@ namespace Mayhem.Launcher
 
         private void Initialize()
         {
+            localizationService.SetLocalization(this);
+
             InitializeComponent();
+            SetWalletText();
+            SetEarlyStage();
+            SetLanguageImage();
+
+
+
             Loaded += (s, e) =>
             {
                 MainWindow_Loaded(s, e);
             };
+        }
+
+        private void SetWalletText()
+        {
+            string wallet = settingsFileService.GetContent().Wallet;
+            LoggedWalletTextBlock.Text = $"{wallet.Substring(0, 4)}...{wallet.Substring(wallet.Length - 4)}";
+        }
+
+        private void SetEarlyStage()
+        {
+            Status = LauncherStatus.install;
+            FileSettings fileSettings = settingsFileService.GetContent();
+
+            SetInternetConnectionStatus();
+
+            if (fileSettings.GameVersion.IsDifferentThan(BuildVersion.zero))
+            {
+                SetGameIsInstalled();
+                Status = LauncherStatus.ready;
+            }
+
+            if (Status == LauncherStatus.ready)
+            {
+                CheckForUpdates();
+            }
         }
 
         private void SetPaths()
@@ -93,7 +125,7 @@ namespace Mayhem.Launcher
         {
             DispatcherTimer dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 10);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 5);
             dispatcherTimer.Start();
         }
 
@@ -106,11 +138,7 @@ namespace Mayhem.Launcher
                 LatestVersion latestVersion = await versionService.GetLatestVersion();
                 BuildVersion onlineVersion = latestVersion.Version;
 
-                if (localVersion.IsEquals(BuildVersion.zero))
-                {
-                    Status = LauncherStatus.install;
-                }
-                else if (onlineVersion.IsDifferentThan(localVersion))
+                if (onlineVersion.IsDifferentThan(localVersion))
                 {
                     Status = LauncherStatus.updateGame;
                 }
@@ -126,7 +154,37 @@ namespace Mayhem.Launcher
             }
         }
 
-        private async void InstallOrUpdate()
+        private async void InstallGame()
+        {
+            BuildVersion localVersion = GetLocalVersion();
+
+            try
+            {
+                PBar0.Value = 0;
+                ProgressCounterTextBlock.Text = "0/0MB";
+                ProgressBarStackPanel.Visibility = Visibility.Visible;
+
+                LatestVersion latestVersion = await versionService.GetLatestVersion();
+
+                WebClient webClient = new WebClient();
+                //Status = LauncherStatus.downloadingUpdate;
+                Directory.Delete(rootPath, true);
+                Directory.CreateDirectory(rootPath);
+                webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(DownloadGameCompletedCallback);
+                webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressChanged);
+                webClient.DownloadFileAsync(new Uri(latestVersion.BuildURL), gameZip, latestVersion.Version);
+                //TODO Pamiętaj, aby wywalić nie istniejące pliki.
+            }
+            catch (Exception ex)
+            {
+                ProgressBarStackPanel.Visibility = Visibility.Hidden;
+                InstallButton.Visibility = Visibility.Visible;
+                //Status = LauncherStatus.failed;
+                loggerMainWindow.LogError($"Error checking for game updates: {ex}");
+            }
+        }
+
+        private async void UpdateGame()
         {
             BuildVersion localVersion = GetLocalVersion();
 
@@ -136,7 +194,7 @@ namespace Mayhem.Launcher
 
                 if (localVersion.IsEquals(BuildVersion.zero) || latestVersion.Version.IsDifferentThan(localVersion))
                 {
-                    InstallGameFiles(latestVersion);
+                    InstallGame();
                 }
                 else
                 {
@@ -154,45 +212,54 @@ namespace Mayhem.Launcher
         {
             BuildVersion localVersion = settingsFileService.GetContent().GameVersion;
             loggerMainWindow.LogInformation(localVersion.ToString());
-            //VersionText.Text = localVersion.ToString();
+            TopDownShooterGameVersionText.Text = $"V{localVersion}";
 
             return localVersion;
         }
 
-        private void InstallGameFiles(LatestVersion onlineVersion)
-        {
-            try
-            {
-                WebClient webClient = new WebClient();
-                Status = LauncherStatus.downloadingUpdate;
-                Directory.Delete(rootPath, true);
-                Directory.CreateDirectory(rootPath);
-                //ProgressBarStatus.Value = 0;
-                //ProgressBarStatus.Visibility = Visibility.Visible;
-                webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(DownloadGameCompletedCallback);
-                webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressChanged);
-                webClient.DownloadFileAsync(new Uri(onlineVersion.BuildURL), gameZip, onlineVersion.Version);
-                //TODO Pamiętaj, aby wywalić nie istniejące pliki.
-            }
-            catch (Exception ex)
-            {
-                Status = LauncherStatus.failed;
-                loggerMainWindow.LogError($"Error installing game files: {ex}");
-            }
-        }
-
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
+            SetInternetConnectionStatus();
+
+            if(UnsafeNative.IsConnectedToInternet() == false)
+            {
+                return;
+            }
+
             if (Status == LauncherStatus.ready)
             {
                 CheckForUpdates();
             }
         }
 
+        private void SetInternetConnectionStatus()
+        {
+            if (UnsafeNative.IsConnectedToInternet())
+            {
+                InternetConnectionOfflineIcon.Visibility = Visibility.Hidden;
+
+                if (LostConnectionWindowStackPanel.Visibility == Visibility.Visible)
+                {
+                    DisableBackgroundButton.Visibility = Visibility.Hidden;
+                    LostConnectionWindowStackPanel.Visibility = Visibility.Hidden;
+                }
+            }
+            else
+            {
+                if (InternetConnectionOfflineIcon.Visibility == Visibility.Visible)
+                    return;
+
+                DisableBackgroundButton.Visibility = Visibility.Visible;
+                LostConnectionWindowStackPanel.Visibility = Visibility.Visible;
+                SettingsWindowStackPanel.Visibility = Visibility.Hidden;
+                InternetConnectionOfflineIcon.Visibility = Visibility.Hidden;
+            }
+        }
+
         private void DownloadGameCompletedCallback(object sender, AsyncCompletedEventArgs e)
         {
-            //ProgressBarStatus.Value = 100;
-            //ProgressBarStatus.Visibility = Visibility.Hidden;
+            PBar0.Value = 100;
+            ProgressBarStackPanel.Visibility = Visibility.Hidden;
             try
             {
                 ZipFile.ExtractToDirectory(gameZip, rootPath);
@@ -201,38 +268,33 @@ namespace Mayhem.Launcher
                 BuildVersion buildVersion = ((BuildVersion)e.UserState);
                 settingsFileService.UpdateGameVersion(buildVersion);
 
-                //VersionText.Text = buildVersion.ToString();
-                Status = LauncherStatus.ready;
+                TopDownShooterGameVersionText.Text = $"V{buildVersion}";
+                //Status = LauncherStatus.ready;
+                SetGameIsInstalled();
             }
             catch (Exception ex)
             {
-                Status = LauncherStatus.failed;
+                //Status = LauncherStatus.failed;
                 loggerMainWindow.LogError($"Error finishing download: {ex}");
             }
         }
 
-        private void DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        private void SetGameIsInstalled()
         {
-            //ProgressBarStatus.Value = e.ProgressPercentage;
+            InstallTDSStackPanel.Visibility = Visibility.Hidden;
+            TopDownShooterPlayStackPanel.Visibility = Visibility.Visible;
+            InstalledGameListTitleText.Visibility = Visibility.Visible;
+
+            NeewsStackPanel.Margin = new Thickness(443, 142, 34, 407);
+            NewsTitleText.Margin = new Thickness(460,92,847,735);
+
+            LastGameToInstall.Margin = new Thickness(22, 533, 1144, 30);
         }
 
-        private void PlayButton_Click(object sender, RoutedEventArgs e)
+        private void DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            if (File.Exists(gameExe) && Status == LauncherStatus.ready)
-            {
-                ProcessStartInfo startInfo = new ProcessStartInfo(gameExe);
-                Process.Start(startInfo);
-
-                Close();
-            }
-            else if (Status == LauncherStatus.failed)
-            {
-                CheckForUpdates();
-            }
-            else if (Status == LauncherStatus.install || Status == LauncherStatus.updateGame)
-            {
-                InstallOrUpdate();
-            }
+            ProgressCounterTextBlock.Text = $"{Math.Round(e.BytesReceived / 1024.0 / 1024.0, 2)}/{Math.Round(e.TotalBytesToReceive / 1024.0 / 1024.0, 2)} MB";
+            PBar0.Value = e.ProgressPercentage;
         }
 
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -243,7 +305,7 @@ namespace Mayhem.Launcher
 
             try
             {
-                //CurrentVersionTextBox.Text = manager.CurrentlyInstalledVersion().ToString();
+                //CurrentVersionTextBox.Text = $"V{manager.CurrentlyInstalledVersion()}";
             }
             catch (Exception ex)
             {
@@ -252,7 +314,7 @@ namespace Mayhem.Launcher
 
             SetPaths();
             RunDispatcherTimerJob();
-            CheckForUpdates();
+            //CheckForUpdates();
         }
 
         private void SetMetodOnTop()
@@ -277,40 +339,6 @@ namespace Mayhem.Launcher
             //}
         }
 
-        private async void UpdateButton_Click(object sender, RoutedEventArgs e)
-        {
-            //await manager.UpdateApp();
-
-
-            try
-            {
-                /*string executable = Path.Combine(manager.RootAppDirectory,
-                                          string.Concat("app-",
-                                                        CurrentVersionTextBox.Text),
-                                          "Mayhem.Launcher.exe");
-
-                var updateInfo = await manager.CheckForUpdate();
-
-                string newVersion = string.Concat("app-",
-                                        updateInfo.FutureReleaseEntry.Version.Version.Major, ".",
-                                        updateInfo.FutureReleaseEntry.Version.Version.Minor, ".",
-                                        updateInfo.FutureReleaseEntry.Version.Version.Build);
-                squrrielHandleEvents.UpdateApp(manager, updateInfo.FutureReleaseEntry.Version.Version);
-                executable = Path.Combine(manager.RootAppDirectory,
-                          newVersion,
-                          "Mayhem.Launcher.exe");
-                loggerMainWindow.LogInformation("Update version => " + newVersion);
-                UpdateManager.RestartApp(executable);
-                Thread.Sleep(1000);
-                Environment.Exit(0);*/
-            }
-            catch (Exception ex)
-            {
-                loggerMainWindow.LogError(ex.Message);
-            }
-
-        }
-
         private void MinimalizeButton_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
@@ -318,7 +346,7 @@ namespace Mayhem.Launcher
 
         private void QuitButton_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            Application.Current.Shutdown();
         }
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
@@ -343,21 +371,57 @@ namespace Mayhem.Launcher
 
         private void WalletSettingsButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (LogoutButton.Visibility == Visibility.Visible)
+            {
+                WalletArrowRightRotateTransform.Angle = 90;
+                LogoutButton.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                WalletArrowRightRotateTransform.Angle = -90;
+                LogoutButton.Visibility = Visibility.Visible;
+            }
         }
+
+        /*
+            await manager.UpdateApp();
+
+
+            try
+            {
+                string executable = Path.Combine(manager.RootAppDirectory,
+                                          string.Concat("app-",
+                                                        CurrentVersionTextBox.Text.Replace("V","")),
+                                          "Mayhem.Launcher.exe");
+
+                var updateInfo = await manager.CheckForUpdate();
+
+                string newVersion = string.Concat("app-",
+                                        updateInfo.FutureReleaseEntry.Version.Version.Major, ".",
+                                        updateInfo.FutureReleaseEntry.Version.Version.Minor, ".",
+                                        updateInfo.FutureReleaseEntry.Version.Version.Build);
+                squrrielHandleEvents.UpdateApp(manager, updateInfo.FutureReleaseEntry.Version.Version);
+                executable = Path.Combine(manager.RootAppDirectory,
+                          newVersion,
+                          "Mayhem.Launcher.exe");
+                loggerMainWindow.LogInformation("Update version => " + newVersion);
+                UpdateManager.RestartApp(executable);
+                Thread.Sleep(1000);
+                Environment.Exit(0);
+            }
+            catch (Exception ex)
+            {
+                loggerMainWindow.LogError(ex.Message);
+            }
+         */
 
         private void InstallButton_Click(object sender, RoutedEventArgs e)
         {
-
+            InstallGame();
+            InstallButton.Visibility = Visibility.Hidden;
         }
 
         private void DisableBackground_Click(object sender, RoutedEventArgs e)
-        {
-            DisableBackgroundButton.Visibility = Visibility.Hidden;
-            SettingsWindowStackPanel.Visibility = Visibility.Hidden;
-        }
-
-        private void QuitWindowSettings_Click(object sender, RoutedEventArgs e)
         {
             DisableBackgroundButton.Visibility = Visibility.Hidden;
             SettingsWindowStackPanel.Visibility = Visibility.Hidden;
@@ -398,14 +462,30 @@ namespace Mayhem.Launcher
 
         private void EnglishLanguage_Click(object sender, RoutedEventArgs e)
         {
-            EnglishIcon.Source = new BitmapImage(ResourceAccessor.Get("Img/Button/LanguageRadioButtonClick.png"));
-            PolishIcon.Source = new BitmapImage(ResourceAccessor.Get("Img/Button/LanguageRadioButtonDefault.png"));
+            settingsFileService.SetCurrentCulture("en");
+            SetLanguageImage();
+            localizationService.SetLocalization(this);
         }
 
         private void PolishLanguage_Click(object sender, RoutedEventArgs e)
         {
-            PolishIcon.Source = new BitmapImage(ResourceAccessor.Get("Img/Button/LanguageRadioButtonClick.png"));
-            EnglishIcon.Source = new BitmapImage(ResourceAccessor.Get("Img/Button/LanguageRadioButtonDefault.png"));
+            settingsFileService.SetCurrentCulture("pl");
+            SetLanguageImage();
+            localizationService.SetLocalization(this);
+        }
+
+        private void SetLanguageImage()
+        {
+            if(localizationService.GetDefaultLanguage() == "pl")
+            {
+                PolishIcon.Source = new BitmapImage(ResourceAccessor.Get("Img/Button/LanguageRadioButtonClick.png"));
+                EnglishIcon.Source = new BitmapImage(ResourceAccessor.Get("Img/Button/LanguageRadioButtonDefault.png"));
+            }
+            else
+            {
+                EnglishIcon.Source = new BitmapImage(ResourceAccessor.Get("Img/Button/LanguageRadioButtonClick.png"));
+                PolishIcon.Source = new BitmapImage(ResourceAccessor.Get("Img/Button/LanguageRadioButtonDefault.png"));
+            }
         }
 
         private void ThirdPartyDocuments_Click(object sender, RoutedEventArgs e)
@@ -430,6 +510,71 @@ namespace Mayhem.Launcher
                 FileName = url,
                 UseShellExecute = true
             });
+        }
+
+        private void AgreeLostConnection_Click(object sender, RoutedEventArgs e)
+        {
+            QuitLostConnectionWindow_Click(sender, e);
+            InternetConnectionOfflineIcon.Visibility = Visibility.Visible;
+
+        }
+
+        private void QuitWindowSettings_Click(object sender, RoutedEventArgs e)
+        {
+            DisableBackgroundButton.Visibility = Visibility.Hidden;
+            SettingsWindowStackPanel.Visibility = Visibility.Hidden;
+            LostConnectionWindowStackPanel.Visibility = Visibility.Hidden;
+        }
+
+        private void QuitLostConnectionWindow_Click(object sender, RoutedEventArgs e)
+        {
+            DisableBackgroundButton.Visibility = Visibility.Hidden;
+            SettingsWindowStackPanel.Visibility = Visibility.Hidden;
+            LostConnectionWindowStackPanel.Visibility = Visibility.Hidden;
+        }
+
+        private void PlayButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (File.Exists(gameExe) && Status == LauncherStatus.ready)
+            {
+                ProcessStartInfo startInfo = new ProcessStartInfo(gameExe);
+                Process.Start(startInfo);
+
+                Application.Current.Shutdown();
+            }
+            else
+            {
+                UpdateGame();
+            }
+
+            /*if (File.Exists(gameExe) && Status == LauncherStatus.ready)
+            {
+                ProcessStartInfo startInfo = new ProcessStartInfo(gameExe);
+                Process.Start(startInfo);
+            
+            navigationService.Hide<MainWindow>();
+            }
+            else if (Status == LauncherStatus.failed)
+            {
+                CheckForUpdates();
+            }
+            else if (Status == LauncherStatus.install || Status == LauncherStatus.updateGame)
+            {
+                InstallOrUpdate();
+            }*/
+            /*
+            else if (Status == LauncherStatus.failed)
+            {
+                CheckForUpdates();
+            }*/
+        }
+
+        private void Logout_Click(object sender, RoutedEventArgs e)
+        {
+            WalletSettingsButton_Click(sender, e);
+            settingsFileService.UpdateWallet(string.Empty);
+            navigationService.Show<LoginWindow>();
+            navigationService.Hide<MainWindow>();
         }
     }
 }

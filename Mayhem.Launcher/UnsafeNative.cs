@@ -18,6 +18,15 @@ namespace Mayhem.Launcher
         [DllImport("User32.dll", EntryPoint = "SendMessage", SetLastError = true)]
         private static extern int SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, ref COPYDATASTRUCT lParam);
 
+        [DllImport("wininet.dll")]
+        private extern static bool InternetGetConnectedState(out int Description, int ReservedValue);
+
+        public static bool IsConnectedToInternet()
+        {
+            int Desc;
+            return InternetGetConnectedState(out Desc, 0);
+        }
+
         public static string GetMessage(int message, IntPtr lParam)
         {
             if (message == UnsafeNative.WM_COPYDATA)

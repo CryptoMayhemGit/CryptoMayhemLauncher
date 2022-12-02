@@ -4,41 +4,83 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mayhem.Launcher"
+        xmlns:Properties="clr-namespace:Mayhem.Launcher.Properties"
         mc:Ignorable="d"
         Title="PathSettings" Height="600" Width="482"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
-        ResizeMode="CanMinimize">
-    <Grid>
-        <Grid.Resources>
-            <ResourceDictionary>
-                <ResourceDictionary.MergedDictionaries>
-                    <ResourceDictionary Source="ResourcesDirectorys/Button/QuitButtonStyle.xaml"/>
-                    <ResourceDictionary Source="ResourcesDirectorys/Button/MinimalizeButtonStyle.xaml"/>
-                    <ResourceDictionary Source="ResourcesDirectorys/Button/SelectFolderButtonStyle.xaml"/>
-                </ResourceDictionary.MergedDictionaries>
-            </ResourceDictionary>
-        </Grid.Resources>
-        
-        <Image Stretch="Fill" Source="/img/PathSettingsBackground.png" OpacityMask="#FF717172"/>
+        ResizeMode="CanMinimize" Background="Transparent">
+    <Viewbox>
+        <Grid Height="600" Width="482">
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="ResourcesDirectorys/Button/QuitButtonStyle.xaml"/>
+                        <ResourceDictionary Source="ResourcesDirectorys/Button/MinimalizeButtonStyle.xaml"/>
+                        <ResourceDictionary Source="ResourcesDirectorys/Button/SelectFolderButtonStyle.xaml"/>
+                        <ResourceDictionary Source="ResourcesDirectorys/Button/LocalizationButtonStyle.xaml"/>
+                        <ResourceDictionary Source="ResourcesDirectorys/Button/SetLanguagePopUpButtonStyle.xaml"/>
+                        <!--<ResourceDictionary Source="StringResources.en.xaml"/>-->
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </Grid.Resources>
 
-        <Button Style="{StaticResource QuitButtonStyle}" x:Name="QuitButton" Click="QuitButton_Click" Height="45" Width="45" FontSize="28" FontWeight="Bold" Foreground="#FF696266" Margin="436,1,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="10,1,21,1" RenderTransformOrigin="0.525,0.75" BorderBrush="#00707070" />
-        <Button Style="{StaticResource MinimalizeButtonStyle}" x:Name="MinimalizeButton" Click="MinimalizeButton_Click" Height="45" Width="45" FontSize="28" FontWeight="Bold" Foreground="#FF696266" Margin="391,1,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" BorderBrush="#00707070" />
+            <Image Stretch="Fill" Source="/img/PathSettingsBackground.png" OpacityMask="#FF717172"/>
 
+            <Button Style="{StaticResource LocalizationButtonStyle}" Cursor="Hand" Padding="10, 0, 0, 0" x:Name="OpenLocalizationPopUpButton" Click="OpenLocalizationPopUpButton_Click" HorizontalContentAlignment="Left" Width="auto" Panel.ZIndex="3" Background="#00DDDDDD" BorderBrush="Transparent" Margin="0,1,91,553" HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal" Width="auto">
+                    <StackPanel Width="auto" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image x:Name="OpenLocalizationPopUpImage" Source="/img/Button/FlagPolishHover.png" Width="38" Height="34" Stretch="None"/>
+                    </StackPanel>
+                    <StackPanel Width="auto" Height="auto" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Image Source="/img/Button/ArrowRight.png" Width="25" Height="25" Stretch="Fill" RenderTransformOrigin="0.5,0.5">
+                            <Image.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform  x:Name="LanguageArrowRightRotateTransform" Angle="90"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Image.RenderTransform>
+                        </Image>
+                    </StackPanel>
+                </StackPanel>
+            </Button>
 
-
-
-        <Button Cursor="Hand" x:Name="InstallButton" Content="INSTALUJ" Click="InstallButton_Click" Height="46" Width="338" FontSize="16" FontWeight="Bold" Margin="0,404,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" FontFamily="Montserrat" BorderBrush="#00844646" Foreground="#FFF2F2F2">
-            <Button.Background>
-                <ImageBrush ImageSource="/Img/Button/ContinueButton.png"/>
-            </Button.Background>
-        </Button>
-        <TextBlock x:Name="TitleText" Text="INSTALACJA LAUNCHERA" FontSize="24" Margin="0,128,0,442" Foreground="#FFF2F2F2" FontFamily="Nulshock Rg" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" LineStackingStrategy="BlockLineHeight" TextWrapping="WrapWithOverflow" FontWeight="Bold"/>
-        <TextBlock x:Name="SelectFolderText" Text="Miejsce instalacji" FontSize="16" Margin="72,273,168,300" Foreground="#FFF2F2F2" FontFamily="Montserrat"/>
-        <Button Style="{StaticResource SelectFolderButtonStyle}" Padding="10, 0, 0, 0" x:Name="SelectFolderButton" HorizontalContentAlignment="Left" Click="SelectFolderButton_Click" Height="56" Width="339" FontSize="25" Foreground="#DD000000" Visibility="Visible" FontWeight="Bold" RenderTransformOrigin="0.5,0.5" Margin="71,296,71,248" BorderBrush="#FF575757">
-            <StackPanel Orientation="Horizontal" Width="320" RenderTransformOrigin="0.717,0.699">
-                <TextBlock x:Name="SelectFolderTextBox" Width="295" Text="" Background="Transparent" FontFamily="Montserrat" Foreground="#66F2F2EC" FontWeight="Normal" FontSize="22"/>
+            <StackPanel Visibility="Hidden"  x:Name="SetLanguagePopUpStackPanel" Width="auto" Height="auto" Margin="332,47,10,483">
+                <StackPanel.Background>
+                    <ImageBrush ImageSource="/Img/Button/ChangeWalletButtonFull.png"/>
+                </StackPanel.Background>
+                <Button Width="140" Height="35" Style="{StaticResource SetLanguagePopUpButtonStyle}" x:Name="SetEnglishPopUpButton" Click="SetEnglishPopUp_Click" Foreground="#FF696266" BorderBrush="#00707070" HorizontalAlignment="Right" Panel.ZIndex="90" Background="#FFDDDDDD">
+                    <StackPanel  Orientation="Horizontal" Width="140">
+                        <Image Margin="25,0,0,0" Source="/Img/Button/FlagEnglishHover.png" Height="15" Width="39" />
+                        <TextBlock Text="{DynamicResource PathSettings_EnglishSettingText}" FontSize="11" FontFamily="Montserrat" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFF2F2F2" FontWeight="Medium" />
+                    </StackPanel>
+                </Button>
+                <Button Width="140"  Height="35" Style="{StaticResource SetLanguagePopUpButtonStyle}" x:Name="SetPolishPopUpButton" Click="SetPolishPopUp_Click" Foreground="#FF696266" BorderBrush="#00707070" HorizontalAlignment="Right" Panel.ZIndex="90" Background="#FFDDDDDD">
+                    <StackPanel  Orientation="Horizontal" Width="138">
+                        <Image Margin="25,0,0,0" Source="/Img/Button/FlagPolishHover.png" Height="15" Width="39" />
+                        <TextBlock Text="{DynamicResource PathSettings_PolishSettingText}" FontSize="11" FontFamily="Montserrat" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFF2F2F2" FontWeight="Medium" />
+                    </StackPanel>
+                </Button>
             </StackPanel>
-        </Button>
-    </Grid>
+
+            <Button Style="{StaticResource QuitButtonStyle}" x:Name="QuitButton" Click="QuitButton_Click" Height="45" Width="45" FontSize="28" FontWeight="Bold" Foreground="#FF696266" Margin="436,1,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="10,1,21,1" RenderTransformOrigin="0.525,0.75" BorderBrush="#00707070" />
+            <Button Style="{StaticResource MinimalizeButtonStyle}" x:Name="MinimalizeButton" Click="MinimalizeButton_Click" Height="45" Width="45" FontSize="28" FontWeight="Bold" Foreground="#FF696266" Margin="391,1,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" BorderBrush="#00707070" />
+
+
+            <Button Cursor="Hand" x:Name="InstallButton" Content="{DynamicResource PathSettings_InstallButton}" Click="InstallButton_Click" Height="46" Width="338" FontSize="16" FontWeight="Bold" Margin="0,404,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" FontFamily="Montserrat" BorderBrush="#00844646" Foreground="#FFF2F2F2" >
+                <Button.Background>
+                    <ImageBrush ImageSource="/Img/Button/ContinueButton.png"/>
+                </Button.Background>
+            </Button>
+            <TextBlock x:Name="TitleText" Text="{DynamicResource PathSettings_TitleText}" FontSize="24" Margin="0,128,0,442" Foreground="#FFF2F2F2" FontFamily="Nulshock Rg" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" LineStackingStrategy="BlockLineHeight" TextWrapping="WrapWithOverflow" FontWeight="Bold"/>
+            <TextBlock x:Name="SelectFolderText" Text="{DynamicResource PathSettings_SelectFolderText}" FontSize="16" Margin="72,273,168,300" Foreground="#FFF2F2F2" FontFamily="Montserrat"/>
+            <Button Style="{StaticResource SelectFolderButtonStyle}" Padding="10, 0, 0, 0" x:Name="SelectFolderButton" HorizontalContentAlignment="Left" Click="SelectFolderButton_Click" Height="56" Width="339" FontSize="25" Foreground="#DD000000" Visibility="Visible" FontWeight="Bold" RenderTransformOrigin="0.5,0.5" Margin="71,296,71,248" BorderBrush="#FF575757">
+                <StackPanel Orientation="Horizontal" Width="320" RenderTransformOrigin="0.717,0.699">
+                    <TextBlock x:Name="SelectFolderTextBox" Width="295" Text="" Background="Transparent" FontFamily="Montserrat" Foreground="#66F2F2EC" FontWeight="Normal" FontSize="22"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+    </Viewbox>
 </Window>

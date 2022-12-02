@@ -7,43 +7,44 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="LoginWindow" 
-        WindowStyle="None"
-        Height="600" Width="482"
-        ResizeMode="CanMinimize">
-    <Grid>
-        <Grid.Resources>
-            <ResourceDictionary>
-                <ResourceDictionary.MergedDictionaries>
-                    <ResourceDictionary Source="ResourcesDirectorys/Button/QuitButtonStyle.xaml"/>
-                    <ResourceDictionary Source="ResourcesDirectorys/Button/MinimalizeButtonStyle.xaml"/>
-                </ResourceDictionary.MergedDictionaries>
-            </ResourceDictionary>
-        </Grid.Resources>
-        
-        <Image Stretch="Fill" Source="/img/PathSettingsBackgroundBlur.png" OpacityMask="#FF717172"/>
-        <Image Stretch="None" Source="/img/Logo.png" OpacityMask="#FF717172" Margin="0,-160,0,160" RenderTransformOrigin="0.5,0.5">
-            <Image.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Image.RenderTransform>
-        </Image>
+        ResizeMode="CanMinimize"
+        WindowStyle="None" Height="600" Width="482" Background="Transparent">
+    <Viewbox>
+        <Grid Height="600" Width="482">
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="ResourcesDirectorys/Button/QuitButtonStyle.xaml"/>
+                        <ResourceDictionary Source="ResourcesDirectorys/Button/MinimalizeButtonStyle.xaml"/>
+                        <!--<ResourceDictionary Source="StringResources.en.xaml"/>-->
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </Grid.Resources>
+            <Image Stretch="Fill" Source="/img/PathSettingsBackgroundBlur.png" OpacityMask="#FF717172"/>
+            <Image Stretch="None" Source="/img/Logo.png" OpacityMask="#FF717172" Margin="0,-160,0,160" RenderTransformOrigin="0.5,0.5">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
 
-        <Button Style="{StaticResource QuitButtonStyle}" x:Name="QuitButton" Click="QuitButton_Click" Height="45" Width="45" FontSize="28" FontWeight="Bold" Foreground="#FF696266" Margin="436,1,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="10,1,21,1" RenderTransformOrigin="0.525,0.75" BorderBrush="#00707070" />
-        <Button Style="{StaticResource MinimalizeButtonStyle}" x:Name="MinimalizeButton" Click="MinimalizeButton_Click" Height="45" Width="45" FontSize="28" FontWeight="Bold" Foreground="#FF696266" Margin="391,1,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" BorderBrush="#00707070" />
-
-
+            <Button Style="{StaticResource QuitButtonStyle}" x:Name="QuitButton" Click="QuitButton_Click" Height="45" Width="45" FontSize="28" FontWeight="Bold" Foreground="#FF696266" Margin="436,1,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="10,1,21,1" RenderTransformOrigin="0.525,0.75" BorderBrush="#00707070" />
+            <Button Style="{StaticResource MinimalizeButtonStyle}" x:Name="MinimalizeButton" Click="MinimalizeButton_Click" Height="45" Width="45" FontSize="28" FontWeight="Bold" Foreground="#FF696266" Margin="391,1,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" BorderBrush="#00707070" />
 
 
-        <Button Cursor="Hand" x:Name="LoginButton" Content="POŁĄCZ PORTFEL" Click="InstallButton_Click" Height="46" Width="338" FontSize="16" FontWeight="Bold" Margin="0,419,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" FontFamily="Montserrat" BorderBrush="#00844646" Foreground="#FFF2F2F2">
-            <Button.Background>
-                <ImageBrush ImageSource="Img/Button/ContinueButton.png"/>
-            </Button.Background>
-        </Button>
-        <TextBlock x:Name="CurrentActionText" Text="Logowanie portfelem" FontSize="24" Margin="78,136,0,0" Foreground="#FFF2F2F2" FontFamily="Montserrat" TextTrimming="CharacterEllipsis" LineStackingStrategy="BlockLineHeight" TextWrapping="WrapWithOverflow" TextAlignment="Center" Width="338" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        <TextBlock x:Name="LauncherVersionText" Text="V1.0.2" FontSize="16" Margin="0,554,0,10" Foreground="#66F2F2F2" FontFamily="Montserrat" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" LineStackingStrategy="BlockLineHeight" TextWrapping="WrapWithOverflow" Visibility="Hidden"/>
-    </Grid>
+
+
+            <Button Cursor="Hand" x:Name="LoginButton" Content="POŁĄCZ PORTFEL" Click="InstallButton_Click" Height="46" Width="338" FontSize="16" FontWeight="Bold" Margin="0,419,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" FontFamily="Montserrat" BorderBrush="#00844646" Foreground="#FFF2F2F2">
+                <Button.Background>
+                    <ImageBrush ImageSource="Img/Button/ContinueButton.png"/>
+                </Button.Background>
+            </Button>
+            <TextBlock x:Name="CurrentActionText" Text="Logowanie portfelem" FontSize="24" Margin="78,136,0,0" Foreground="#FFF2F2F2" FontFamily="Montserrat" TextTrimming="CharacterEllipsis" LineStackingStrategy="BlockLineHeight" TextWrapping="WrapWithOverflow" TextAlignment="Center" Width="338" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <TextBlock x:Name="LauncherVersionText" Text="V1.0.2" FontSize="16" Margin="0,554,0,10" Foreground="#66F2F2F2" FontFamily="Montserrat" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" LineStackingStrategy="BlockLineHeight" TextWrapping="WrapWithOverflow" Visibility="Hidden"/>
+        </Grid>
+    </Viewbox>
 </Window>

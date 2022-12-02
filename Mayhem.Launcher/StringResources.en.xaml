@@ -1,0 +1,18 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                    xmlns:system="clr-namespace:System;assembly=System.Runtime">
+    <system:String x:Key="MainWindow_LauncherTitleText">Launcher Settings</system:String>
+    <system:String x:Key="MainWindow_EnglishSettingText">English</system:String>
+    <system:String x:Key="MainWindow_PolishSettingText">Polish</system:String>
+
+    <system:String x:Key="MainWindow_LangagueSettingSectionText">Language</system:String>
+    <system:String x:Key="MainWindow_UpdateSettingSectionText">Launcher Version</system:String>
+    <system:String x:Key="MainWindow_LegalDocumentsSettingSectionText">Legal documents</system:String>
+
+    <system:String x:Key="PathSettings_SelectFolderText">Installation location</system:String>
+    <system:String x:Key="PathSettings_TitleText">Launcher installation</system:String>
+    <system:String x:Key="PathSettings_EnglishSettingText">English</system:String>
+    <system:String x:Key="PathSettings_PolishSettingText">Polish</system:String>
+    <system:String x:Key="PathSettings_InstallButton">INSTALL</system:String>
+    
+</ResourceDictionary>

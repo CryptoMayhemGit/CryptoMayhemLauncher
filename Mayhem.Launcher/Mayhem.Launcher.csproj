@@ -258,6 +258,7 @@
     </Page>
     <Compile Include="Helpers\ResourceAccessor.cs" />
     <Compile Include="Interfaces\ISqurrielHandleEvents.cs" />
+    <Compile Include="Interfaces\ILocalizationService.cs" />
     <Compile Include="LauncherStatus.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
@@ -268,10 +269,24 @@
       <DependentUpon>PathSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
+    <Compile Include="Cultures\Resources.en.Designer.cs">
+      <DependentUpon>Resources.en.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Cultures\Resources.pl-PL.Designer.cs">
+      <DependentUpon>Resources.pl-PL.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\SettingsFileService.cs" />
     <Compile Include="Services\SqurrielHandleEvents.cs" />
+    <Compile Include="Services\LocalizationService.cs" />
     <Compile Include="Services\VersionService.cs" />
+    <Compile Include="UIElements\ProgressBar\CustomProgressBar.xaml.cs">
+      <DependentUpon>CustomProgressBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UnsafeNative.cs" />
     <Page Include="LoginWindow.xaml">
       <SubType>Designer</SubType>
@@ -297,6 +312,22 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ResourcesDirectorys\Button\SetLanguagePopUpButtonStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourcesDirectorys\Button\LogoutButtonStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourcesDirectorys\Button\LocalizationButtonStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourcesDirectorys\Button\ProfileButtonStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ResourcesDirectorys\Button\MinimalizeButtonStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -317,11 +348,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="ResourcesDirectorys\Button\DisableOnMouseOverButtonStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ResourcesDirectorys\Button\SettingsButtonStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ResourcesDirectorys\Button\SelectFolderButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StringResources.pl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="StringResources.en.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UIElements\ProgressBar\CustomProgressBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -332,7 +379,7 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Include="Cultures\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -342,10 +389,23 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+    <EmbeddedResource Include="Cultures\Resources.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.en.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+      <CustomToolNamespace>Mayhem.Launcher.Properties</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cultures\Resources.pl-PL.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.pl-PL.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+      <CustomToolNamespace>Mayhem.Launcher.Properties</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cultures\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <CustomToolNamespace>Mayhem.Launcher.Properties</CustomToolNamespace>
     </EmbeddedResource>
     <Resource Include="Img\Icons\Icon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -456,6 +516,13 @@
     <Resource Include="Img\Button\SettingsButtonActive.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Img\OfflineIconGlow.png" />
+    <Resource Include="Img\Button\ChangeWalletButton.png" />
+    <Resource Include="Img\Button\FlagEnglishDefault.png" />
+    <Resource Include="Img\Button\FlagEnglishHover.png" />
+    <Resource Include="Img\Button\FlagPolishDefault.png.png" />
+    <Resource Include="Img\Button\FlagPolishHover.png" />
+    <Resource Include="Img\Button\ChangeWalletButtonFull.png" />
     <Content Include="Log4Net.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

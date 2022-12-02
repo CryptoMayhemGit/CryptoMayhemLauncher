@@ -6,6 +6,7 @@ namespace Mayhem.Launcher.Models
     {
         public string GamePath { get; set; }
         public string Wallet { get; set; }
+        public string CurrentCulture { get; set; }
         public BuildVersion GameVersion { get; set; }
     }
 }

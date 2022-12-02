@@ -1,4 +1,5 @@
 ﻿using CryptoMayhemLauncher.Interfaces;
+using CryptoMayhemLauncher.Services;
 using Mayhem.Launcher.Models;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -25,22 +26,25 @@ namespace Mayhem.Launcher
         private static event ChangeText_Handler AuthorizationManager;
         private readonly ISettingsFileService settingsFileService;
         private readonly INavigationService navigationService;
+        private readonly ILocalizationService localizationService;
 
-        public LoginWindow(IHttpClientFactory httpClientFactory, ILogger<LoginWindow> loggerLoginWindow, ISettingsFileService settingsFileService, INavigationService navigationService)
+        public LoginWindow(IHttpClientFactory httpClientFactory, ILogger<LoginWindow> loggerLoginWindow, ISettingsFileService settingsFileService, INavigationService navigationService, ILocalizationService localizationService)
         {
+            this.settingsFileService = settingsFileService;
+            this.navigationService = navigationService;
+            this.localizationService = localizationService;
             this.loggerLoginWindow = loggerLoginWindow;
             httpClient = httpClientFactory.CreateClient();
             httpClient.Timeout = TimeSpan.FromSeconds(5);
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             Initialize();
-            this.settingsFileService = settingsFileService;
-            this.navigationService = navigationService;
         }
 
         private void Initialize()
         {
             AuthorizationManager += SetTicketContentText;
             AuthorizationManager += RunProcess;
+            localizationService.SetLocalization(this);
             InitializeComponent();
             Loaded += (s, e) =>
             {
@@ -73,7 +77,7 @@ namespace Mayhem.Launcher
 
                     settingsFileService.UpdateWallet(authorizationApiResponse.Wallet);
                     navigationService.Show<MainWindow>();
-                    Close();
+                    navigationService.Hide<LoginWindow>();
                 }
                 else
                 {
@@ -156,7 +160,7 @@ namespace Mayhem.Launcher
 
         private void QuitButton_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            Application.Current.Shutdown();
         }
 
         private void InstallButton_Click(object sender, RoutedEventArgs e)

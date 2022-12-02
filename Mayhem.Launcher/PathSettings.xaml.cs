@@ -1,12 +1,13 @@
 ﻿using CryptoMayhemLauncher.Interfaces;
+using Mayhem.Launcher.Helpers;
 using Microsoft.Win32;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Mayhem.Launcher
 {
@@ -17,16 +18,20 @@ namespace Mayhem.Launcher
     {
         private readonly INavigationService navigationService;
         private readonly ISettingsFileService settingsFileService;
+        private readonly ILocalizationService localizationService;
         private string gameInstallPath;
         private const int INSTALL_PATH_LETTERS_COUNT = 14;
 
-        public PathSettings(INavigationService navigationService, ISettingsFileService settingsFileService)
+        public PathSettings(INavigationService navigationService, ISettingsFileService settingsFileService, ILocalizationService localizationService)
         {
             this.navigationService = navigationService;
             this.settingsFileService = settingsFileService;
+            this.localizationService = localizationService;
 
+            localizationService.SetLocalization(this);
             InitializeComponent();
             InitGamePath();
+            SetDefaultLanguageImage();
         }
 
         private void InitGamePath()
@@ -40,8 +45,8 @@ namespace Mayhem.Launcher
             settingsFileService.SetPath(gameInstallPath);
             CreateNewDirectory(gameInstallPath);
             navigationService.Show<LoginWindow>();
-            Close();
-            
+            navigationService.Close<PathSettings>();
+
         }
 
         private void SelectFolderButton_Click(object sender, RoutedEventArgs e)
@@ -101,7 +106,21 @@ namespace Mayhem.Launcher
 
         private void QuitButton_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            Application.Current.Shutdown();
+        }
+
+        private void OpenLocalizationPopUpButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SetLanguagePopUpStackPanel.Visibility == Visibility.Visible)
+            {
+                LanguageArrowRightRotateTransform.Angle = 90;
+                SetLanguagePopUpStackPanel.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                LanguageArrowRightRotateTransform.Angle = -90;
+                SetLanguagePopUpStackPanel.Visibility = Visibility.Visible;
+            }
         }
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
@@ -113,6 +132,34 @@ namespace Mayhem.Launcher
         public Task ActivateAsync(object parameter)
         {
             return Task.CompletedTask;
+        }
+
+        private void SetEnglishPopUp_Click(object sender, RoutedEventArgs e)
+        {
+            OpenLocalizationPopUpButton_Click(sender, e);
+            OpenLocalizationPopUpImage.Source = new BitmapImage(ResourceAccessor.Get("Img/Button/FlagEnglishHover.png"));
+            settingsFileService.SetCurrentCulture("en");
+            localizationService.SetLocalization(this);
+        }
+
+        private void SetPolishPopUp_Click(object sender, RoutedEventArgs e)
+        {
+            OpenLocalizationPopUpButton_Click(sender, e);
+            OpenLocalizationPopUpImage.Source = new BitmapImage(ResourceAccessor.Get("Img/Button/FlagPolishHover.png"));
+            settingsFileService.SetCurrentCulture("pl");
+            localizationService.SetLocalization(this);
+        }
+
+        private void SetDefaultLanguageImage()
+        {
+            if (localizationService.GetDefaultLanguage() == "pl")
+            {
+                OpenLocalizationPopUpImage.Source = new BitmapImage(ResourceAccessor.Get("Img/Button/FlagPolishHover.png"));
+            }
+            else
+            {
+                OpenLocalizationPopUpImage.Source = new BitmapImage(ResourceAccessor.Get("Img/Button/FlagEnglishHover.png"));
+            }
         }
     }
 }
