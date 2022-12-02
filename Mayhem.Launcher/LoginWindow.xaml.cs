@@ -1,5 +1,6 @@
 ﻿using CryptoMayhemLauncher.Interfaces;
 using CryptoMayhemLauncher.Services;
+using Mayhem.Launcher.Helpers;
 using Mayhem.Launcher.Models;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media.Imaging;
 
 namespace Mayhem.Launcher
 {
@@ -45,7 +47,8 @@ namespace Mayhem.Launcher
             AuthorizationManager += SetTicketContentText;
             AuthorizationManager += RunProcess;
             localizationService.SetLocalization(this);
-            InitializeComponent();
+            InitializeComponent(); 
+            SetDefaultLanguageImage();
             Loaded += (s, e) =>
             {
                 LoginWindowLoaded(s, e);
@@ -53,6 +56,12 @@ namespace Mayhem.Launcher
                 HwndSource hwndSource = HwndSource.FromHwnd(LoginWindow.WindowHandle);
                 hwndSource.AddHook(new HwndSourceHook(HandleMessages));
             };
+        }
+
+        public void UpdateLocalization()
+        {
+            localizationService.SetLocalization(this);
+            SetDefaultLanguageImage();
         }
 
         private async void RunProcess(string ticket)
@@ -189,6 +198,48 @@ namespace Mayhem.Launcher
                 FileName = url,
                 UseShellExecute = true
             });
+        }
+
+        private void OpenLocalizationPopUpButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SetLanguagePopUpStackPanel.Visibility == Visibility.Visible)
+            {
+                LanguageArrowRightRotateTransform.Angle = 90;
+                SetLanguagePopUpStackPanel.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                LanguageArrowRightRotateTransform.Angle = -90;
+                SetLanguagePopUpStackPanel.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void SetEnglishPopUp_Click(object sender, RoutedEventArgs e)
+        {
+            OpenLocalizationPopUpButton_Click(sender, e);
+            OpenLocalizationPopUpImage.Source = new BitmapImage(ResourceAccessor.Get("Img/Button/FlagEnglishHover.png"));
+            settingsFileService.SetCurrentCulture("en");
+            localizationService.SetLocalization(this);
+        }
+
+        private void SetPolishPopUp_Click(object sender, RoutedEventArgs e)
+        {
+            OpenLocalizationPopUpButton_Click(sender, e);
+            OpenLocalizationPopUpImage.Source = new BitmapImage(ResourceAccessor.Get("Img/Button/FlagPolishHover.png"));
+            settingsFileService.SetCurrentCulture("pl");
+            localizationService.SetLocalization(this);
+        }
+
+        private void SetDefaultLanguageImage()
+        {
+            if (localizationService.GetDefaultLanguage() == "pl")
+            {
+                OpenLocalizationPopUpImage.Source = new BitmapImage(ResourceAccessor.Get("Img/Button/FlagPolishHover.png"));
+            }
+            else
+            {
+                OpenLocalizationPopUpImage.Source = new BitmapImage(ResourceAccessor.Get("Img/Button/FlagEnglishHover.png"));
+            }
         }
     }
 }

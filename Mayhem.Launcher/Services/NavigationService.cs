@@ -1,4 +1,5 @@
 ﻿using CryptoMayhemLauncher.Interfaces;
+using Mayhem.Launcher;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
@@ -25,6 +26,16 @@ namespace CryptoMayhemLauncher.Services
                     isWindowOpen = true;
                     w.Activate();
                     w.Show();
+
+                    if (w is LoginWindow)
+                    {
+                        ((LoginWindow)w).UpdateLocalization();
+                    }
+                    else if (w is MainWindow)
+                    {
+                        ((MainWindow)w).UpdateLocalization();
+                    }
+
                     result = w;
                 }
             }

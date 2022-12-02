@@ -16,6 +16,8 @@
                     <ResourceDictionary.MergedDictionaries>
                         <ResourceDictionary Source="ResourcesDirectorys/Button/QuitButtonStyle.xaml"/>
                         <ResourceDictionary Source="ResourcesDirectorys/Button/MinimalizeButtonStyle.xaml"/>
+                        <ResourceDictionary Source="ResourcesDirectorys/Button/LocalizationButtonStyle.xaml"/>
+                        <ResourceDictionary Source="ResourcesDirectorys/Button/SetLanguagePopUpButtonStyle.xaml"/>
                         <!--<ResourceDictionary Source="StringResources.en.xaml"/>-->
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
@@ -35,15 +37,51 @@
             <Button Style="{StaticResource QuitButtonStyle}" x:Name="QuitButton" Click="QuitButton_Click" Height="45" Width="45" FontSize="28" FontWeight="Bold" Foreground="#FF696266" Margin="436,1,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="10,1,21,1" RenderTransformOrigin="0.525,0.75" BorderBrush="#00707070" />
             <Button Style="{StaticResource MinimalizeButtonStyle}" x:Name="MinimalizeButton" Click="MinimalizeButton_Click" Height="45" Width="45" FontSize="28" FontWeight="Bold" Foreground="#FF696266" Margin="391,1,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" BorderBrush="#00707070" />
 
+            <Button Style="{StaticResource LocalizationButtonStyle}" Cursor="Hand" Padding="10, 0, 0, 0" x:Name="OpenLocalizationPopUpButton" Click="OpenLocalizationPopUpButton_Click" HorizontalContentAlignment="Left" Width="auto" Panel.ZIndex="3" Background="#00DDDDDD" BorderBrush="Transparent" Margin="0,1,91,553" HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal" Width="auto">
+                    <StackPanel Width="auto" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image x:Name="OpenLocalizationPopUpImage" Source="/img/Button/FlagPolishHover.png" Width="38" Height="34" Stretch="None"/>
+                    </StackPanel>
+                    <StackPanel Width="auto" Height="auto" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Image Source="/img/Button/ArrowRight.png" Width="25" Height="25" Stretch="Fill" RenderTransformOrigin="0.5,0.5">
+                            <Image.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform  x:Name="LanguageArrowRightRotateTransform" Angle="90"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Image.RenderTransform>
+                        </Image>
+                    </StackPanel>
+                </StackPanel>
+            </Button>
+
+            <StackPanel Visibility="Hidden"  x:Name="SetLanguagePopUpStackPanel" Width="auto" Height="auto" Margin="332,47,10,483">
+                <StackPanel.Background>
+                    <ImageBrush ImageSource="/Img/Button/ChangeWalletButtonFull.png"/>
+                </StackPanel.Background>
+                <Button Width="140" Height="35" Style="{StaticResource SetLanguagePopUpButtonStyle}" x:Name="SetEnglishPopUpButton" Click="SetEnglishPopUp_Click" Foreground="#FF696266" BorderBrush="#00707070" HorizontalAlignment="Right" Panel.ZIndex="90" Background="#FFDDDDDD">
+                    <StackPanel  Orientation="Horizontal" Width="140">
+                        <Image Margin="25,0,0,0" Source="/Img/Button/FlagEnglishHover.png" Height="15" Width="39" />
+                        <TextBlock Text="{DynamicResource PathSettings_EnglishSettingText}" FontSize="11" FontFamily="Montserrat" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFF2F2F2" FontWeight="Medium" />
+                    </StackPanel>
+                </Button>
+                <Button Width="140"  Height="35" Style="{StaticResource SetLanguagePopUpButtonStyle}" x:Name="SetPolishPopUpButton" Click="SetPolishPopUp_Click" Foreground="#FF696266" BorderBrush="#00707070" HorizontalAlignment="Right" Panel.ZIndex="90" Background="#FFDDDDDD">
+                    <StackPanel  Orientation="Horizontal" Width="138">
+                        <Image Margin="25,0,0,0" Source="/Img/Button/FlagPolishHover.png" Height="15" Width="39" />
+                        <TextBlock Text="{DynamicResource PathSettings_PolishSettingText}" FontSize="11" FontFamily="Montserrat" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFF2F2F2" FontWeight="Medium" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
 
 
-
-            <Button Cursor="Hand" x:Name="LoginButton" Content="POŁĄCZ PORTFEL" Click="InstallButton_Click" Height="46" Width="338" FontSize="16" FontWeight="Bold" Margin="0,419,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" FontFamily="Montserrat" BorderBrush="#00844646" Foreground="#FFF2F2F2">
+            <Button Cursor="Hand" x:Name="LoginButton" Content="{DynamicResource LoginWindow_LoginButton}" Click="InstallButton_Click" Height="46" Width="338" FontSize="16" FontWeight="Bold" Margin="0,419,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" FontFamily="Montserrat" BorderBrush="#00844646" Foreground="#FFF2F2F2">
                 <Button.Background>
                     <ImageBrush ImageSource="Img/Button/ContinueButton.png"/>
                 </Button.Background>
             </Button>
-            <TextBlock x:Name="CurrentActionText" Text="Logowanie portfelem" FontSize="24" Margin="78,136,0,0" Foreground="#FFF2F2F2" FontFamily="Montserrat" TextTrimming="CharacterEllipsis" LineStackingStrategy="BlockLineHeight" TextWrapping="WrapWithOverflow" TextAlignment="Center" Width="338" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <TextBlock x:Name="CurrentActionText" Text="{DynamicResource LoginWindow_CurrentActionText}" FontSize="24" Margin="78,136,0,0" Foreground="#FFF2F2F2" FontFamily="Montserrat" TextTrimming="CharacterEllipsis" LineStackingStrategy="BlockLineHeight" TextWrapping="WrapWithOverflow" TextAlignment="Center" Width="338" HorizontalAlignment="Left" VerticalAlignment="Center"/>
             <TextBlock x:Name="LauncherVersionText" Text="V1.0.2" FontSize="16" Margin="0,554,0,10" Foreground="#66F2F2F2" FontFamily="Montserrat" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" LineStackingStrategy="BlockLineHeight" TextWrapping="WrapWithOverflow" Visibility="Hidden"/>
         </Grid>
     </Viewbox>

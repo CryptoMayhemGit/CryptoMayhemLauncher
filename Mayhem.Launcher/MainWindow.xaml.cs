@@ -89,6 +89,12 @@ namespace Mayhem.Launcher
             };
         }
 
+        public void UpdateLocalization()
+        {
+            localizationService.SetLocalization(this);
+            SetLanguageImage();
+        }
+
         private void SetWalletText()
         {
             string wallet = settingsFileService.GetContent().Wallet;

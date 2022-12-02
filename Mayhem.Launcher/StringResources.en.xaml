@@ -15,4 +15,10 @@
     <system:String x:Key="PathSettings_PolishSettingText">Polish</system:String>
     <system:String x:Key="PathSettings_InstallButton">INSTALL</system:String>
     
+    <system:String x:Key="LoginWindow_EnglishSettingText">English</system:String>
+    <system:String x:Key="LoginWindow_PolishSettingText">Polish</system:String>
+
+    <system:String x:Key="LoginWindow_CurrentActionText">Wallet login</system:String>
+    <system:String x:Key="LoginWindow_LoginButton">LINK WALLET</system:String>
+
 </ResourceDictionary>

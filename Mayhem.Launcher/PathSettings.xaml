@@ -54,13 +54,13 @@
                 <Button Width="140" Height="35" Style="{StaticResource SetLanguagePopUpButtonStyle}" x:Name="SetEnglishPopUpButton" Click="SetEnglishPopUp_Click" Foreground="#FF696266" BorderBrush="#00707070" HorizontalAlignment="Right" Panel.ZIndex="90" Background="#FFDDDDDD">
                     <StackPanel  Orientation="Horizontal" Width="140">
                         <Image Margin="25,0,0,0" Source="/Img/Button/FlagEnglishHover.png" Height="15" Width="39" />
-                        <TextBlock Text="{DynamicResource PathSettings_EnglishSettingText}" FontSize="11" FontFamily="Montserrat" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFF2F2F2" FontWeight="Medium" />
+                        <TextBlock Text="{DynamicResource LoginWindow_EnglishSettingText}" FontSize="11" FontFamily="Montserrat" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFF2F2F2" FontWeight="Medium" />
                     </StackPanel>
                 </Button>
                 <Button Width="140"  Height="35" Style="{StaticResource SetLanguagePopUpButtonStyle}" x:Name="SetPolishPopUpButton" Click="SetPolishPopUp_Click" Foreground="#FF696266" BorderBrush="#00707070" HorizontalAlignment="Right" Panel.ZIndex="90" Background="#FFDDDDDD">
                     <StackPanel  Orientation="Horizontal" Width="138">
                         <Image Margin="25,0,0,0" Source="/Img/Button/FlagPolishHover.png" Height="15" Width="39" />
-                        <TextBlock Text="{DynamicResource PathSettings_PolishSettingText}" FontSize="11" FontFamily="Montserrat" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFF2F2F2" FontWeight="Medium" />
+                        <TextBlock Text="{DynamicResource LoginWindow_PolishSettingText}" FontSize="11" FontFamily="Montserrat" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFF2F2F2" FontWeight="Medium" />
                     </StackPanel>
                 </Button>
             </StackPanel>
