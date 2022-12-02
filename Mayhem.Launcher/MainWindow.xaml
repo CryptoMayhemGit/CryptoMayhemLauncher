@@ -20,46 +20,15 @@
                 <ResourceDictionary.MergedDictionaries>
                     <ResourceDictionary Source="ResourcesDirectorys/Button/QuitButtonStyle.xaml"/>
                     <ResourceDictionary Source="ResourcesDirectorys/Button/MinimalizeButtonStyle.xaml"/>
+                    <ResourceDictionary Source="ResourcesDirectorys/Button/PlayTDSButtonStyle.xaml"/>
+                    <ResourceDictionary Source="ResourcesDirectorys/Button/SettingsButtonStyle.xaml"/>
+                    <ResourceDictionary Source="ResourcesDirectorys/Button/DisableBackgroundButtonStyle.xaml"/>
+                    <ResourceDictionary Source="ResourcesDirectorys/Button/InstallButtonStyle.xaml"/>
                 </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
         </Grid.Resources>
-        
-        <Button x:Name="DisableBackgroundButton" Click="DisableBackground_Click" Foreground="#FF696266" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Right" Padding="10,1,21,1" RenderTransformOrigin="0.525,0.75" BorderBrush="#00707070" Panel.ZIndex="20">
-            <Button.Style>
-                <Style TargetType="{x:Type Button}">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="Button">
-                                <Border
-                                    x:Name="border"
-                                    BorderThickness="0"
-                                    CornerRadius="0"
-                                    TextBlock.Foreground="White">
-                                    <Grid>
-                                        <Image
-                                            x:Name="buttonImage"
-                                            Source="/Img/DisableBackground.png"
-                                            Stretch="UniformToFill" />
-                                        <ContentPresenter
-                                            Margin="{TemplateBinding Padding}"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center" />
-                                    </Grid>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="true">
-                                        <Setter TargetName="border" Property="Background" Value="#00FF0000" />
-                                        <Setter TargetName="border" Property="BorderBrush" Value="#00FF0000" />
-                                        <Setter TargetName="buttonImage" Property="Source" Value="/Img/DisableBackground.png" />
 
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Button.Style>
-        </Button>
+        <Button Style="{StaticResource DisableBackgroundButtonStyle}" x:Name="DisableBackgroundButton" Click="DisableBackground_Click" Foreground="#FF696266" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Right" Padding="10,1,21,1" RenderTransformOrigin="0.525,0.75" BorderBrush="#00707070" Panel.ZIndex="20" />
 
 
 
@@ -231,45 +200,8 @@
 
         <Button Style="{StaticResource QuitButtonStyle}" x:Name="QuitButton" Click="QuitButton_Click" Height="45" Width="45" Foreground="#FF696266" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Right" Padding="10,1,21,1" RenderTransformOrigin="0.525,0.75" BorderBrush="#00707070" />
         <Button Style="{StaticResource MinimalizeButtonStyle}" x:Name="MinimalizeButton" Click="MinimalizeButton_Click" Height="45" Width="45" Foreground="#FF696266" Margin="0,0,45,0" VerticalAlignment="Top" HorizontalAlignment="Right" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" BorderBrush="#00707070" />
-        
-        <Button Cursor="Hand" x:Name="SettingsButton" Click="SettingsButton_Click" Height="26" Width="25" Foreground="#FF696266" Margin="0,21,337,0" VerticalAlignment="Top" HorizontalAlignment="Right" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" BorderBrush="#00707070">
-            <Button.Style>
-                <Style TargetType="{x:Type Button}">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="Button">
-                                <Border
-                                    x:Name="border"
-                                    Background="#00FF0000"
-                                    BorderBrush="#000000FF"
-                                    BorderThickness="0"
-                                    CornerRadius="0"
-                                    TextBlock.Foreground="White">
-                                    <Grid>
-                                        <Image
-                                            x:Name="buttonImage"
-                                            Source="/Img/Button/SettingsIconClick.png"
-                                            Stretch="UniformToFill" />
-                                        <ContentPresenter
-                                            Margin="{TemplateBinding Padding}"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center" />
-                                    </Grid>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="true">
-                                        <Setter TargetName="border" Property="Background" Value="#00FF0000" />
-                                        <Setter TargetName="border" Property="BorderBrush" Value="#00FF0000" />
-                                        <Setter TargetName="buttonImage" Property="Source" Value="/Img/Button/SettingsIconHover.png" />
 
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Button.Style>
-        </Button>
+        <Button Style="{StaticResource SettingsButtonStyle}" x:Name="SettingsButton" Click="SettingsButton_Click" Height="26" Width="25" Foreground="#FF696266" Margin="0,21,337,0" VerticalAlignment="Top" HorizontalAlignment="Right" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" BorderBrush="#00707070" />
 
         <TextBlock x:Name="InstalledGameListTitleText" Text="MOJE GRY" Margin="35,137,1312,645" FontSize="24" Foreground="#FFF2F2F2" FontFamily="Nulshock Rg"/>
 
@@ -305,36 +237,8 @@
                         <TextBlock  x:Name="TopDownShooterGameVersionStatusText" Text="Aktualna" FontSize="16" Foreground="#FF00D62E" FontFamily="Montserrat" Width="124"/>
                     </StackPanel>
                 </StackPanel>
-                <Button Cursor="Hand" x:Name="InstallButtonx" Click="InstallButton_Click" Height="33.75" Width="135.75" Foreground="#FF696266" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" BorderBrush="#00707070" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                <Button Style="{StaticResource PlayTDSButtonStyle}" x:Name="PlayButton" Click="PlayButton_Click" Height="33.75" Width="135.75" Foreground="#FF696266" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" BorderBrush="#00707070" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                     <TextBlock FontSize="13" FontFamily="Montserrat" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFF2F2F2" FontWeight="Medium">GRAJ</TextBlock>
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type Button}">
-                                        <Border
-                                    x:Name="border"
-                                    Background="#00FF0000"
-                                    BorderBrush="#000000FF"
-                                    BorderThickness="0"
-                                    CornerRadius="0"
-                                    TextBlock.Foreground="White">
-                                            <Grid>
-                                                <Image
-                                            x:Name="buttonImage"
-                                            Source="/Img/Button/ButtonBorderActive.png"
-                                            Stretch="UniformToFill" />
-                                                <ContentPresenter
-                                            Margin="{TemplateBinding Padding}"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center" />
-                                            </Grid>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </Button.Style>
                 </Button>
             </StackPanel>
         </StackPanel>
@@ -347,36 +251,8 @@
             <StackPanel Margin="33,0,0,-155" Orientation="Vertical" Height="111" Width="299">
                 <TextBlock Text="TOP-DOWN SHOOTER" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="60" Width="269"/>
 
-                <Button Cursor="Hand" x:Name="InstallButton" Click="InstallButton_Click" Height="33.75" Width="135.75" Foreground="#FF696266" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" BorderBrush="#00707070" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                <Button Style="{StaticResource InstallButtonStyle}" x:Name="InstallButton" Click="InstallButton_Click" Height="33.75" Width="135.75" Foreground="#FF696266" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" BorderBrush="#00707070" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                     <TextBlock FontSize="13" FontFamily="Montserrat" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFF2F2F2" FontWeight="Medium">ZAINSTALUJ</TextBlock>
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type Button}">
-                                        <Border
-                                    x:Name="border"
-                                    Background="#00FF0000"
-                                    BorderBrush="#000000FF"
-                                    BorderThickness="0"
-                                    CornerRadius="0"
-                                    TextBlock.Foreground="White">
-                                            <Grid>
-                                                <Image
-                                            x:Name="buttonImage"
-                                            Source="/Img/Button/ButtonBorderActive.png"
-                                            Stretch="UniformToFill" />
-                                                <ContentPresenter
-                                            Margin="{TemplateBinding Padding}"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center" />
-                                            </Grid>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </Button.Style>
                 </Button>
 
             </StackPanel>
