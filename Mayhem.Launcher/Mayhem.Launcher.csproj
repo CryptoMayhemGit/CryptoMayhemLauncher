@@ -259,11 +259,13 @@
     <Compile Include="Helpers\ResourceAccessor.cs" />
     <Compile Include="Interfaces\ISqurrielHandleEvents.cs" />
     <Compile Include="Interfaces\ILocalizationService.cs" />
+    <Compile Include="LoginWindowStatus.cs" />
     <Compile Include="LauncherStatus.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\AuthorizationApiRequest.cs" />
+    <Compile Include="Models\AuthorizationErrorApiResponse.cs" />
     <Compile Include="Models\AuthorizationApiResponse.cs" />
     <Compile Include="PathSettings.xaml.cs">
       <DependentUpon>PathSettings.xaml</DependentUpon>

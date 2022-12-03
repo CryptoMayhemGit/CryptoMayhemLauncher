@@ -5,7 +5,6 @@
         ready,
         failed,
         install,
-        updateGame,
-        downloadingUpdate
+        updateGame
     }
 }

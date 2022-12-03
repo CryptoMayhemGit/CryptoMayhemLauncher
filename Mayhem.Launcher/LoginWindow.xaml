@@ -75,13 +75,27 @@
                 </Button>
             </StackPanel>
 
+            <StackPanel x:Name="UpdateStackPanel" Visibility="Hidden">
+            </StackPanel>
+            <StackPanel x:Name="NotInvestorStackPanel" Visibility="Hidden">
+            </StackPanel>
+            <StackPanel x:Name="ErrorStackPanel" Visibility="Hidden">
+            </StackPanel>
+            <StackPanel x:Name="ConnectionProblemStackPanel" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,300,0,0" Width="435" Visibility="Hidden">
+                <Image Margin="0,0,0,0" Source="/Img/OfflineIconGlow.png" Height="104" Width="120" />
+                <TextBlock Margin="0,25,0,0" x:Name="NoInternetTitleTextBlock" Text="{DynamicResource LoginWindow_NoInternetTitleTextBlock}" FontSize="20" Foreground="#FF36FAF8" FontFamily="Montserrat" TextWrapping="WrapWithOverflow" Width="338" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" FontWeight="Medium"/>
+                <TextBlock Margin="0,15,0,0" x:Name="NoInternetDescriptionTextBlock" Text="{DynamicResource LoginWindow_NoInternetDescriptionTextBlock}" FontSize="20" Foreground="#FFF2F2F2" FontFamily="Montserrat" TextWrapping="WrapWithOverflow" Width="428" HorizontalAlignment="Center" TextAlignment="Center"/>
+            </StackPanel>
+            
+            <StackPanel x:Name="AuthorizationStackPanel" Visibility="Hidden">
+                <Button Cursor="Hand" x:Name="LoginButton" Content="{DynamicResource LoginWindow_LoginButton}" Click="GoToWebAuthorizationButton_Click" Height="46" Width="338" FontSize="16" FontWeight="Bold" Margin="0,419,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" FontFamily="Montserrat" BorderBrush="#00844646" Foreground="#FFF2F2F2">
+                    <Button.Background>
+                        <ImageBrush ImageSource="Img/Button/ContinueButton.png"/>
+                    </Button.Background>
+                </Button>
+                <TextBlock x:Name="CurrentActionText" Text="Wallet login" FontSize="24" Margin="75,-231,0,0" Foreground="#FFF2F2F2" FontFamily="Montserrat" TextTrimming="CharacterEllipsis" LineStackingStrategy="BlockLineHeight" TextWrapping="WrapWithOverflow" TextAlignment="Center" Width="338" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            </StackPanel>
 
-            <Button Cursor="Hand" x:Name="LoginButton" Content="{DynamicResource LoginWindow_LoginButton}" Click="InstallButton_Click" Height="46" Width="338" FontSize="16" FontWeight="Bold" Margin="0,419,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" FontFamily="Montserrat" BorderBrush="#00844646" Foreground="#FFF2F2F2">
-                <Button.Background>
-                    <ImageBrush ImageSource="Img/Button/ContinueButton.png"/>
-                </Button.Background>
-            </Button>
-            <TextBlock x:Name="CurrentActionText" Text="{DynamicResource LoginWindow_CurrentActionText}" FontSize="24" Margin="78,136,0,0" Foreground="#FFF2F2F2" FontFamily="Montserrat" TextTrimming="CharacterEllipsis" LineStackingStrategy="BlockLineHeight" TextWrapping="WrapWithOverflow" TextAlignment="Center" Width="338" HorizontalAlignment="Left" VerticalAlignment="Center"/>
             <TextBlock x:Name="LauncherVersionText" Text="V1.0.2" FontSize="16" Margin="0,554,0,10" Foreground="#66F2F2F2" FontFamily="Montserrat" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" LineStackingStrategy="BlockLineHeight" TextWrapping="WrapWithOverflow" Visibility="Hidden"/>
         </Grid>
     </Viewbox>

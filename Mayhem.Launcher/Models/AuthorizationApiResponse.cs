@@ -1,6 +1,6 @@
 ﻿namespace Mayhem.Launcher.Models
 {
-    public class AuthorizationApiResponse
+    public class AuthorizationSuccesApiResponse
     {
         public string Wallet { get; set; }
     }

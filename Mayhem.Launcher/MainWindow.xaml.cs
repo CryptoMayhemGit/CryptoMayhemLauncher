@@ -127,7 +127,7 @@ namespace Mayhem.Launcher
             gameExe = rootPath + $"\\Crypto Mayhem.exe";
         }
 
-        private void RunDispatcherTimerJob()
+        private void RunDispatcherTimerJob()//TODO wyłączyć jeżeli okno nie będzie aktywne?
         {
             DispatcherTimer dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);

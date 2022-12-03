@@ -1,5 +1,4 @@
 ﻿using CryptoMayhemLauncher.Interfaces;
-using CryptoMayhemLauncher.Services;
 using Mayhem.Launcher.Helpers;
 using Mayhem.Launcher.Models;
 using Microsoft.Extensions.Logging;
@@ -15,6 +14,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace Mayhem.Launcher
 {
@@ -42,12 +42,95 @@ namespace Mayhem.Launcher
             Initialize();
         }
 
+
+        private LoginWindowStatus status;
+        public LoginWindowStatus Status
+        {
+            get => status;
+            set
+            {
+                status = value;
+                switch (status)
+                {
+                    case LoginWindowStatus.Login:
+                        {
+                            SetLoginContent();
+                            SetActiveStackPanelVisability(nameof(AuthorizationStackPanel));
+                            break;
+                        }
+                    case LoginWindowStatus.WaitingForBackend:
+                        {
+                            SetWaitingContent();
+                            SetActiveStackPanelVisability(nameof(AuthorizationStackPanel));
+                            break;
+                        }
+                    case LoginWindowStatus.Error:
+                        {
+                            SetActiveStackPanelVisability(nameof(ErrorStackPanel));
+                            break;
+                        }
+                    case LoginWindowStatus.ConnectionLost:
+                        {
+                            SetActiveStackPanelVisability(nameof(ConnectionProblemStackPanel));
+                            break;
+                        }
+                    case LoginWindowStatus.NotInvestor:
+                        {
+                            SetActiveStackPanelVisability(nameof(NotInvestorStackPanel));
+                            break;
+                        }
+                    case LoginWindowStatus.Update:
+                        {
+                            SetActiveStackPanelVisability(nameof(UpdateStackPanel));
+                            break;
+                        }
+                    default:
+                        {
+                            SetActiveStackPanelVisability(nameof(ErrorStackPanel));
+                            loggerLoginWindow.LogError($"MSG9: Missing State: {status}");
+                            break;
+                        }
+                }
+            }
+        }
+
+        private void SetActiveStackPanelVisability(string activePanelName)
+        {
+            if (activePanelName == nameof(AuthorizationStackPanel))
+                AuthorizationStackPanel.Visibility = Visibility.Visible;
+            else
+                AuthorizationStackPanel.Visibility = Visibility.Hidden;
+
+            if (activePanelName == nameof(ErrorStackPanel))
+                ErrorStackPanel.Visibility = Visibility.Visible;
+            else
+                ErrorStackPanel.Visibility = Visibility.Hidden;
+
+            if (activePanelName == nameof(ConnectionProblemStackPanel))
+                ConnectionProblemStackPanel.Visibility = Visibility.Visible;
+            else
+                ConnectionProblemStackPanel.Visibility = Visibility.Hidden;
+
+            if (activePanelName == nameof(NotInvestorStackPanel))
+                NotInvestorStackPanel.Visibility = Visibility.Visible;
+            else
+                NotInvestorStackPanel.Visibility = Visibility.Hidden;
+
+            if (activePanelName == nameof(UpdateStackPanel))
+                UpdateStackPanel.Visibility = Visibility.Visible;
+            else
+                UpdateStackPanel.Visibility = Visibility.Hidden;
+        }
+
         private void Initialize()
         {
             AuthorizationManager += SetTicketContentText;
             AuthorizationManager += RunProcess;
             localizationService.SetLocalization(this);
-            InitializeComponent(); 
+            InitializeComponent();
+            Status = LoginWindowStatus.Login;
+
+            RunDispatcherTimerJob();
             SetDefaultLanguageImage();
             Loaded += (s, e) =>
             {
@@ -64,11 +147,40 @@ namespace Mayhem.Launcher
             SetDefaultLanguageImage();
         }
 
+        private void RunDispatcherTimerJob()//TODO wyłączyć jeżeli okno nie będzie aktywne?
+        {
+            DispatcherTimer dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 5);
+            dispatcherTimer.Start();
+        }
+
+        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            if (UnsafeNative.IsConnectedToInternet() == false)
+            {
+                Status = LoginWindowStatus.ConnectionLost;
+            }
+            else if (Status == LoginWindowStatus.ConnectionLost)
+            {
+                //check Launcher update TODO
+                if (Status == LoginWindowStatus.ConnectionLost)
+                {
+                    Status = LoginWindowStatus.Login;
+                }
+            }
+        }
+
         private async void RunProcess(string ticket)
         {
+            if (UnsafeNative.IsConnectedToInternet() == false)
+            {
+                Status = LoginWindowStatus.ConnectionLost;
+                return;
+            }
+
             try
             {
-                //this.WindowState = WindowState.Normal;
                 AuthorizationApiRequest authorizationApiRequest = new AuthorizationApiRequest
                 {
                     Ticket = ticket,
@@ -78,11 +190,11 @@ namespace Mayhem.Launcher
 
                 var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await httpClient.PostAsync($"https://mayhemtdsauthorizationapi.azurewebsites.net/api/Authorization/Login", content);
+                var apiResult = await response.Content.ReadAsStringAsync();
                 if (response.IsSuccessStatusCode)
                 {
-                    var apiResult = await response.Content.ReadAsStringAsync();
 
-                    AuthorizationApiResponse authorizationApiResponse = JsonConvert.DeserializeObject<AuthorizationApiResponse>(apiResult);
+                    AuthorizationSuccesApiResponse authorizationApiResponse = JsonConvert.DeserializeObject<AuthorizationSuccesApiResponse>(apiResult);
 
                     settingsFileService.UpdateWallet(authorizationApiResponse.Wallet);
                     navigationService.Show<MainWindow>();
@@ -90,17 +202,40 @@ namespace Mayhem.Launcher
                 }
                 else
                 {
-                    loggerLoginWindow.LogError($"MSG1: Error occured during Mayhem Auth Api on AuthRunProcess: {ticket}");
+                    AuthorizationErrorApiResponse authorizationErrorApiResponse = JsonConvert.DeserializeObject<AuthorizationErrorApiResponse>(apiResult);
+
+                    if(authorizationErrorApiResponse.Code == "ACCESS_DENIED")
+                    {
+                        Status = LoginWindowStatus.NotInvestor;
+                        loggerLoginWindow.LogError($"Is not an investor: {ticket}");
+                    }
+                    else
+                    {
+                        Status = LoginWindowStatus.Error;
+                        loggerLoginWindow.LogError($"MSG1: Error occured during Mayhem Auth Api on AuthRunProcess: {ticket}");
+                    }
                 }
             }
             catch (Exception ex)
             {
+                if (UnsafeNative.IsConnectedToInternet() == false)
+                {
+                    Status = LoginWindowStatus.ConnectionLost;
+                    return;
+                }
+
+                Status = LoginWindowStatus.Error;
                 loggerLoginWindow.LogError(ex, $"MSG2: Error occured during Mayhem Auth Api on AuthRunProcess: {ticket}, ExceptionMessage: {ex.Message}");
             }
         }
 
         private async void LoginWindowLoaded(object sender, RoutedEventArgs e)
         {
+            if (UnsafeNative.IsConnectedToInternet() == false)
+            {
+                Status = LoginWindowStatus.ConnectionLost;
+                return;
+            }
 
             //UpdateManager manager = await UpdateManager.GitHubUpdateManager(@"https://github.com/PawelSpionkowskiAdriaGames/LauncherTest");
 
@@ -172,9 +307,9 @@ namespace Mayhem.Launcher
             Application.Current.Shutdown();
         }
 
-        private void InstallButton_Click(object sender, RoutedEventArgs e)
+        private void GoToWebAuthorizationButton_Click(object sender, RoutedEventArgs e)
         {
-            SetWaitingContent();
+            Status = LoginWindowStatus.WaitingForBackend;
             GoToLoginPage();
         }
 
@@ -184,14 +319,48 @@ namespace Mayhem.Launcher
             this.DragMove();
         }
 
+
+
         private void SetWaitingContent()
         {
-            CurrentActionText.Text = "Oczekiwanie na połączenie z portfelem ...";
-            LoginButton.Content = "SPRÓBUJ PONOWNIE";
+            string currentLocalization = localizationService.GetDefaultLanguage();
+
+            if(currentLocalization == "pl")
+            {
+                CurrentActionText.Text = "Oczekiwanie na połączenie z portfelem ...";
+                LoginButton.Content = "SPRÓBUJ PONOWNIE";
+            }
+            else
+            {
+                CurrentActionText.Text = "Waiting for connection to wallet ...";
+                LoginButton.Content = "TRY AGAIN";
+            }
         }
 
-        private static void GoToLoginPage()
+        private void SetLoginContent()
         {
+            string currentLocalization = localizationService.GetDefaultLanguage();
+
+            if (currentLocalization == "pl")
+            {
+                CurrentActionText.Text = "Logowanie portfelem";
+                LoginButton.Content = "POŁĄCZ PORTFEL";
+            }
+            else
+            {
+                CurrentActionText.Text = "Wallet login";
+                LoginButton.Content = "CONNECT WALLET";
+            }
+        }
+
+        private void GoToLoginPage()
+        {
+            if(UnsafeNative.IsConnectedToInternet() == false)
+            {
+                Status = LoginWindowStatus.ConnectionLost;
+                return;
+            }
+
             string url = "https://play.cryptomayhem.io/launcher/";
             Process.Start(new ProcessStartInfo
             {
@@ -220,6 +389,7 @@ namespace Mayhem.Launcher
             OpenLocalizationPopUpImage.Source = new BitmapImage(ResourceAccessor.Get("Img/Button/FlagEnglishHover.png"));
             settingsFileService.SetCurrentCulture("en");
             localizationService.SetLocalization(this);
+            RefreshLoginContent();
         }
 
         private void SetPolishPopUp_Click(object sender, RoutedEventArgs e)
@@ -228,6 +398,16 @@ namespace Mayhem.Launcher
             OpenLocalizationPopUpImage.Source = new BitmapImage(ResourceAccessor.Get("Img/Button/FlagPolishHover.png"));
             settingsFileService.SetCurrentCulture("pl");
             localizationService.SetLocalization(this);
+            RefreshLoginContent();
+        }
+
+
+        private void RefreshLoginContent()
+        {
+            if(Status == LoginWindowStatus.Login || Status == LoginWindowStatus.WaitingForBackend)
+            {
+                Status = Status;
+            }
         }
 
         private void SetDefaultLanguageImage()

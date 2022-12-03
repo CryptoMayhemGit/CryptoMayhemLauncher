@@ -29,6 +29,7 @@ namespace CryptoMayhemLauncher.Services
 
                     if (w is LoginWindow)
                     {
+                        ((LoginWindow)w).Status = LoginWindowStatus.Login;
                         ((LoginWindow)w).UpdateLocalization();
                     }
                     else if (w is MainWindow)

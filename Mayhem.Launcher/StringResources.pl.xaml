@@ -17,7 +17,7 @@
     
     <system:String x:Key="LoginWindow_EnglishSettingText">Angielski</system:String>
     <system:String x:Key="LoginWindow_PolishSettingText">Polski</system:String>
-    
-    <system:String x:Key="LoginWindow_CurrentActionText">Logowanie portfelem</system:String>
-    <system:String x:Key="LoginWindow_LoginButton">POŁĄCZ PORTFEL</system:String>
+
+    <system:String x:Key="LoginWindow_NoInternetTitleTextBlock">Brak Internetu</system:String>
+    <system:String x:Key="LoginWindow_NoInternetDescriptionTextBlock">Logowanie portfelem wymaga połączenia się z Internetem.</system:String>
 </ResourceDictionary>
