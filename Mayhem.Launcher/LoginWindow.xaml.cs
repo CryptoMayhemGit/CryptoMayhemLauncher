@@ -6,9 +6,11 @@ using Newtonsoft.Json;
 using Squirrel;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -27,11 +29,15 @@ namespace Mayhem.Launcher
         private readonly ILogger<LoginWindow> loggerLoginWindow;
         private static event ChangeText_Handler AuthorizationManager;
         private readonly ISettingsFileService settingsFileService;
+        private readonly ISqurrielHandleEvents squrrielHandleEvents;
         private readonly INavigationService navigationService;
         private readonly ILocalizationService localizationService;
 
-        public LoginWindow(IHttpClientFactory httpClientFactory, ILogger<LoginWindow> loggerLoginWindow, ISettingsFileService settingsFileService, INavigationService navigationService, ILocalizationService localizationService)
+        private UpdateManager manager;
+
+        public LoginWindow(ISqurrielHandleEvents squrrielHandleEvents, IHttpClientFactory httpClientFactory, ILogger<LoginWindow> loggerLoginWindow, ISettingsFileService settingsFileService, INavigationService navigationService, ILocalizationService localizationService)
         {
+            this.squrrielHandleEvents = squrrielHandleEvents;
             this.settingsFileService = settingsFileService;
             this.navigationService = navigationService;
             this.localizationService = localizationService;
@@ -112,9 +118,17 @@ namespace Mayhem.Launcher
                 ConnectionProblemStackPanel.Visibility = Visibility.Hidden;
 
             if (activePanelName == nameof(NotInvestorStackPanel))
+            {
+                LoginWindowLogo.Visibility = Visibility.Hidden;
+                LoginWindowBackground.Source = new BitmapImage(ResourceAccessor.Get("Img/LoadingLageNoInvestorBackground.JPG"));
                 NotInvestorStackPanel.Visibility = Visibility.Visible;
+            }
             else
+            {
+                LoginWindowLogo.Visibility = Visibility.Visible;
+                LoginWindowBackground.Source = new BitmapImage(ResourceAccessor.Get("Img/PathSettingsBackgroundBlur.png"));
                 NotInvestorStackPanel.Visibility = Visibility.Hidden;
+            }
 
             if (activePanelName == nameof(UpdateStackPanel))
                 UpdateStackPanel.Visibility = Visibility.Visible;
@@ -128,8 +142,6 @@ namespace Mayhem.Launcher
             AuthorizationManager += RunProcess;
             localizationService.SetLocalization(this);
             InitializeComponent();
-            Status = LoginWindowStatus.Login;
-
             RunDispatcherTimerJob();
             SetDefaultLanguageImage();
             Loaded += (s, e) =>
@@ -237,15 +249,32 @@ namespace Mayhem.Launcher
                 return;
             }
 
-            //UpdateManager manager = await UpdateManager.GitHubUpdateManager(@"https://github.com/PawelSpionkowskiAdriaGames/LauncherTest");
+            manager = await UpdateManager.GitHubUpdateManager(@"https://github.com/PawelSpionkowskiAdriaGames/LauncherTest");
 
             try
             {
-                //SetVersion(manager);
+                SetVersion(manager);
+
+                await CheckUpdateOrStart();
             }
             catch (Exception ex)
             {
                 loggerLoginWindow.LogError($"Current version is not uploaded on GitHub. Error Message: {ex.Message}");
+            }
+        }
+
+        private async Task CheckUpdateOrStart()
+        {
+            var updateInfo = await manager.CheckForUpdate();
+            
+            if (updateInfo.ReleasesToApply.Count > 0)
+            {
+                Status = LoginWindowStatus.Update;
+                await UpdateApplication();
+            }
+            else
+            {
+                Status = LoginWindowStatus.Login;
             }
         }
 
@@ -369,6 +398,38 @@ namespace Mayhem.Launcher
             });
         }
 
+        private void GoToSupportPage()
+        {
+            if (UnsafeNative.IsConnectedToInternet() == false)
+            {
+                Status = LoginWindowStatus.ConnectionLost;
+                return;
+            }
+
+            string url = "https://t.me/CryptoMayhemTechnicalSupport/";
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = url,
+                UseShellExecute = true
+            });
+        }
+
+        private void GoToProjectInformation()
+        {
+            if (UnsafeNative.IsConnectedToInternet() == false)
+            {
+                Status = LoginWindowStatus.ConnectionLost;
+                return;
+            }
+
+            string url = "https://play.cryptomayhem.io/presale/";
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = url,
+                UseShellExecute = true
+            });
+        }
+
         private void OpenLocalizationPopUpButton_Click(object sender, RoutedEventArgs e)
         {
             if (SetLanguagePopUpStackPanel.Visibility == Visibility.Visible)
@@ -420,6 +481,68 @@ namespace Mayhem.Launcher
             {
                 OpenLocalizationPopUpImage.Source = new BitmapImage(ResourceAccessor.Get("Img/Button/FlagEnglishHover.png"));
             }
+        }
+
+        private void GoToSupportButton_Click(object sender, RoutedEventArgs e)
+        {
+            GoToSupportPage();
+        }
+
+        private void GoToLauncherButton_Click(object sender, RoutedEventArgs e)
+        {
+            Status = LoginWindowStatus.Login;
+        }
+
+        private void GoToProjectButton_Click(object sender, RoutedEventArgs e)
+        {
+            GoToProjectInformation();
+        }
+
+        private async Task UpdateApplication()
+        {
+
+            if (UnsafeNative.IsConnectedToInternet() == false)
+            {
+                Status = LoginWindowStatus.ConnectionLost;
+                return;
+            }
+
+
+            try
+            {
+                await manager.UpdateApp();
+
+                /*string executable = Path.Combine(manager.RootAppDirectory,
+                                            string.Concat("app-",
+                                                        LauncherVersionText.Text.Replace("V","")),
+                                            "Mayhem.Launcher.exe");*/
+
+                var updateInfo = await manager.CheckForUpdate();
+
+                string newVersion = string.Concat("app-",
+                                        updateInfo.FutureReleaseEntry.Version.Version.Major, ".",
+                                        updateInfo.FutureReleaseEntry.Version.Version.Minor, ".",
+                                        updateInfo.FutureReleaseEntry.Version.Version.Build);
+                squrrielHandleEvents.UpdateApp(manager, updateInfo.FutureReleaseEntry.Version.Version);
+                string executable = Path.Combine(manager.RootAppDirectory,
+                            newVersion,
+                            "Mayhem.Launcher.exe");
+                loggerLoginWindow.LogInformation("Update version => " + newVersion);
+                loggerLoginWindow.LogInformation("executable " + executable);
+                loggerLoginWindow.LogInformation("1");
+                UpdateManager.RestartApp(executable);
+                loggerLoginWindow.LogInformation("2");
+                Thread.Sleep(1000);
+                loggerLoginWindow.LogInformation("3");
+                Environment.Exit(0);
+                loggerLoginWindow.LogInformation("4");
+            }
+            catch (Exception ex)
+            {
+                Status = LoginWindowStatus.Error;
+                loggerLoginWindow.LogError(ex.Message);
+            }
+
         }
     }
 }

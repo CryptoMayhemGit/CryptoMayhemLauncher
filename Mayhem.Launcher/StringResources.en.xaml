@@ -21,4 +21,16 @@
     <system:String x:Key="LoginWindow_NoInternetTitleTextBlock">No Internet</system:String>
     <system:String x:Key="LoginWindow_NoInternetDescriptionTextBlock">Wallet login need internet connection.</system:String>
 
+    <system:String x:Key="LoginWindow_ErrorTitleTextBlock">Wallet authorization error</system:String>
+    <system:String x:Key="LoginWindow_ErrorButton">TRY AGAIN</system:String>
+    <system:String x:Key="LoginWindow_ErrorDescriptionTextBlock">or</system:String>
+    <system:String x:Key="LoginWindow_GoToSupportTextBlock">Report a problem by our Telegram</system:String>
+
+    <system:String x:Key="LoginWindow_NotInvestorTitleTextBlock">You are not an investor</system:String>
+    <system:String x:Key="LoginWindow_NotInvestorDescriptionTextBlock">Only project investors can play the first version of the game. Welcome soon :)</system:String>
+    <system:String x:Key="LoginWindow_GoToLauncherButton">GO TO LAUNCHER</system:String>
+    <system:String x:Key="LoginWindow_ToBeInvestorTextBlock">Want to become an investor?</system:String>
+    <system:String x:Key="LoginWindow_GoToProjectButton">SEE THE PROJECT</system:String>
+
+    <system:String x:Key="LoginWindow_CheckingUpdatesTextBlock">Checking updates</system:String>
 </ResourceDictionary>

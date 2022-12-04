@@ -22,13 +22,13 @@ namespace CryptoMayhemLauncher.Services
 
         public void SetDefaultConfiguration()
         {
-            /*using (UpdateManager manager = new UpdateManager(@"https://github.com/PawelSpionkowskiAdriaGames/LauncherTest"))
+            using (UpdateManager manager = new UpdateManager(@"https://github.com/PawelSpionkowskiAdriaGames/LauncherTest"))
             {
                 SquirrelAwareApp.HandleEvents(
                  onInitialInstall: v => PrepareApp(manager, v),
                  onAppUpdate: v => UpdateApp(manager, v),
                  onAppUninstall: v => RemoveApp());
-            }*/
+            }
         }
 
         public void UpdateApp(UpdateManager manager, Version v)

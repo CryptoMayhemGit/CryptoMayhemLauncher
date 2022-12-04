@@ -20,4 +20,17 @@
 
     <system:String x:Key="LoginWindow_NoInternetTitleTextBlock">Brak Internetu</system:String>
     <system:String x:Key="LoginWindow_NoInternetDescriptionTextBlock">Logowanie portfelem wymaga połączenia się z Internetem.</system:String>
+
+    <system:String x:Key="LoginWindow_ErrorTitleTextBlock">Błąd autoryzacji portfela</system:String>
+    <system:String x:Key="LoginWindow_ErrorButton">SPRÓBUJ PONOWNIE</system:String>
+    <system:String x:Key="LoginWindow_ErrorDescriptionTextBlock">lub</system:String>
+    <system:String x:Key="LoginWindow_GoToSupportTextBlock">Zgłoś problem przez nasz Telegram</system:String>
+
+    <system:String x:Key="LoginWindow_NotInvestorTitleTextBlock">Nie jesteś inwestorem</system:String>
+    <system:String x:Key="LoginWindow_NotInvestorDescriptionTextBlock">W pierwszą wersję gry mogą zagrać tylko inwestorzy projektu. Zapraszamy wkrótce :)</system:String>
+    <system:String x:Key="LoginWindow_GoToLauncherButton">PRZEJDŹ DO LAUNCHERA</system:String>
+    <system:String x:Key="LoginWindow_ToBeInvestorTextBlock">Chcesz zostać inwestorem?</system:String>
+    <system:String x:Key="LoginWindow_GoToProjectButton">POZNAJ PROJEKT</system:String>
+
+    <system:String x:Key="LoginWindow_CheckingUpdatesTextBlock">Sprawdzanie aktualizacji</system:String>
 </ResourceDictionary>

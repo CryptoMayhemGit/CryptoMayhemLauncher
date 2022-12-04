@@ -24,18 +24,16 @@ namespace Mayhem.Launcher
         private readonly IVersionService versionService;
         private readonly ISettingsFileService settingsFileService;
         private readonly ILocalizationService localizationService;
-        private readonly ISqurrielHandleEvents squrrielHandleEvents;
         private readonly INavigationService navigationService;
         private readonly ILogger<MainWindow> loggerMainWindow;
 
         private UpdateManager manager;
 
-        public MainWindow(INavigationService navigationService, ISqurrielHandleEvents squrrielHandleEvents, ISettingsFileService settingsFileService, IVersionService versionService, ILogger<MainWindow> loggerMainWindow, ILocalizationService localizationService)
+        public MainWindow(INavigationService navigationService, ISettingsFileService settingsFileService, IVersionService versionService, ILogger<MainWindow> loggerMainWindow, ILocalizationService localizationService)
         {
             this.navigationService = navigationService;
             this.loggerMainWindow = loggerMainWindow;
             this.settingsFileService = settingsFileService;
-            this.squrrielHandleEvents = squrrielHandleEvents;
             this.versionService = versionService;
             this.localizationService = localizationService;
             Initialize();
@@ -306,12 +304,12 @@ namespace Mayhem.Launcher
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             SetMetodOnTop();
-            //manager = await UpdateManager
-            //    .GitHubUpdateManager(@"https://github.com/PawelSpionkowskiAdriaGames/LauncherTest");
+            manager = await UpdateManager
+                .GitHubUpdateManager(@"https://github.com/PawelSpionkowskiAdriaGames/LauncherTest");
 
             try
             {
-                //CurrentVersionTextBox.Text = $"V{manager.CurrentlyInstalledVersion()}";
+                CurrentVersionTextBox.Text = $"V{manager.CurrentlyInstalledVersion()}";
             }
             catch (Exception ex)
             {
@@ -329,20 +327,6 @@ namespace Mayhem.Launcher
             Topmost = true;
             Topmost = false;
             Focus();
-        }
-
-        private async void CheckForUpdatesButton_Click(object sender, RoutedEventArgs e)
-        {
-            //var updateInfo = await manager.CheckForUpdate();
-            //
-            //if (updateInfo.ReleasesToApply.Count > 0)
-            //{
-            //    //UpdateButton.IsEnabled = true;
-            //}
-            //else
-            //{
-            //    //UpdateButton.IsEnabled = false;
-            //}
         }
 
         private void MinimalizeButton_Click(object sender, RoutedEventArgs e)
@@ -388,38 +372,6 @@ namespace Mayhem.Launcher
                 LogoutButton.Visibility = Visibility.Visible;
             }
         }
-
-        /*
-            await manager.UpdateApp();
-
-
-            try
-            {
-                string executable = Path.Combine(manager.RootAppDirectory,
-                                          string.Concat("app-",
-                                                        CurrentVersionTextBox.Text.Replace("V","")),
-                                          "Mayhem.Launcher.exe");
-
-                var updateInfo = await manager.CheckForUpdate();
-
-                string newVersion = string.Concat("app-",
-                                        updateInfo.FutureReleaseEntry.Version.Version.Major, ".",
-                                        updateInfo.FutureReleaseEntry.Version.Version.Minor, ".",
-                                        updateInfo.FutureReleaseEntry.Version.Version.Build);
-                squrrielHandleEvents.UpdateApp(manager, updateInfo.FutureReleaseEntry.Version.Version);
-                executable = Path.Combine(manager.RootAppDirectory,
-                          newVersion,
-                          "Mayhem.Launcher.exe");
-                loggerMainWindow.LogInformation("Update version => " + newVersion);
-                UpdateManager.RestartApp(executable);
-                Thread.Sleep(1000);
-                Environment.Exit(0);
-            }
-            catch (Exception ex)
-            {
-                loggerMainWindow.LogError(ex.Message);
-            }
-         */
 
         private void InstallButton_Click(object sender, RoutedEventArgs e)
         {
@@ -496,17 +448,20 @@ namespace Mayhem.Launcher
 
         private void ThirdPartyDocuments_Click(object sender, RoutedEventArgs e)
         {
-            GoToWebside("https://www.tenset.io/en");
+            string currentLanguage = localizationService.GetDefaultLanguage();
+            GoToWebside($"https:////cryptomayhem.io/{currentLanguage}/legal-compliance");
         }
 
         private void TermsAndConditions_Click(object sender, RoutedEventArgs e)
         {
-            GoToWebside("https://adriagames.com/");
+            string currentLanguage = localizationService.GetDefaultLanguage();
+            GoToWebside($"https:////cryptomayhem.io/{currentLanguage}/terms-and-conditions");
         }
 
         private void PrivacyPolicy_Click(object sender, RoutedEventArgs e)
         {
-            GoToWebside("https://comcreo.com/");
+            string currentLanguage = localizationService.GetDefaultLanguage();
+            GoToWebside($"https:////cryptomayhem.io/{currentLanguage}/privacy-policy");
         }
 
         private static void GoToWebside(string url)
