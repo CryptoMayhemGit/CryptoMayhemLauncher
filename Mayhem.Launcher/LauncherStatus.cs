@@ -2,9 +2,10 @@
 {
     enum LauncherStatus
     {
-        ready,
-        failed,
-        install,
-        updateGame
+        Ready,
+        Failed,
+        Install,
+        Update,
+        InProggres
     }
 }

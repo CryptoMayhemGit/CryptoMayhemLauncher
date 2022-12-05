@@ -21,6 +21,7 @@
                         <ResourceDictionary Source="ResourcesDirectorys/Button/QuitButtonStyle.xaml"/>
                         <ResourceDictionary Source="ResourcesDirectorys/Button/MinimalizeButtonStyle.xaml"/>
                         <ResourceDictionary Source="ResourcesDirectorys/Button/PlayTDSButtonStyle.xaml"/>
+                        <ResourceDictionary Source="ResourcesDirectorys/Button/UpdateTDSButtonStyle.xaml"/>
                         <ResourceDictionary Source="ResourcesDirectorys/Button/SettingsButtonStyle.xaml"/>
                         <ResourceDictionary Source="ResourcesDirectorys/Button/DisableBackgroundButtonStyle.xaml"/>
                         <ResourceDictionary Source="ResourcesDirectorys/Button/LogoutButtonStyle.xaml"/>
@@ -33,7 +34,6 @@
             </Grid.Resources>
 
             <Button Style="{StaticResource DisableBackgroundButtonStyle}" x:Name="DisableBackgroundButton" Click="DisableBackground_Click" Foreground="#FF696266" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Right" Padding="10,1,21,1" RenderTransformOrigin="0.525,0.75" BorderBrush="#00707070" Panel.ZIndex="20" Visibility="Hidden" />
-
 
 
             <StackPanel Name="SettingsWindowStackPanel" Panel.ZIndex="30" Width="650.7" Height="334.8" Visibility="Hidden" >
@@ -153,18 +153,18 @@
                 </StackPanel>
                 <StackPanel Name="SettingsLauncherUpdate" Height="100" Width="296" Margin="223,-96,0,0" Visibility="Hidden" Orientation="Horizontal">
                     <TextBlock Name="CurrentVersionTextBox" Text="V1.3.2" FontSize="14" Foreground="#FFF2F2F2" FontFamily="Montserrat"/>
-                    <TextBlock Text="   Aktualna" FontSize="14" Foreground="#FF00D62E" FontFamily="Montserrat" Width="124"/>
+                    <TextBlock Margin="20,0,0,0" x:Name="SettingsLauncherUpdateTextBlock" Text="{DynamicResource MainWindow_SettingsLauncherUpdateTextBlock}" FontSize="14" Foreground="#FF00D62E" FontFamily="Montserrat" Width="124"/>
                 </StackPanel>
 
                 <StackPanel Name="SettingsDocuments" Height="100" Width="296" Margin="223,-114,0,0" Visibility="Hidden" >
                     <Button Style="{StaticResource DisableOnMouseOverButtonStyle}" Cursor="Hand" Background="Transparent" BorderBrush="Transparent" Width="auto" HorizontalAlignment="Left" Margin="0,4,0,4" Click="ThirdPartyDocuments_Click">
-                        <TextBlock HorizontalAlignment="Left" Foreground="#FFF2F2F2" FontFamily="Montserrat" FontSize="14">Strony trzecie</TextBlock>
+                        <TextBlock x:Name="ThirdPartiesDocumentsTextBlock" Text="{DynamicResource MainWindow_ThirdPartiesDocumentsTextBlock}" HorizontalAlignment="Left" Foreground="#FFF2F2F2" FontFamily="Montserrat" FontSize="14" />
                     </Button>
                     <Button Style="{StaticResource DisableOnMouseOverButtonStyle}" Cursor="Hand" Background="Transparent" BorderBrush="Transparent" Width="auto" HorizontalAlignment="Left" Margin="0,4,0,4" Click="TermsAndConditions_Click">
-                        <TextBlock HorizontalAlignment="Left" Foreground="#FFF2F2F2" FontFamily="Montserrat" FontSize="14">Warunki użytkownika</TextBlock>
+                        <TextBlock x:Name="UserTermsDocumentsTextBlock" Text="{DynamicResource MainWindow_UserTermsDocumentsTextBlock}" HorizontalAlignment="Left" Foreground="#FFF2F2F2" FontFamily="Montserrat" FontSize="14" />
                     </Button>
                     <Button Style="{StaticResource DisableOnMouseOverButtonStyle}" Cursor="Hand" Background="Transparent" BorderBrush="Transparent" Width="auto" HorizontalAlignment="Left" Margin="0,4,0,4" Click="PrivacyPolicy_Click">
-                        <TextBlock HorizontalAlignment="Left" Foreground="#FFF2F2F2" FontFamily="Montserrat" FontSize="14">Informacje o polityce prywatności</TextBlock>
+                        <TextBlock x:Name="PrivacyPolicyDocumentsTextBlock" Text="{DynamicResource MainWindow_PrivacyPolicyDocumentsTextBlock}" HorizontalAlignment="Left" Foreground="#FFF2F2F2" FontFamily="Montserrat" FontSize="14" />
                     </Button>
                 </StackPanel>
             </StackPanel>
@@ -220,10 +220,10 @@
                         </Button.Style>
                     </Button>
                     <Image Margin="0,-15,0,10" Source="/img/OfflineIconGlow.png" Width="96" Height="83.2" Stretch="Fill"/>
-                    <TextBlock x:Name="LostConnectionTitleText" Text="Brak Internetu" FontSize="18" Foreground="#FF36FAF8" FontFamily="Montserrat" Height="36" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="SemiBold" />
-                    <TextBlock x:Name="LostConnectionDescriptionText" Text="Niektóre funkcje launchera mogą być niedostępne." FontSize="16" Foreground="#FFF2F2F2" FontFamily="Montserrat" Height="63" HorizontalAlignment="Center" TextWrapping="Wrap" Width="345" TextAlignment="Center" />
+                    <TextBlock x:Name="LostConnectionTitleText" Text="{DynamicResource MainWindow_LostConnectionTitleText}" FontSize="18" Foreground="#FF36FAF8" FontFamily="Montserrat" Height="36" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="SemiBold" />
+                    <TextBlock x:Name="LostConnectionDescriptionText" Text="{DynamicResource MainWindow_LostConnectionDescriptionText}" FontSize="16" Foreground="#FFF2F2F2" FontFamily="Montserrat" Height="63" HorizontalAlignment="Center" TextWrapping="Wrap" Width="345" TextAlignment="Center" />
 
-                    <Button Cursor="Hand" Content="ROZUMIEM" x:Name="AgreeLostConnectionWindowSettingsButton" Click="AgreeLostConnection_Click" Height="34" Width="254.5" Foreground="#FF696266" Margin="0,10,0,0" VerticalAlignment="Top" BorderBrush="#00707070" Background="#FFF2F2F2" FontSize="15">
+                    <Button Cursor="Hand" Content="{DynamicResource MainWindow_AgreeLostConnectionWindowSettingsButton}" x:Name="AgreeLostConnectionWindowSettingsButton" Click="AgreeLostConnection_Click" Height="34" Width="254.5" Foreground="#FF696266" Margin="0,10,0,0" VerticalAlignment="Top" BorderBrush="#00707070" Background="#FFF2F2F2" FontSize="15">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="Template">
@@ -312,15 +312,15 @@
 
             <Button Style="{StaticResource SettingsButtonStyle}" x:Name="SettingsButton" Click="SettingsButton_Click" Height="26" Width="25" Foreground="#FF696266" Margin="0,21,337,0" VerticalAlignment="Top" HorizontalAlignment="Right" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" BorderBrush="#00707070" />
 
-            <TextBlock Visibility="Hidden" x:Name="InstalledGameListTitleText" Text="MOJE GRY" Margin="51,92,1296,690" FontSize="24" Foreground="#FFF2F2F2" FontFamily="Nulshock Rg"/>
+            <TextBlock Visibility="Hidden" x:Name="InstalledGameListTitleText" Text="{DynamicResource MainWindow_InstalledGameListTitleText}" Margin="51,92,1296,690" FontSize="24" Foreground="#FFF2F2F2" FontFamily="Nulshock Rg"/>
 
             <StackPanel x:Name="NeewsStackPanel" Orientation="Horizontal" Height="314.909819" Width="1059.31298025" Margin="-376,142,34,407">
                 <StackPanel.Background>
                     <ImageBrush TileMode="None" ImageSource="Img/NeewsBaner.png"/>
                 </StackPanel.Background>
                 <StackPanel Margin="30,0,0,0" Orientation="Vertical" Height="177" Width="404">
-                    <TextBlock Text="DOSTĘP DO INNYCH GIER" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="25" Width="269"/>
-                    <TextBlock Text="Nasz launcher to nie tylko gra Top-Down Shooter. To miejsce w którym w przyszłości odkryjesz również inne gry spoza projektu Crypto Mayhem. &#x0d;&#x0a;&#x0d;&#x0a;Launcher da Ci możliwość eksploracji i zanurzenia się w świecie gier." FontSize="12" Foreground="#66F2F2F2" FontFamily="Montserrat" Width="395" HorizontalAlignment="Left" Height="143" TextWrapping="Wrap"/>
+                    <TextBlock x:Name="NeewsStackPanelTitleTextBlock" Text="{DynamicResource MainWindow_NeewsStackPanelTitleTextBlock}" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="25" Width="269"/>
+                    <TextBlock x:Name="NeewsStackPanelDescriptionTextBlock" Text="{DynamicResource MainWindow_NeewsStackPanelDescriptionTextBlock}" FontSize="12" Foreground="#66F2F2F2" FontFamily="Montserrat" Width="395" HorizontalAlignment="Left" Height="143" TextWrapping="Wrap"/>
                 </StackPanel>
             </StackPanel>
 
@@ -329,26 +329,56 @@
                     <ImageBrush TileMode="None" ImageSource="Img/OtherGames.png"/>
                 </StackPanel.Background>
                 <StackPanel Margin="30,0,0,-200" Orientation="Vertical" Height="86" Width="306">
-                    <TextBlock Text="W OCZEKIWANIU" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="25" Width="269"/>
-                    <TextBlock Text="Każda nowa gra trafiająca do launchera zostanie ogłoszona i przedstawiona w sekcji gry." FontSize="12" Foreground="#66F2F2F2" FontFamily="Montserrat" Width="305" HorizontalAlignment="Left" Height="46" TextWrapping="Wrap"/>
+                    <TextBlock Text="{DynamicResource MainWindow_OtherGamesTitleTextBlock}" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="25" Width="269"/>
+                    <TextBlock Text="{DynamicResource MainWindow_OtherGamesDescriptionTextBlock}" FontSize="12" Foreground="#66F2F2F2" FontFamily="Montserrat" Width="305" HorizontalAlignment="Left" Height="46" TextWrapping="Wrap"/>
                 </StackPanel>
             </StackPanel>
-
             <StackPanel Visibility="Hidden" x:Name="TopDownShooterPlayStackPanel" Orientation="Horizontal" Height="316.4" Width="338.1" Margin="35,141,1163,407">
                 <StackPanel.Background>
                     <ImageBrush TileMode="None" ImageSource="Img/InstalledGameTDS.png"/>
                 </StackPanel.Background>
                 <StackPanel Margin="30,0,0,-195" Orientation="Vertical" Height="115" Width="279">
-                    <TextBlock Text="TOP-DOWN SHOOTER" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="19" Width="181"/>
+                    <TextBlock Text="{DynamicResource MainWindow_TDSToInstallTitle}" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="19" Width="181"/>
                     <StackPanel Orientation="Horizontal" >
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <TextBlock  x:Name="TopDownShooterGameVersionText" Text="V1.0.0" FontSize="13" Foreground="#66F2F2F2" FontFamily="Montserrat"/>
-                            <TextBlock  x:Name="TopDownShooterGameVersionStatusText" Text="   Aktualna" FontSize="13" Foreground="#FF00D62E" FontFamily="Montserrat" Width="124"/>
+                            <TextBlock x:Name="TopDownShooterGameVersionText" Text="" FontSize="13" Foreground="#66F2F2F2" FontFamily="Montserrat"/>
+                            <TextBlock Margin="20,0,0,0" x:Name="TopDownShooterGameVersionStatusText" Text="{DynamicResource MainWindow_SettingsLauncherUpdateTextBlock}" FontSize="13" Foreground="#FF00D62E" FontFamily="Montserrat" Width="124"/>
                         </StackPanel>
                     </StackPanel>
                     <Button Style="{StaticResource PlayTDSButtonStyle}" x:Name="PlayButton" Click="PlayButton_Click" Height="33.75" Width="135.75" Foreground="#FF696266" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" BorderBrush="#00707070" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,20,0,0">
-                        <TextBlock x:Name="PlayButtonTextBlock" Text="GRAJ" FontSize="13" FontFamily="Montserrat" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFF2F2F2" FontWeight="Medium" />
+                        <TextBlock x:Name="PlayButtonTextBlock" Text="{DynamicResource MainWindow_PlayButtonTextBlock}" FontSize="13" FontFamily="Montserrat" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFF2F2F2" FontWeight="Medium" />
                     </Button>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Visibility="Hidden" x:Name="TopDownShooterNewUpdateStackPanel" Orientation="Horizontal" Height="316.4" Width="338.1" Margin="35,141,1163,407">
+                <StackPanel.Background>
+                    <ImageBrush TileMode="None" ImageSource="Img/InstalledGameTDS.png"/>
+                </StackPanel.Background>
+                <StackPanel Margin="30,0,0,-195" Orientation="Vertical" Height="115" Width="279">
+                    <TextBlock Text="{DynamicResource MainWindow_TDSToInstallTitle}" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="19" Width="181"/>
+                    <StackPanel Orientation="Horizontal" >
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <TextBlock x:Name="UpdateGameVersionTextBlock" Text="V1.0.0" FontSize="13" Foreground="#66F2F2F2" FontFamily="Montserrat"/>
+                            <TextBlock Margin="20,0,0,0" x:Name="NewUpdateTextBlock" Text="{DynamicResource MainWindow_NewUpdateTextBlock}" FontSize="13" Foreground="#FF36FAF8" FontFamily="Montserrat" Width="124"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <Button Style="{StaticResource UpdateTDSButtonStyle}" x:Name="UpdateGameButton" Click="UpdateGameButton_Click" Height="33.75" Width="135.75" Foreground="#FF696266" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" BorderBrush="#00707070" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,20,0,0">
+                        <TextBlock x:Name="UpdateGameTextBlock" Text="{DynamicResource MainWindow_UpdateGameTextBlock}" FontSize="13" FontFamily="Montserrat" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFF2F2F2" FontWeight="Medium" />
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Visibility="Hidden" x:Name="TopDownShooterNewUpdateInProgressStackPanel" Orientation="Horizontal" Height="316.4" Width="338.1" Margin="35,141,1163,407">
+                <StackPanel.Background>
+                    <ImageBrush TileMode="None" ImageSource="Img/InstalledGameTDS.png"/>
+                </StackPanel.Background>
+                <StackPanel Margin="30,0,0,-195" Orientation="Vertical" Height="115" Width="279">
+                    <TextBlock Text="{DynamicResource MainWindow_TDSToInstallTitle}" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="19" Width="181"/>
+                    <TextBlock Margin="0,20,0,0" x:Name="GameUpdateTextBlock" Text="{DynamicResource MainWindow_GameUpdateTextBlock}" Foreground="#FFF2F2F2" HorizontalAlignment="Left" />
+                    <ndc:CustomProgressBar BorderThickness="1" BorderBrush="#66F2F2F2" x:Name="GameUpdateProgressBar" ToolTipType="ValuewithPercentageComplete" Value="0" Width="279" Height="15" HorizontalAlignment="Left">
+                    </ndc:CustomProgressBar>
+                    <TextBlock x:Name="GameUpdateProgressBarTextBlock" Text="" Foreground="White" HorizontalAlignment="Right" />
                 </StackPanel>
             </StackPanel>
 
@@ -358,9 +388,9 @@
                     <ImageBrush TileMode="None" ImageSource="Img/NewGameTDS.png"/>
                 </StackPanel.Background>
                 <StackPanel Margin="33,0,0,-155" Orientation="Vertical" Height="111" Width="299">
-                    <TextBlock Text="TOP-DOWN SHOOTER" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="60" Width="269"/>
+                    <TextBlock x:Name="TDSToInstallTitle" Text="{DynamicResource MainWindow_TDSToInstallTitle}" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="60" Width="269"/>
                     <StackPanel Visibility="Hidden" x:Name="ProgressBarStackPanel">
-                        <TextBlock Text="Instalacja gry" Foreground="#FFF2F2F2" HorizontalAlignment="Left" />
+                        <TextBlock x:Name="ProgressBarTextBlock" Text="{DynamicResource MainWindow_ProgressBarTextBlock}" Foreground="#FFF2F2F2" HorizontalAlignment="Left" />
                         <ndc:CustomProgressBar BorderThickness="1" BorderBrush="#66F2F2F2" x:Name="PBar0" ToolTipType="ValuewithPercentageComplete" Value="0" Width="297" Height="15" HorizontalAlignment="Left">
                         </ndc:CustomProgressBar>
                         <TextBlock x:Name="ProgressCounterTextBlock" Text="" Foreground="White" HorizontalAlignment="Right" />
@@ -368,21 +398,21 @@
 
                 </StackPanel>
                 <Button Visibility="Visible"  Style="{StaticResource InstallButtonStyle}" x:Name="InstallButton" Click="InstallButton_Click" Height="33.75" Width="135.75" Foreground="#FF696266" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" BorderBrush="#00707070" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="-132,0,0,31">
-                    <TextBlock FontSize="13" FontFamily="Montserrat" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFF2F2F2" FontWeight="Medium">ZAINSTALUJ</TextBlock>
+                    <TextBlock x:Name="InstallButtonTextBlock" Text="{DynamicResource MainWindow_InstallButtonTextBlock}" FontSize="13" FontFamily="Montserrat" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFF2F2F2" FontWeight="Medium" />
                 </Button>
 
             </StackPanel>
 
-            <TextBlock x:Name="AvailableGameListTitleText" Text="GRY" Margin="51,495,1358,279" FontSize="24" Foreground="#FFF2F2F2" FontFamily="Nulshock Rg"/>
+            <TextBlock x:Name="AvailableGameListTitleText" Text="{DynamicResource MainWindow_AvailableGameListTitleText}" Margin="51,495,1358,279" FontSize="24" Foreground="#FFF2F2F2" FontFamily="Nulshock Rg"/>
 
-            <TextBlock x:Name="NewsTitleText" Text="AKTUALNOŚCI" Margin="52,92,847,735" FontSize="24" Foreground="#FFF2F2F2" FontFamily="Nulshock Rg" RenderTransformOrigin="0.456,-0.605"/>
+            <TextBlock x:Name="NewsTitleText" Text="{DynamicResource MainWindow_NewsTitleText}" Margin="52,92,847,735" FontSize="24" Foreground="#FFF2F2F2" FontFamily="Nulshock Rg" RenderTransformOrigin="0.456,-0.605"/>
             <StackPanel Orientation="Horizontal" Height="300.9" Width="369.75" Margin="768,533,398,30">
                 <StackPanel.Background>
                     <ImageBrush TileMode="None" ImageSource="Img/OtherGames.png"/>
                 </StackPanel.Background>
                 <StackPanel Margin="30,0,0,-200" Orientation="Vertical" Height="86" Width="306">
-                    <TextBlock Text="W OCZEKIWANIU" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="25" Width="269"/>
-                    <TextBlock Text="Każda nowa gra trafiająca do launchera zostanie ogłoszona i przedstawiona w sekcji gry." FontSize="12" Foreground="#66F2F2F2" FontFamily="Montserrat" Width="305" HorizontalAlignment="Left" Height="46" TextWrapping="Wrap"/>
+                    <TextBlock Text="{DynamicResource MainWindow_OtherGamesTitleTextBlock}" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="25" Width="269"/>
+                    <TextBlock Text="{DynamicResource MainWindow_OtherGamesDescriptionTextBlock}" FontSize="12" Foreground="#66F2F2F2" FontFamily="Montserrat" Width="305" HorizontalAlignment="Left" Height="46" TextWrapping="Wrap"/>
                 </StackPanel>
             </StackPanel>
             <StackPanel x:Name="LastGameToInstall" Orientation="Horizontal" Height="300.9" Width="369.75" Margin="1138,533,28,30">
@@ -390,8 +420,8 @@
                     <ImageBrush TileMode="None" ImageSource="Img/OtherGames.png"/>
                 </StackPanel.Background>
                 <StackPanel Margin="30,0,0,-200" Orientation="Vertical" Height="86" Width="306">
-                    <TextBlock Text="W OCZEKIWANIU" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="25" Width="269"/>
-                    <TextBlock Text="Każda nowa gra trafiająca do launchera zostanie ogłoszona i przedstawiona w sekcji gry." FontSize="12" Foreground="#66F2F2F2" FontFamily="Montserrat" Width="305" HorizontalAlignment="Left" Height="41" TextWrapping="Wrap"/>
+                    <TextBlock Text="{DynamicResource MainWindow_OtherGamesTitleTextBlock}" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="25" Width="269"/>
+                    <TextBlock Text="{DynamicResource MainWindow_OtherGamesDescriptionTextBlock}" FontSize="12" Foreground="#66F2F2F2" FontFamily="Montserrat" Width="305" HorizontalAlignment="Left" Height="41" TextWrapping="Wrap"/>
                 </StackPanel>
             </StackPanel>
 

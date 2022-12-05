@@ -9,6 +9,36 @@
     <system:String x:Key="MainWindow_UpdateSettingSectionText">Launcher Version</system:String>
     <system:String x:Key="MainWindow_LegalDocumentsSettingSectionText">Legal documents</system:String>
 
+    <system:String x:Key="MainWindow_NewsTitleText">NEWS</system:String>
+    <system:String x:Key="MainWindow_AvailableGameListTitleText">GAMES</system:String>
+    <system:String x:Key="MainWindow_TDSToInstallTitle">TOP-DOWN SHOOTER</system:String>
+    <system:String x:Key="MainWindow_InstallButtonTextBlock">INSTALL</system:String>
+
+    <system:String x:Key="MainWindow_SettingsLauncherUpdateTextBlock">Current</system:String>
+    <system:String x:Key="MainWindow_NewUpdateTextBlock">Update available</system:String>
+    <system:String x:Key="MainWindow_ThirdPartiesDocumentsTextBlock">Legal compliance &amp; information</system:String>
+    <system:String x:Key="MainWindow_UserTermsDocumentsTextBlock">Terms &amp; conditions</system:String>
+    <system:String x:Key="MainWindow_PrivacyPolicyDocumentsTextBlock">Privacy policy</system:String>
+
+    <system:String x:Key="MainWindow_ProgressBarTextBlock">Game installation</system:String>
+
+    <system:String x:Key="MainWindow_LostConnectionTitleText">No Internet</system:String>
+    <system:String x:Key="MainWindow_LostConnectionDescriptionText">Some launcher features may not be available.</system:String>
+    <system:String x:Key="MainWindow_AgreeLostConnectionWindowSettingsButton">UNDERSTAND</system:String>
+
+    <system:String x:Key="MainWindow_InstalledGameListTitleText">MY GAMES</system:String>
+
+    <system:String x:Key="MainWindow_UpdateGameTextBlock">UPDATE</system:String>
+    <system:String x:Key="MainWindow_PlayButtonTextBlock">PLAY</system:String>
+    
+    <system:String x:Key="MainWindow_GameUpdateTextBlock">Game update</system:String>
+
+    <system:String x:Key="MainWindow_NeewsStackPanelTitleTextBlock">ACCESS TO OTHER GAMES</system:String>
+    <system:String x:Key="MainWindow_NeewsStackPanelDescriptionTextBlock">Our launcher is not designed only to play Crypto Mayhem Top-Down Shooter. In the future, this is where you will discover other games outside the Crypto Mayhem project. &#x0d;&#x0a;&#x0d;&#x0a;This launcher gives you the opportunity to explore and immerse yourself in the world of games.</system:String>
+
+    <system:String x:Key="MainWindow_OtherGamesTitleTextBlock">PENDING</system:String>
+    <system:String x:Key="MainWindow_OtherGamesDescriptionTextBlock">Any new game that hits the launcher will stay announced and presented in the game section.</system:String>
+    
     <system:String x:Key="PathSettings_SelectFolderText">Installation location</system:String>
     <system:String x:Key="PathSettings_TitleText">Launcher installation</system:String>
     <system:String x:Key="PathSettings_EnglishSettingText">English</system:String>

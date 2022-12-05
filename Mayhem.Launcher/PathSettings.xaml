@@ -20,6 +20,7 @@
                         <ResourceDictionary Source="ResourcesDirectorys/Button/SelectFolderButtonStyle.xaml"/>
                         <ResourceDictionary Source="ResourcesDirectorys/Button/LocalizationButtonStyle.xaml"/>
                         <ResourceDictionary Source="ResourcesDirectorys/Button/SetLanguagePopUpButtonStyle.xaml"/>
+                        <ResourceDictionary Source="ResourcesDirectorys/Button/PathSettingsInstallButtonStyle.xaml"/>
                         <!--<ResourceDictionary Source="StringResources.en.xaml"/>-->
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
@@ -69,11 +70,7 @@
             <Button Style="{StaticResource MinimalizeButtonStyle}" x:Name="MinimalizeButton" Click="MinimalizeButton_Click" Height="45" Width="45" FontSize="28" FontWeight="Bold" Foreground="#FF696266" Margin="391,1,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" BorderBrush="#00707070" />
 
 
-            <Button Cursor="Hand" x:Name="InstallButton" Content="{DynamicResource PathSettings_InstallButton}" Click="InstallButton_Click" Height="46" Width="338" FontSize="16" FontWeight="Bold" Margin="0,404,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" FontFamily="Montserrat" BorderBrush="#00844646" Foreground="#FFF2F2F2" >
-                <Button.Background>
-                    <ImageBrush ImageSource="/Img/Button/ContinueButton.png"/>
-                </Button.Background>
-            </Button>
+            <Button Style="{StaticResource PathSettingsInstallButtonStyle}" Cursor="Hand" x:Name="InstallButton" Content="{DynamicResource PathSettings_InstallButton}" Click="InstallButton_Click" Height="46" Width="338" FontSize="16" FontWeight="Bold" Margin="0,404,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" FontFamily="Montserrat" BorderBrush="#00844646" Foreground="#FFF2F2F2" />
             <TextBlock x:Name="TitleText" Text="{DynamicResource PathSettings_TitleText}" FontSize="24" Margin="0,128,0,442" Foreground="#FFF2F2F2" FontFamily="Nulshock Rg" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" LineStackingStrategy="BlockLineHeight" TextWrapping="WrapWithOverflow" FontWeight="Bold"/>
             <TextBlock x:Name="SelectFolderText" Text="{DynamicResource PathSettings_SelectFolderText}" FontSize="16" Margin="72,273,168,300" Foreground="#FFF2F2F2" FontFamily="Montserrat"/>
             <Button Style="{StaticResource SelectFolderButtonStyle}" Padding="10, 0, 0, 0" x:Name="SelectFolderButton" HorizontalContentAlignment="Left" Click="SelectFolderButton_Click" Height="56" Width="339" FontSize="25" Foreground="#DD000000" Visibility="Visible" FontWeight="Bold" RenderTransformOrigin="0.5,0.5" Margin="71,296,71,248" BorderBrush="#FF575757">

@@ -317,6 +317,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ResourcesDirectorys\Button\LoginGoToProjectButtonStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourcesDirectorys\Button\PathSettingsInstallButtonStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourcesDirectorys\Button\UpdateTDSButtonStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ResourcesDirectorys\Button\SetLanguagePopUpButtonStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -551,11 +563,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Gif\CryptoMayhem_loader.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Mayhem.Dal.Dto\Mayhem.Dal.Dto.csproj">
       <Project>{5E875C7A-8FA0-4BD0-B5E3-66AC4D2AFE0F}</Project>
       <Name>Mayhem.Dal.Dto</Name>
@@ -609,6 +616,6 @@
       <Output TaskParameter="Assemblies" ItemName="myAssemblyInfo" />
     </GetAssemblyIdentity>
     <Exec Command="C:\Users\pawel\Downloads\NuGet.exe pack $(SolutionDir)Mayhem.Launcher\ReleaseSpec.nuspec -Version $(Version) -Properties Configuration=Release -OutputDirectory $(SolutionDir)Deployment\GeneratedNugets" />
-    <Exec Command="C:\Unity\MayhemLauncherTDS\packages\squirrel.windows.2.0.1\tools\Squirrel.exe --framework-version=net48 --releasify $(SolutionDir)Deployment\GeneratedNugets\CryptoMayhemLauncher.$(Version).nupkg -n &quot;/a /f C:\Users\pawel\Downloads\cert\certificate.pfx /p 26cj1EwyjKH /fd sha384 /tr http://timestamp.comodoca.com/rfc3161 /td sha384&quot; --releaseDir=$(SolutionDir)Deployment\Releases --setupIcon=$(SolutionDir)Mayhem.Launcher\Img\Icons\Icon.ico --icon=$(SolutionDir)Mayhem.Launcher\Img\Icons\Icon.ico --no-msi --loadingGif=$(SolutionDir)Mayhem.Launcher\Gif\CryptoMayhem_loader.gif" />
+    <Exec Command="C:\Unity\MayhemLauncherTDS\packages\squirrel.windows.2.0.1\tools\Squirrel.exe --framework-version=net48 --releasify $(SolutionDir)Deployment\GeneratedNugets\CryptoMayhemLauncher.$(Version).nupkg -n &quot;/a /f C:\Users\pawel\Downloads\cert\certificate.pfx /p 26cj1EwyjKH /fd sha384 /tr http://timestamp.comodoca.com/rfc3161 /td sha384&quot; --releaseDir=$(SolutionDir)Deployment\Releases --setupIcon=$(SolutionDir)Mayhem.Launcher\Img\Icons\Icon.ico --icon=$(SolutionDir)Mayhem.Launcher\Img\Icons\Icon.ico --no-msi" />
   </Target>
 </Project>
