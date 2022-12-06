@@ -249,7 +249,7 @@ namespace Mayhem.Launcher
                 return;
             }
 
-            manager = await UpdateManager.GitHubUpdateManager(@"https://github.com/PawelSpionkowskiAdriaGames/LauncherTest");
+            manager = await UpdateManager.GitHubUpdateManager(@"https://github.com/AdriaGames/CryptoMayhemLauncher");
 
             try
             {
@@ -517,13 +517,17 @@ namespace Mayhem.Launcher
                                                         LauncherVersionText.Text.Replace("V","")),
                                             "Mayhem.Launcher.exe");*/
 
+                loggerLoginWindow.LogInformation("00");
                 var updateInfo = await manager.CheckForUpdate();
 
+                loggerLoginWindow.LogInformation("11");
                 string newVersion = string.Concat("app-",
                                         updateInfo.FutureReleaseEntry.Version.Version.Major, ".",
                                         updateInfo.FutureReleaseEntry.Version.Version.Minor, ".",
                                         updateInfo.FutureReleaseEntry.Version.Version.Build);
+                loggerLoginWindow.LogInformation("001");
                 squrrielHandleEvents.UpdateApp(manager, updateInfo.FutureReleaseEntry.Version.Version);
+                loggerLoginWindow.LogInformation("002");
                 string executable = Path.Combine(manager.RootAppDirectory,
                             newVersion,
                             "Mayhem.Launcher.exe");

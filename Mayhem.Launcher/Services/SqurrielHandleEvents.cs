@@ -1,10 +1,11 @@
 ﻿using CryptoMayhemLauncher.Interfaces;
 using IWshRuntimeLibrary;
-using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using Squirrel;
 using System;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -13,16 +14,16 @@ namespace CryptoMayhemLauncher.Services
 {
     public class SqurrielHandleEvents : ISqurrielHandleEvents
     {
-        private readonly ILogger<SqurrielHandleEvents> logger;
+        private readonly ISettingsFileService settingsFileService;
 
-        public SqurrielHandleEvents(ILogger<SqurrielHandleEvents> logger)
+        public SqurrielHandleEvents(ISettingsFileService settingsFileService)
         {
-            this.logger = logger;
+            this.settingsFileService = settingsFileService;
         }
 
         public void SetDefaultConfiguration()
         {
-            using (UpdateManager manager = new UpdateManager(@"https://github.com/PawelSpionkowskiAdriaGames/LauncherTest"))
+            using (UpdateManager manager = new UpdateManager(@"https://github.com/AdriaGames/CryptoMayhemLauncher"))
             {
                 SquirrelAwareApp.HandleEvents(
                  onInitialInstall: v => PrepareApp(manager, v),
@@ -33,15 +34,54 @@ namespace CryptoMayhemLauncher.Services
 
         public void UpdateApp(UpdateManager manager, Version v)
         {
-            RemoveApp();
+            DeleteDesktopShortcut();
+            DeleteStartMenuShortcut();
+            RemoveProtocol();
             PrepareApp(manager, v);
         }
 
         private void RemoveApp()
         {
+            KillAllLaunchers();
+            KillAllTDS();
+
             DeleteDesktopShortcut();
             DeleteStartMenuShortcut();
             RemoveProtocol();
+            RemoveGameFolder();
+        }
+
+        private void KillAllTDS()
+        {
+            foreach (Process proc in Process.GetProcesses().Where(x => x.ProcessName == "Crypto Mayhem"))
+            {
+                proc.Kill();
+            }
+        }
+
+        private void KillAllLaunchers()
+        {
+            Process process = Process.GetCurrentProcess();
+            string processName = process.ProcessName.Replace(".vshost", "");
+            foreach (Process proc in Process.GetProcesses().Where(x => (x.ProcessName == "Mayhem.Launcher" || x.ProcessName == processName) && x.Id != process.Id))
+            {
+                proc.Kill();
+            }
+        }
+
+        private void RemoveGameFolder()
+        {
+            string gamePath = settingsFileService.GetContent().GamePath;
+            try
+            {
+                if (Directory.Exists(gamePath))
+                {
+                    Directory.Delete(gamePath, true);
+                }
+            }
+            catch (IOException ex)
+            {
+            }
         }
 
         private void DeleteDesktopShortcut()
@@ -105,7 +145,6 @@ namespace CryptoMayhemLauncher.Services
             IWshShortcut shortcut = (IWshShortcut)shellClass.CreateShortcut(settingsLink);
             shortcut.TargetPath = latestRunFilePath;
             shortcut.IconLocation = @"C:\Unity\MayhemLauncherTDS\Mayhem.Launcher\Img\Icons\Icon.ico";//ToDo direct path.
-            shortcut.Arguments = "arg1 arg2";//TODO fix params
             shortcut.Description = "Click to edit MorganApp settings";//TODO fix params
             shortcut.Save();
         }

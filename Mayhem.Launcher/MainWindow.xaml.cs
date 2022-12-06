@@ -202,7 +202,10 @@ namespace Mayhem.Launcher
 
                 WebClient webClient = new WebClient();
                 //Status = LauncherStatus.downloadingUpdate;
-                Directory.Delete(rootPath, true);
+                if (Directory.Exists(rootPath))
+                {
+                    Directory.Delete(rootPath, true);
+                }
                 Directory.CreateDirectory(rootPath);
                 webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(InstallGameCompletedCallback);
                 webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(InstallProgressChanged);
@@ -288,6 +291,7 @@ namespace Mayhem.Launcher
                 if (InternetConnectionOfflineIcon.Visibility == Visibility.Visible)
                     return;
 
+                ShowLogOutPopup();
                 DisableBackgroundButton.Visibility = Visibility.Visible;
                 LostConnectionWindowStackPanel.Visibility = Visibility.Visible;
                 SettingsWindowStackPanel.Visibility = Visibility.Hidden;
@@ -301,6 +305,11 @@ namespace Mayhem.Launcher
             ProgressBarStackPanel.Visibility = Visibility.Hidden;
             try
             {
+                if (!Directory.Exists(rootPath))
+                {
+                    Directory.CreateDirectory(rootPath);
+                }
+
                 ZipFile.ExtractToDirectory(gameZip, rootPath);
                 File.Delete(gameZip);
 
@@ -347,7 +356,7 @@ namespace Mayhem.Launcher
         {
             SetMetodOnTop();
             manager = await UpdateManager
-                .GitHubUpdateManager(@"https://github.com/PawelSpionkowskiAdriaGames/LauncherTest");
+                .GitHubUpdateManager(@"https://github.com/AdriaGames/CryptoMayhemLauncher");
 
             try
             {
@@ -395,6 +404,7 @@ namespace Mayhem.Launcher
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             SettingsLanguage_Click(sender, e);
+            HideLogOutPopup();
 
             DisableBackgroundButton.Visibility = Visibility.Visible;
             SettingsWindowStackPanel.Visibility = Visibility.Visible;
@@ -405,14 +415,24 @@ namespace Mayhem.Launcher
         {
             if (LogoutButton.Visibility == Visibility.Visible)
             {
-                WalletArrowRightRotateTransform.Angle = 90;
-                LogoutButton.Visibility = Visibility.Hidden;
+                HideLogOutPopup();
             }
             else
             {
-                WalletArrowRightRotateTransform.Angle = -90;
-                LogoutButton.Visibility = Visibility.Visible;
+                ShowLogOutPopup();
             }
+        }
+
+        private void ShowLogOutPopup()
+        {
+            WalletArrowRightRotateTransform.Angle = -90;
+            LogoutButton.Visibility = Visibility.Visible;
+        }
+
+        private void HideLogOutPopup()
+        {
+            WalletArrowRightRotateTransform.Angle = 90;
+            LogoutButton.Visibility = Visibility.Hidden;
         }
 
         private void InstallButton_Click(object sender, RoutedEventArgs e)
@@ -600,8 +620,11 @@ namespace Mayhem.Launcher
                 LatestVersion latestVersion = await versionService.GetLatestVersion();
 
                 WebClient webClient = new WebClient();
-                //Status = LauncherStatus.downloadingUpdate;
-                Directory.Delete(rootPath, true);
+                //Status = LauncherStatus.downloadingUpdate
+                if (Directory.Exists(rootPath))
+                {
+                    Directory.Delete(rootPath, true);
+                }
                 Directory.CreateDirectory(rootPath);
                 webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(UpdateGameCompletedCallback);
                 webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(UpdateProgressChanged);
@@ -623,6 +646,10 @@ namespace Mayhem.Launcher
             TopDownShooterNewUpdateInProgressStackPanel.Visibility = Visibility.Hidden;
             try
             {
+                if (!Directory.Exists(rootPath))
+                {
+                    Directory.CreateDirectory(rootPath);
+                }
                 ZipFile.ExtractToDirectory(gameZip, rootPath);
                 File.Delete(gameZip);
 

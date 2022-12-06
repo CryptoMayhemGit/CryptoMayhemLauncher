@@ -13,6 +13,7 @@
     <system:String x:Key="MainWindow_AvailableGameListTitleText">GAMES</system:String>
     <system:String x:Key="MainWindow_TDSToInstallTitle">TOP-DOWN SHOOTER</system:String>
     <system:String x:Key="MainWindow_InstallButtonTextBlock">INSTALL</system:String>
+    <system:String x:Key="MainWindow_LogOutTextBlock">Log out</system:String>
 
     <system:String x:Key="MainWindow_SettingsLauncherUpdateTextBlock">Current</system:String>
     <system:String x:Key="MainWindow_NewUpdateTextBlock">Update available</system:String>
@@ -34,10 +35,11 @@
     <system:String x:Key="MainWindow_GameUpdateTextBlock">Game update</system:String>
 
     <system:String x:Key="MainWindow_NeewsStackPanelTitleTextBlock">ACCESS TO OTHER GAMES</system:String>
-    <system:String x:Key="MainWindow_NeewsStackPanelDescriptionTextBlock">Our launcher is not designed only to play Crypto Mayhem Top-Down Shooter. In the future, this is where you will discover other games outside the Crypto Mayhem project. &#x0d;&#x0a;&#x0d;&#x0a;This launcher gives you the opportunity to explore and immerse yourself in the world of games.</system:String>
+    <system:String x:Key="MainWindow_NeewsStackPanelDescription1TextBlock">Our launcher is not designed only to play Crypto Mayhem Top-Down Shooter. In the future, this is where you will discover other games outside the Crypto Mayhem project.</system:String>
+    <system:String x:Key="MainWindow_NeewsStackPanelDescription2TextBlock">This launcher gives you the opportunity to explore and immerse yourself in the world of games.</system:String>
 
     <system:String x:Key="MainWindow_OtherGamesTitleTextBlock">PENDING</system:String>
-    <system:String x:Key="MainWindow_OtherGamesDescriptionTextBlock">Any new game that hits the launcher will stay announced and presented in the game section.</system:String>
+    <system:String x:Key="MainWindow_OtherGamesDescriptionTextBlock">Each new game that hits the launcher will be announced and presented in the game section.</system:String>
     
     <system:String x:Key="PathSettings_SelectFolderText">Installation location</system:String>
     <system:String x:Key="PathSettings_TitleText">Launcher installation</system:String>

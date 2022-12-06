@@ -20,7 +20,7 @@ namespace Mayhem.Launcher
         private readonly ISettingsFileService settingsFileService;
         private readonly ILocalizationService localizationService;
         private string gameInstallPath;
-        private const int INSTALL_PATH_LETTERS_COUNT = 14;
+        private const int INSTALL_PATH_LETTERS_COUNT = 17;
 
         public PathSettings(INavigationService navigationService, ISettingsFileService settingsFileService, ILocalizationService localizationService)
         {

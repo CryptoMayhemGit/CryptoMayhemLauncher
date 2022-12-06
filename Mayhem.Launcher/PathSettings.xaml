@@ -21,7 +21,7 @@
                         <ResourceDictionary Source="ResourcesDirectorys/Button/LocalizationButtonStyle.xaml"/>
                         <ResourceDictionary Source="ResourcesDirectorys/Button/SetLanguagePopUpButtonStyle.xaml"/>
                         <ResourceDictionary Source="ResourcesDirectorys/Button/PathSettingsInstallButtonStyle.xaml"/>
-                        <!--<ResourceDictionary Source="StringResources.en.xaml"/>-->
+                        <!-- <ResourceDictionary Source="StringResources.en.xaml"/> -->
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </Grid.Resources>
@@ -75,7 +75,7 @@
             <TextBlock x:Name="SelectFolderText" Text="{DynamicResource PathSettings_SelectFolderText}" FontSize="16" Margin="72,273,168,300" Foreground="#FFF2F2F2" FontFamily="Montserrat"/>
             <Button Style="{StaticResource SelectFolderButtonStyle}" Padding="10, 0, 0, 0" x:Name="SelectFolderButton" HorizontalContentAlignment="Left" Click="SelectFolderButton_Click" Height="56" Width="339" FontSize="25" Foreground="#DD000000" Visibility="Visible" FontWeight="Bold" RenderTransformOrigin="0.5,0.5" Margin="71,296,71,248" BorderBrush="#FF575757">
                 <StackPanel Orientation="Horizontal" Width="320" RenderTransformOrigin="0.717,0.699">
-                    <TextBlock x:Name="SelectFolderTextBox" Width="295" Text="" Background="Transparent" FontFamily="Montserrat" Foreground="#66F2F2EC" FontWeight="Normal" FontSize="22"/>
+                    <TextBlock x:Name="SelectFolderTextBox" Width="295" Text="" Background="Transparent" FontFamily="Montserrat" Foreground="#66F2F2EC" FontWeight="Normal" FontSize="18"/>
                 </StackPanel>
             </Button>
         </Grid>

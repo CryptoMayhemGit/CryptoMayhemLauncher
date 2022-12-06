@@ -303,7 +303,7 @@
             </Button>
 
             <Button Visibility="Hidden" Style="{StaticResource LogoutButtonStyle}" x:Name="LogoutButton" Click="Logout_Click" Height="56.5" Width="117" Foreground="#FF696266" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" BorderBrush="#00707070" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,51,136,36" Panel.ZIndex="90" Background="#FFDDDDDD">
-                <TextBlock Margin="0,-5,0,0" FontSize="11" FontFamily="Montserrat" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFF2F2F2" FontWeight="Medium">Odłącz portfel</TextBlock>
+                <TextBlock Margin="0,-5,0,0" FontSize="11" FontFamily="Montserrat" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFF2F2F2" FontWeight="Medium" Text="{DynamicResource MainWindow_LogOutTextBlock}" />
             </Button>
 
 
@@ -320,7 +320,8 @@
                 </StackPanel.Background>
                 <StackPanel Margin="30,0,0,0" Orientation="Vertical" Height="177" Width="404">
                     <TextBlock x:Name="NeewsStackPanelTitleTextBlock" Text="{DynamicResource MainWindow_NeewsStackPanelTitleTextBlock}" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="25" Width="269"/>
-                    <TextBlock x:Name="NeewsStackPanelDescriptionTextBlock" Text="{DynamicResource MainWindow_NeewsStackPanelDescriptionTextBlock}" FontSize="12" Foreground="#66F2F2F2" FontFamily="Montserrat" Width="395" HorizontalAlignment="Left" Height="143" TextWrapping="Wrap"/>
+                    <TextBlock x:Name="NeewsStackPanelDescription1TextBlock" Text="{DynamicResource MainWindow_NeewsStackPanelDescription1TextBlock}" FontSize="12" Foreground="#66F2F2F2" FontFamily="Montserrat" Width="395" HorizontalAlignment="Left" Height="63" TextWrapping="Wrap"/>
+                    <TextBlock x:Name="NeewsStackPanelDescription2TextBlock" Text="{DynamicResource MainWindow_NeewsStackPanelDescription2TextBlock}" FontSize="12" Foreground="#66F2F2F2" FontFamily="Montserrat" Width="395" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap"/>
                 </StackPanel>
             </StackPanel>
 

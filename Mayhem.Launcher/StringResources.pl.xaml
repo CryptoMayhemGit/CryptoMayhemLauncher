@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
                     xmlns:system="clr-namespace:System;assembly=System.Runtime">
-    <system:String x:Key="MainWindow_LauncherTitleText">ustawienia launchera</system:String>
+    <system:String x:Key="MainWindow_LauncherTitleText">Ustawienia Launchera</system:String>
     <system:String x:Key="MainWindow_EnglishSettingText">Angielski</system:String>
     <system:String x:Key="MainWindow_PolishSettingText">Polski</system:String>
 
@@ -13,6 +13,7 @@
     <system:String x:Key="MainWindow_AvailableGameListTitleText">GRY</system:String>
     <system:String x:Key="MainWindow_TDSToInstallTitle">TOP-DOWN SHOOTER</system:String>
     <system:String x:Key="MainWindow_InstallButtonTextBlock">ZAINSTALUJ</system:String>
+    <system:String x:Key="MainWindow_LogOutTextBlock">Odłącz portfel</system:String>
 
     <system:String x:Key="MainWindow_SettingsLauncherUpdateTextBlock">Aktualna</system:String>
     <system:String x:Key="MainWindow_NewUpdateTextBlock">Dostępna aktualizacja</system:String>
@@ -34,7 +35,8 @@
     <system:String x:Key="MainWindow_GameUpdateTextBlock">Aktualizacja gry</system:String>
 
     <system:String x:Key="MainWindow_NeewsStackPanelTitleTextBlock">DOSTĘP DO INNYCH GIER</system:String>
-    <system:String x:Key="MainWindow_NeewsStackPanelDescriptionTextBlock">Nasz launcher to nie tylko gra Top-Down Shooter. To miejsce w którym w przyszłości odkryjesz również inne gry spoza projektu Crypto Mayhem. &#x0d;&#x0a;&#x0d;&#x0a;Launcher da Ci możliwość eksploracji i zanurzenia się w świecie gier.</system:String>
+    <system:String x:Key="MainWindow_NeewsStackPanelDescription1TextBlock">Nasz launcher to nie tylko gra Top-Down Shooter. To miejsce w którym w przyszłości odkryjesz również inne gry spoza projektu Crypto Mayhem.</system:String>
+    <system:String x:Key="MainWindow_NeewsStackPanelDescription2TextBlock">Launcher da Ci możliwość eksploracji i zanurzenia się w świecie gier.</system:String>
 
     <system:String x:Key="MainWindow_OtherGamesTitleTextBlock">W OCZEKIWANIU</system:String>
     <system:String x:Key="MainWindow_OtherGamesDescriptionTextBlock">Każda nowa gra trafiająca do launchera zostanie ogłoszona i przedstawiona w sekcji gry.</system:String>
