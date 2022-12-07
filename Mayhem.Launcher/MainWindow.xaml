@@ -28,7 +28,7 @@
                         <ResourceDictionary Source="ResourcesDirectorys/Button/ProfileButtonStyle.xaml"/>
                         <ResourceDictionary Source="ResourcesDirectorys/Button/InstallButtonStyle.xaml"/>
                         <ResourceDictionary Source="ResourcesDirectorys/Button/DisableOnMouseOverButtonStyle.xaml"/>
-                        <!--<ResourceDictionary Source="StringResources.en.xaml"/>-->
+                        <!-- <ResourceDictionary Source="StringResources.pl.xaml"/> -->
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </Grid.Resources>
@@ -276,7 +276,7 @@
 
 
             <Image Source="/img/MainBackground.png" Stretch="Fill"/>
-            <Image Source="/img/MiniLogo.png" Width="72" Height="36" Stretch="Fill" Panel.ZIndex="10" Margin="10,10,1454,818"/>
+            <Image Source="/img/MiniLogo.png" Width="72" Height="36" Stretch="Fill" Panel.ZIndex="10" Margin="32,19,1432,809"/>
             <Image x:Name="InternetConnectionOfflineIcon" Source="/img/OfflineIcon.png" Width="30" Height="30" Stretch="Fill" Panel.ZIndex="10" Margin="1108,19,398,815" Visibility="Hidden"/>
 
             <Button Style="{StaticResource ProfileButtonStyle}" Cursor="Hand" Padding="10, 0, 0, 0" x:Name="WalletSettingsButton" Click="WalletSettingsButton_Click" HorizontalContentAlignment="Left" Width="auto" Margin="1221,23,112,819" Panel.ZIndex="3" Background="#00DDDDDD" BorderBrush="Transparent">
@@ -285,7 +285,7 @@
                         <Image Source="/img/Button/WalletIconDefault.png" Width="21.06" Height="19.83" Stretch="Fill"/>
                     </StackPanel>
                     <StackPanel Width="auto" Margin="10,0,10,0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock x:Name="LoggedWalletTextBlock" Width="auto" Height="auto" Text="0x11...1111" Background="Transparent" FontFamily="Montserrat" Foreground="#FFF2F2F2" FontWeight="Normal" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="LoggedWalletTextBlock" Width="auto" Height="auto" Text="0x11...1111" Background="#00F2F2F2" FontFamily="Montserrat" Foreground="#FFF2F2F2" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </StackPanel>
                     <StackPanel Width="auto" Height="auto" VerticalAlignment="Center" HorizontalAlignment="Center">
                         <Image Source="/img/Button/ArrowRight.png" Width="25" Height="25" Stretch="Fill" RenderTransformOrigin="0.5,0.5">
@@ -318,10 +318,10 @@
                 <StackPanel.Background>
                     <ImageBrush TileMode="None" ImageSource="Img/NeewsBaner.png"/>
                 </StackPanel.Background>
-                <StackPanel Margin="30,0,0,0" Orientation="Vertical" Height="177" Width="404">
-                    <TextBlock x:Name="NeewsStackPanelTitleTextBlock" Text="{DynamicResource MainWindow_NeewsStackPanelTitleTextBlock}" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="25" Width="269"/>
-                    <TextBlock x:Name="NeewsStackPanelDescription1TextBlock" Text="{DynamicResource MainWindow_NeewsStackPanelDescription1TextBlock}" FontSize="12" Foreground="#66F2F2F2" FontFamily="Montserrat" Width="395" HorizontalAlignment="Left" Height="63" TextWrapping="Wrap"/>
-                    <TextBlock x:Name="NeewsStackPanelDescription2TextBlock" Text="{DynamicResource MainWindow_NeewsStackPanelDescription2TextBlock}" FontSize="12" Foreground="#66F2F2F2" FontFamily="Montserrat" Width="395" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap"/>
+                <StackPanel Margin="50,-45,0,0" Orientation="Vertical" Height="177" Width="352">
+                    <TextBlock x:Name="NeewsStackPanelTitleTextBlock" Text="{DynamicResource MainWindow_NeewsStackPanelTitleTextBlock}" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="32" Width="269" FontWeight="Regular"/>
+                    <TextBlock x:Name="NeewsStackPanelDescription1TextBlock" Text="{DynamicResource MainWindow_NeewsStackPanelDescription1TextBlock}" FontSize="12" Foreground="#FFF2F2F2" FontFamily="Montserrat" Width="348" HorizontalAlignment="Left" Height="63" TextWrapping="Wrap"/>
+                    <TextBlock x:Name="NeewsStackPanelDescription2TextBlock" Text="{DynamicResource MainWindow_NeewsStackPanelDescription2TextBlock}" FontSize="12" Foreground="#FFF2F2F2" FontFamily="Montserrat" Width="345" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" FontWeight="Regular"/>
                 </StackPanel>
             </StackPanel>
 
@@ -329,9 +329,9 @@
                 <StackPanel.Background>
                     <ImageBrush TileMode="None" ImageSource="Img/OtherGames.png"/>
                 </StackPanel.Background>
-                <StackPanel Margin="30,0,0,-200" Orientation="Vertical" Height="86" Width="306">
+                <StackPanel Margin="40,0,0,-200" Orientation="Vertical" Height="86" Width="293">
                     <TextBlock Text="{DynamicResource MainWindow_OtherGamesTitleTextBlock}" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="25" Width="269"/>
-                    <TextBlock Text="{DynamicResource MainWindow_OtherGamesDescriptionTextBlock}" FontSize="12" Foreground="#66F2F2F2" FontFamily="Montserrat" Width="305" HorizontalAlignment="Left" Height="46" TextWrapping="Wrap"/>
+                    <TextBlock Text="{DynamicResource MainWindow_OtherGamesDescriptionTextBlock}" FontSize="12" Foreground="#66F2F2F2" FontFamily="Montserrat" Width="292" HorizontalAlignment="Left" Height="46" TextWrapping="Wrap"/>
                 </StackPanel>
             </StackPanel>
             <StackPanel Visibility="Hidden" x:Name="TopDownShooterPlayStackPanel" Orientation="Horizontal" Height="316.4" Width="338.1" Margin="35,141,1163,407">
@@ -389,7 +389,7 @@
                     <ImageBrush TileMode="None" ImageSource="Img/NewGameTDS.png"/>
                 </StackPanel.Background>
                 <StackPanel Margin="33,0,0,-155" Orientation="Vertical" Height="111" Width="299">
-                    <TextBlock x:Name="TDSToInstallTitle" Text="{DynamicResource MainWindow_TDSToInstallTitle}" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="60" Width="269"/>
+                    <TextBlock x:Name="TDSToInstallTitle" Text="{DynamicResource MainWindow_TDSToInstallTitle}" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="60" Width="269" FontWeight="Regular"/>
                     <StackPanel Visibility="Hidden" x:Name="ProgressBarStackPanel">
                         <TextBlock x:Name="ProgressBarTextBlock" Text="{DynamicResource MainWindow_ProgressBarTextBlock}" Foreground="#FFF2F2F2" HorizontalAlignment="Left" />
                         <ndc:CustomProgressBar BorderThickness="1" BorderBrush="#66F2F2F2" x:Name="PBar0" ToolTipType="ValuewithPercentageComplete" Value="0" Width="297" Height="15" HorizontalAlignment="Left">
@@ -398,8 +398,8 @@
                     </StackPanel>
 
                 </StackPanel>
-                <Button Visibility="Visible"  Style="{StaticResource InstallButtonStyle}" x:Name="InstallButton" Click="InstallButton_Click" Height="33.75" Width="135.75" Foreground="#FF696266" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" BorderBrush="#00707070" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="-132,0,0,31">
-                    <TextBlock x:Name="InstallButtonTextBlock" Text="{DynamicResource MainWindow_InstallButtonTextBlock}" FontSize="13" FontFamily="Montserrat" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFF2F2F2" FontWeight="Medium" />
+                <Button Visibility="Visible"  Style="{StaticResource InstallButtonStyle}" x:Name="InstallButton" Click="InstallButton_Click" Height="33.75" Width="135.75" Foreground="#FF696266" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" BorderBrush="#00707070" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="-132,0,0,34">
+                    <TextBlock x:Name="InstallButtonTextBlock" Text="{DynamicResource MainWindow_InstallButtonTextBlock}" FontSize="13" FontFamily="Montserrat" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFF2F2F2" FontWeight="SemiBold" />
                 </Button>
 
             </StackPanel>
@@ -411,18 +411,18 @@
                 <StackPanel.Background>
                     <ImageBrush TileMode="None" ImageSource="Img/OtherGames.png"/>
                 </StackPanel.Background>
-                <StackPanel Margin="30,0,0,-200" Orientation="Vertical" Height="86" Width="306">
+                <StackPanel Margin="40,0,0,-200" Orientation="Vertical" Height="86" Width="292">
                     <TextBlock Text="{DynamicResource MainWindow_OtherGamesTitleTextBlock}" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="25" Width="269"/>
-                    <TextBlock Text="{DynamicResource MainWindow_OtherGamesDescriptionTextBlock}" FontSize="12" Foreground="#66F2F2F2" FontFamily="Montserrat" Width="305" HorizontalAlignment="Left" Height="46" TextWrapping="Wrap"/>
+                    <TextBlock Text="{DynamicResource MainWindow_OtherGamesDescriptionTextBlock}" FontSize="12" Foreground="#66F2F2F2" FontFamily="Montserrat" Width="291" HorizontalAlignment="Left" Height="46" TextWrapping="Wrap"/>
                 </StackPanel>
             </StackPanel>
             <StackPanel x:Name="LastGameToInstall" Orientation="Horizontal" Height="300.9" Width="369.75" Margin="1138,533,28,30">
                 <StackPanel.Background>
                     <ImageBrush TileMode="None" ImageSource="Img/OtherGames.png"/>
                 </StackPanel.Background>
-                <StackPanel Margin="30,0,0,-200" Orientation="Vertical" Height="86" Width="306">
+                <StackPanel Margin="40,0,0,-200" Orientation="Vertical" Height="86" Width="291">
                     <TextBlock Text="{DynamicResource MainWindow_OtherGamesTitleTextBlock}" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="25" Width="269"/>
-                    <TextBlock Text="{DynamicResource MainWindow_OtherGamesDescriptionTextBlock}" FontSize="12" Foreground="#66F2F2F2" FontFamily="Montserrat" Width="305" HorizontalAlignment="Left" Height="41" TextWrapping="Wrap"/>
+                    <TextBlock Text="{DynamicResource MainWindow_OtherGamesDescriptionTextBlock}" FontSize="12" Foreground="#66F2F2F2" FontFamily="Montserrat" Width="290" HorizontalAlignment="Left" Height="41" TextWrapping="Wrap"/>
                 </StackPanel>
             </StackPanel>
 

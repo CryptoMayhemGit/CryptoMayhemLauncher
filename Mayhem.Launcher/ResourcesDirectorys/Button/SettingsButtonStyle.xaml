@@ -16,7 +16,7 @@
                         <Grid>
                             <Image
                                             x:Name="buttonImage"
-                                            Source="/Img/Button/SettingsIconClick.png"
+                                            Source="/Img/Button/SettingsIconHover.png"
                                             Stretch="UniformToFill" />
                             <ContentPresenter
                                             Margin="{TemplateBinding Padding}"
@@ -28,7 +28,7 @@
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter TargetName="border" Property="Background" Value="#00FF0000" />
                             <Setter TargetName="border" Property="BorderBrush" Value="#00FF0000" />
-                            <Setter TargetName="buttonImage" Property="Source" Value="/Img/Button/SettingsIconHover.png" />
+                            <Setter TargetName="buttonImage" Property="Source" Value="/Img/Button/SettingsIconClick.png" />
 
                         </Trigger>
                     </ControlTemplate.Triggers>
