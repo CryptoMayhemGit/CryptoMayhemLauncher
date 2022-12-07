@@ -60,7 +60,7 @@
 
     <system:String x:Key="LoginWindow_NotInvestorTitleTextBlock">Nie jesteś inwestorem</system:String>
     <system:String x:Key="LoginWindow_NotInvestorDescriptionTextBlock">W pierwszą wersję gry mogą zagrać tylko inwestorzy projektu. Zapraszamy wkrótce :)</system:String>
-    <system:String x:Key="LoginWindow_GoToLauncherButton">PRZEJDŹ DO LAUNCHERA</system:String>
+    <system:String x:Key="LoginWindow_GoToLauncherButton">WRÓĆ DO LOGOWANIA</system:String>
     <system:String x:Key="LoginWindow_ToBeInvestorTextBlock">Chcesz zostać inwestorem?</system:String>
     <system:String x:Key="LoginWindow_GoToProjectButton">POZNAJ PROJEKT</system:String>
 

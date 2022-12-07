@@ -21,7 +21,7 @@
                         <ResourceDictionary Source="ResourcesDirectorys/Button/LocalizationButtonStyle.xaml"/>
                         <ResourceDictionary Source="ResourcesDirectorys/Button/SetLanguagePopUpButtonStyle.xaml"/>
                         <ResourceDictionary Source="ResourcesDirectorys/Button/PathSettingsInstallButtonStyle.xaml"/>
-                        <ResourceDictionary Source="StringResources.en.xaml"/>
+                        <!-- <ResourceDictionary Source="StringResources.en.xaml"/> -->
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </Grid.Resources>
