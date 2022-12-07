@@ -32,17 +32,28 @@ namespace Mayhem.Launcher
             InitializeComponent();
             InitGamePath();
             SetDefaultLanguageImage();
+            SetResolution(482, 600);
+        }
+
+        private void SetResolution(int currentWidth, int currentHeight)
+        {
+            var widthWorkAreaResolution = SystemParameters.WorkArea.Width;
+            var percentageResolution = (widthWorkAreaResolution / 1921) * 100;
+            this.MaxWidth = (percentageResolution / 100) * currentWidth;
+            this.Width = (percentageResolution / 100) * currentWidth;
+            this.MaxHeight = (percentageResolution / 100) * currentHeight;
+            this.Height = (percentageResolution / 100) * currentHeight;
         }
 
         private void InitGamePath()
         {
-            gameInstallPath = Path.Combine(Path.GetPathRoot(Environment.SystemDirectory), "Adria Games\\Crypto Mayhem");
+            gameInstallPath = Path.Combine(Path.GetPathRoot(Environment.SystemDirectory), "Adria Games");
             SetInstallPathContent(gameInstallPath);
         }
 
         private void InstallButton_Click(object sender, RoutedEventArgs e)
         {
-            settingsFileService.SetPath(gameInstallPath);
+            settingsFileService.SetPath(Path.Combine(gameInstallPath, "Crypto Mayhem"));
             CreateNewDirectory(gameInstallPath);
             navigationService.Show<LoginWindow>();
             navigationService.Close<PathSettings>();

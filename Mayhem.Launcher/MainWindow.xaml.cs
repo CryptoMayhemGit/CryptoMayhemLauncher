@@ -37,6 +37,17 @@ namespace Mayhem.Launcher
             this.versionService = versionService;
             this.localizationService = localizationService;
             Initialize();
+            SetResolution(1536, 864);
+        }
+
+        private void SetResolution(int currentWidth, int currentHeight)
+        {
+            var widthWorkAreaResolution = SystemParameters.WorkArea.Width;
+            var percentageResolution = (widthWorkAreaResolution / 1921) * 100;
+            this.MaxWidth = (percentageResolution / 100) * currentWidth;
+            this.Width = (percentageResolution / 100) * currentWidth;
+            this.MaxHeight = (percentageResolution / 100) * currentHeight;
+            this.Height = (percentageResolution / 100) * currentHeight;
         }
 
         private string rootPath;

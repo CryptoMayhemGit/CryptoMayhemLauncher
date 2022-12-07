@@ -9,6 +9,7 @@ namespace Mayhem.Launcher
         [STAThread]
         public static void Main(string[] args)
         {
+
             Process runningProcess = GetRunningProcess();
 
             if (runningProcess != null && args.Length > 0)

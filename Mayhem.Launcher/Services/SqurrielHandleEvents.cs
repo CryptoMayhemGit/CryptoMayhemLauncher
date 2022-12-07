@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 
 namespace CryptoMayhemLauncher.Services
 {
@@ -74,7 +75,8 @@ namespace CryptoMayhemLauncher.Services
             string gamePath = settingsFileService.GetContent().GamePath;
             try
             {
-                if (Directory.Exists(gamePath))
+                Thread.Sleep(2000);
+                if (Directory.Exists(gamePath) && gamePath.Contains("Mayhem"))
                 {
                     Directory.Delete(gamePath, true);
                 }

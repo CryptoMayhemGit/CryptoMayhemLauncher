@@ -46,9 +46,9 @@
     <system:String x:Key="PathSettings_EnglishSettingText">English</system:String>
     <system:String x:Key="PathSettings_PolishSettingText">Polish</system:String>
     <system:String x:Key="PathSettings_InstallButton">INSTALL</system:String>
-    
+
+    <system:String x:Key="LoginWindow_PolishSettingText">Polski</system:String>
     <system:String x:Key="LoginWindow_EnglishSettingText">English</system:String>
-    <system:String x:Key="LoginWindow_PolishSettingText">Polish</system:String>
 
     <system:String x:Key="LoginWindow_NoInternetTitleTextBlock">No Internet</system:String>
     <system:String x:Key="LoginWindow_NoInternetDescriptionTextBlock">Wallet login need internet connection.</system:String>

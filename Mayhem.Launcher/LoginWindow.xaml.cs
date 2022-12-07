@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Numerics;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -46,6 +47,17 @@ namespace Mayhem.Launcher
             httpClient.Timeout = TimeSpan.FromSeconds(5);
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             Initialize();
+            SetResolution(482, 600);
+        }
+
+        private void SetResolution(int currentWidth, int currentHeight)
+        {
+            var widthWorkAreaResolution = SystemParameters.WorkArea.Width;
+            var percentageResolution = (widthWorkAreaResolution / 1921) * 100;
+            this.MaxWidth = (percentageResolution / 100) * currentWidth;
+            this.Width = (percentageResolution / 100) * currentWidth;
+            this.MaxHeight = (percentageResolution / 100) * currentHeight;
+            this.Height = (percentageResolution / 100) * currentHeight;
         }
 
 
