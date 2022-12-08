@@ -9,7 +9,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Numerics;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,15 +29,13 @@ namespace Mayhem.Launcher
         private readonly ILogger<LoginWindow> loggerLoginWindow;
         private static event ChangeText_Handler AuthorizationManager;
         private readonly ISettingsFileService settingsFileService;
-        private readonly ISqurrielHandleEvents squrrielHandleEvents;
         private readonly INavigationService navigationService;
         private readonly ILocalizationService localizationService;
 
         private UpdateManager manager;
 
-        public LoginWindow(ISqurrielHandleEvents squrrielHandleEvents, IHttpClientFactory httpClientFactory, ILogger<LoginWindow> loggerLoginWindow, ISettingsFileService settingsFileService, INavigationService navigationService, ILocalizationService localizationService)
+        public LoginWindow(IHttpClientFactory httpClientFactory, ILogger<LoginWindow> loggerLoginWindow, ISettingsFileService settingsFileService, INavigationService navigationService, ILocalizationService localizationService)
         {
-            this.squrrielHandleEvents = squrrielHandleEvents;
             this.settingsFileService = settingsFileService;
             this.navigationService = navigationService;
             this.localizationService = localizationService;
@@ -221,6 +218,7 @@ namespace Mayhem.Launcher
                     AuthorizationSuccesApiResponse authorizationApiResponse = JsonConvert.DeserializeObject<AuthorizationSuccesApiResponse>(apiResult);
 
                     settingsFileService.UpdateWallet(authorizationApiResponse.Wallet);
+                    settingsFileService.SetInvestorTicket(ticket);
                     navigationService.Show<MainWindow>();
                     navigationService.Hide<LoginWindow>();
                 }
@@ -524,34 +522,18 @@ namespace Mayhem.Launcher
             {
                 await manager.UpdateApp();
 
-                /*string executable = Path.Combine(manager.RootAppDirectory,
-                                            string.Concat("app-",
-                                                        LauncherVersionText.Text.Replace("V","")),
-                                            "Mayhem.Launcher.exe");*/
-
-                loggerLoginWindow.LogInformation("00");
                 var updateInfo = await manager.CheckForUpdate();
 
-                loggerLoginWindow.LogInformation("11");
                 string newVersion = string.Concat("app-",
                                         updateInfo.FutureReleaseEntry.Version.Version.Major, ".",
                                         updateInfo.FutureReleaseEntry.Version.Version.Minor, ".",
                                         updateInfo.FutureReleaseEntry.Version.Version.Build);
-                loggerLoginWindow.LogInformation("001");
-                squrrielHandleEvents.UpdateApp(manager, updateInfo.FutureReleaseEntry.Version.Version);
-                loggerLoginWindow.LogInformation("002");
                 string executable = Path.Combine(manager.RootAppDirectory,
                             newVersion,
                             "Mayhem.Launcher.exe");
-                loggerLoginWindow.LogInformation("Update version => " + newVersion);
-                loggerLoginWindow.LogInformation("executable " + executable);
-                loggerLoginWindow.LogInformation("1");
                 UpdateManager.RestartApp(executable);
-                loggerLoginWindow.LogInformation("2");
                 Thread.Sleep(1000);
-                loggerLoginWindow.LogInformation("3");
                 Environment.Exit(0);
-                loggerLoginWindow.LogInformation("4");
             }
             catch (Exception ex)
             {

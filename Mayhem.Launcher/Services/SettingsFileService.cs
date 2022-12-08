@@ -65,6 +65,10 @@ namespace CryptoMayhemLauncher.Services
                 {
                     fileSettings.CurrentCulture = line.Replace("CurrentCulture=", "");
                 }
+                else if (line.Contains("InvestorTicket="))
+                {
+                    fileSettings.InvestorTicket = line.Replace("InvestorTicket=", "");
+                }
             }
 
             return fileSettings;
@@ -119,6 +123,14 @@ namespace CryptoMayhemLauncher.Services
             Save(fileSettings);
         }
 
+        public void SetInvestorTicket(string newInvestorTicket)
+        {
+            FileSettings fileSettings = GetContent();
+            fileSettings.InvestorTicket = newInvestorTicket;
+
+            Save(fileSettings);
+        }
+
         private void Save(FileSettings fileSettings)
         {
             string[] lines =
@@ -126,7 +138,8 @@ namespace CryptoMayhemLauncher.Services
                $"GameVersion={fileSettings.GameVersion}",
                 $"GamePath={fileSettings.GamePath}",
                 $"Wallet={fileSettings.Wallet}",
-                $"CurrentCulture={fileSettings.CurrentCulture}"
+                $"CurrentCulture={fileSettings.CurrentCulture}",
+                $"InvestorTicket={fileSettings.InvestorTicket}"
             };
 
             File.WriteAllLines(localSettingsFilePath, lines);

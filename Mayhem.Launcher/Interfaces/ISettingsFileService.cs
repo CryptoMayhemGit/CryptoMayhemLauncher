@@ -12,6 +12,7 @@ namespace CryptoMayhemLauncher.Interfaces
         void UpdateGameVersion(BuildVersion newBuildVersion);
         void SetPath(string newPath);
         void UpdateWallet(string newWallet);
+        void SetInvestorTicket(string newInvestorTicket);
         void SetCurrentCulture(string newCurrentCulture);
     }
 }

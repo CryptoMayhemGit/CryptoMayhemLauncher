@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using CryptoMayhemLauncher.Interfaces;
+using CryptoMayhemLauncher.Services;
 using Mayhem.Dal.Dto.Dtos;
 using Mayhem.Dal.Tables;
 using Mayhem.Launcher.Helpers;
@@ -571,7 +572,9 @@ namespace Mayhem.Launcher
         {
             if (File.Exists(gameExe) && Status == LauncherStatus.Ready)
             {
+                string investorTicket = settingsFileService.GetContent().InvestorTicket;
                 ProcessStartInfo startInfo = new ProcessStartInfo(gameExe);
+                startInfo.Arguments = $"-InvestorTicket={investorTicket}";
                 Process.Start(startInfo);
 
                 Application.Current.Shutdown();
