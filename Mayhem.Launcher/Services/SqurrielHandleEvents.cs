@@ -105,18 +105,6 @@ namespace CryptoMayhemLauncher.Services
             AddProtocol(latestRunFilePath);
         }
 
-        private static void CreateDesktopShortcut(string latestRunFilePath)
-        {
-            object shDesktop = "Desktop";
-            WshShell shell = new WshShell();
-            string shortcutAddress = $"{(string)shell.SpecialFolders.Item(ref shDesktop)}\\Mayhem Launcher.lnk";
-            IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
-            shortcut.Description = "Mayhem Launcher";
-            shortcut.Hotkey = "Ctrl+Shift+N";
-            shortcut.TargetPath = latestRunFilePath;
-            shortcut.Save();
-        }
-
         private static string GetLatestRunFilePath(Version v, string exeName, string rootDirectory)
         {
             string updateVersionFolder = Path.Combine(rootDirectory, $"app-{v.Major}.{v.Minor}.{v.Build}");
@@ -133,6 +121,18 @@ namespace CryptoMayhemLauncher.Services
             }
         }
 
+        private static void CreateDesktopShortcut(string latestRunFilePath)
+        {
+            object shDesktop = "Desktop";
+            WshShell shell = new WshShell();
+            string shortcutAddress = $"{(string)shell.SpecialFolders.Item(ref shDesktop)}\\Mayhem Launcher.lnk";
+            IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
+            shortcut.Description = "Mayhem Launcher";
+            shortcut.Hotkey = "Ctrl+Shift+N";
+            shortcut.TargetPath = latestRunFilePath;
+            shortcut.Save();
+        }
+
         private static void CreateStartMenuShortcut(string latestRunFilePath)
         {
             string programs_path = Environment.GetFolderPath(Environment.SpecialFolder.Programs);
@@ -141,14 +141,17 @@ namespace CryptoMayhemLauncher.Services
             {
                 Directory.CreateDirectory(shortcutFolder);
             }
+
             WshShell shellClass = new WshShell();
-            //Create First Shortcut for Application Settings
             string settingsLink = Path.Combine(shortcutFolder, "Mayhem Launcher.lnk");
             IWshShortcut shortcut = (IWshShortcut)shellClass.CreateShortcut(settingsLink);
             shortcut.TargetPath = latestRunFilePath;
-            shortcut.IconLocation = @"C:\Unity\MayhemLauncherTDS\Mayhem.Launcher\Img\Icons\Icon.ico";//ToDo direct path.
-            shortcut.Description = "Click to edit MorganApp settings";//TODO fix params
+            shortcut.Description = "Click to edit Mayhem settings";//TODO fix params
             shortcut.Save();
+
+            
+
+             
         }
 
         [DllImport("shell32.dll")]

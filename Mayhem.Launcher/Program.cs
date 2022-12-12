@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 
 namespace Mayhem.Launcher
 {
@@ -9,7 +10,6 @@ namespace Mayhem.Launcher
         [STAThread]
         public static void Main(string[] args)
         {
-
             Process runningProcess = GetRunningProcess();
 
             if (runningProcess != null && args.Length > 0)
