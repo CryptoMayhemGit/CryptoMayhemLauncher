@@ -197,7 +197,7 @@ namespace CryptoMayhemLauncher.Services
             RegistryKey key = keyTest.CreateSubKey("MayhemLauncher");
             key.SetValue("URL Protocol", "wntPing");
 
-            key.CreateSubKey(@"shell\open\command").SetValue("", latestRunFilePath + " %1");
+            key.CreateSubKey(@"shell\open\command").SetValue("", $"\"{latestRunFilePath}\" %1");
 
             key.Close();
         }
