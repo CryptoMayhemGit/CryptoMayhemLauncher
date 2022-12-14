@@ -31,15 +31,15 @@ namespace Mayhem.Launcher
         private readonly ISettingsFileService settingsFileService;
         private readonly INavigationService navigationService;
         private readonly ILocalizationService localizationService;
+        private readonly ISqurrielHandleEvents squrrielHandleEvents;
 
-        private UpdateManager manager;
-
-        public LoginWindow(IHttpClientFactory httpClientFactory, ILogger<LoginWindow> loggerLoginWindow, ISettingsFileService settingsFileService, INavigationService navigationService, ILocalizationService localizationService)
+        public LoginWindow(ISqurrielHandleEvents squrrielHandleEvents, IHttpClientFactory httpClientFactory, ILogger<LoginWindow> loggerLoginWindow, ISettingsFileService settingsFileService, INavigationService navigationService, ILocalizationService localizationService)
         {
             this.settingsFileService = settingsFileService;
             this.navigationService = navigationService;
             this.localizationService = localizationService;
             this.loggerLoginWindow = loggerLoginWindow;
+            this.squrrielHandleEvents = squrrielHandleEvents;
             httpClient = httpClientFactory.CreateClient();
             httpClient.Timeout = TimeSpan.FromSeconds(5);
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -147,6 +147,7 @@ namespace Mayhem.Launcher
 
         private void Initialize()
         {
+            AuthorizationManager += TryUpdateVersion;
             AuthorizationManager += SetTicketContentText;
             AuthorizationManager += RunProcess;
             localizationService.SetLocalization(this);
@@ -160,6 +161,41 @@ namespace Mayhem.Launcher
                 HwndSource hwndSource = HwndSource.FromHwnd(LoginWindow.WindowHandle);
                 hwndSource.AddHook(new HwndSourceHook(HandleMessages));
             };
+        }
+
+        private async void TryUpdateVersion(string text)
+        {
+            if(text.Contains("--squirrel-updated") == false)
+            {
+                return;
+            }
+
+            string newVersion = getNewVersion(text);
+
+            loggerLoginWindow.LogError($"Ticket: {newVersion}");
+            loggerLoginWindow.LogError($"Ticket: {newVersion.Length}");
+
+            if (newVersion.Length != 5)
+            {
+                return;
+            }
+
+            try
+            {
+                using (UpdateManager manager = await UpdateManager.GitHubUpdateManager(@"https://github.com/AdriaGames/TestTDSLauncher"))
+                {
+                    squrrielHandleEvents.UpdateApp(manager, $"app-{newVersion}");
+                }
+            }
+            catch (Exception ex)
+            {
+                loggerLoginWindow.LogError($"TryUpdateVersion: Internet Connection problem: {ex.Message}");
+            }
+        }
+
+        private string getNewVersion(string text)
+        {
+            return text.Replace("--squirrel-updated,", "");
         }
 
         public void UpdateLocalization()
@@ -259,11 +295,12 @@ namespace Mayhem.Launcher
                 return;
             }
 
-            manager = await UpdateManager.GitHubUpdateManager(@"https://github.com/AdriaGames/CryptoMayhemLauncher");
-
             try
             {
-                SetVersion(manager);
+                using (UpdateManager manager = await UpdateManager.GitHubUpdateManager(@"https://github.com/AdriaGames/TestTDSLauncher"))
+                {
+                    SetVersion(manager);
+                }
 
                 await CheckUpdateOrStart();
             }
@@ -275,8 +312,12 @@ namespace Mayhem.Launcher
 
         private async Task CheckUpdateOrStart()
         {
-            var updateInfo = await manager.CheckForUpdate();
-            
+            UpdateInfo updateInfo = null;
+            using (UpdateManager manager = await UpdateManager.GitHubUpdateManager(@"https://github.com/AdriaGames/TestTDSLauncher"))
+            {
+                updateInfo = await manager.CheckForUpdate();
+            }
+
             if (updateInfo.ReleasesToApply.Count > 0)
             {
                 Status = LoginWindowStatus.Update;
@@ -520,25 +561,38 @@ namespace Mayhem.Launcher
 
             try
             {
-                await manager.UpdateApp();
+                string executable = string.Empty;
+                using (UpdateManager manager = await UpdateManager.GitHubUpdateManager(@"https://github.com/AdriaGames/TestTDSLauncher"))
+                {
+                    loggerLoginWindow.LogError($"UpdateApplication.manager.UpdateApp");
+                    await manager.UpdateApp();
 
-                var updateInfo = await manager.CheckForUpdate();
+                    loggerLoginWindow.LogError($"UpdateApplication.manager.CheckForUpdate");
+                    var updateInfo = await manager.CheckForUpdate();
 
-                string newVersion = string.Concat("app-",
-                                        updateInfo.FutureReleaseEntry.Version.Version.Major, ".",
-                                        updateInfo.FutureReleaseEntry.Version.Version.Minor, ".",
-                                        updateInfo.FutureReleaseEntry.Version.Version.Build);
-                string executable = Path.Combine(manager.RootAppDirectory,
-                            newVersion,
-                            "Mayhem.Launcher.exe");
+                    loggerLoginWindow.LogError($"UpdateApplication.newVersion");
+                    string newVersion = string.Concat("app-",
+                                            updateInfo.FutureReleaseEntry.Version.Version.Major, ".",
+                                            updateInfo.FutureReleaseEntry.Version.Version.Minor, ".",
+                                            updateInfo.FutureReleaseEntry.Version.Version.Build);
+                    loggerLoginWindow.LogError($"UpdateApplication.executable");
+                    executable = Path.Combine(manager.RootAppDirectory,
+                                newVersion,
+                                "Mayhem.Launcher.exe");
+                }
+
+
+
+                loggerLoginWindow.LogError($"UpdateApplication.RestartApp");
                 UpdateManager.RestartApp(executable);
+                loggerLoginWindow.LogError($"UpdateApplication.Exit");
                 Thread.Sleep(1000);
                 Environment.Exit(0);
             }
             catch (Exception ex)
             {
                 Status = LoginWindowStatus.Error;
-                loggerLoginWindow.LogError(ex.Message);
+                loggerLoginWindow.LogError($"UpdateApplication. Error Message: {ex.Message}, StackTrace: {ex.StackTrace}");
             }
 
         }

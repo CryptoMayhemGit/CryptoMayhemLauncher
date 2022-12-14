@@ -129,7 +129,7 @@
                 <Button Margin="0, 42, 0, 0" Style="{StaticResource PathSettingsInstallButtonStyle}" Cursor="Hand" x:Name="LoginButton" Content="{DynamicResource LoginWindow_LoginButton}" Click="GoToWebAuthorizationButton_Click" Height="46" Width="338" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="10,1,10,1" RenderTransformOrigin="-2,0.6" FontFamily="Montserrat" BorderBrush="#00844646" Foreground="#FFF2F2F2" />
             </StackPanel>
 
-            <TextBlock x:Name="LauncherVersionText" Text="V1.0.2" FontSize="16" Margin="0,554,0,10" Foreground="#66F2F2F2" FontFamily="Montserrat" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" LineStackingStrategy="BlockLineHeight" TextWrapping="WrapWithOverflow" FontWeight="Regular" />
+            <TextBlock Visibility="Hidden" x:Name="LauncherVersionText" Text="" FontSize="16" Margin="0,554,0,10" Foreground="#66F2F2F2" FontFamily="Montserrat" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" LineStackingStrategy="BlockLineHeight" TextWrapping="WrapWithOverflow" FontWeight="Regular" />
         </Grid>
     </Viewbox>
 </Window>

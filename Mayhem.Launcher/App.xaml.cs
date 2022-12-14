@@ -16,7 +16,6 @@ namespace Mayhem.Launcher
         private readonly ISettingsFileService settingsFileService;
         private readonly INavigationService navigationService;
         private readonly ISqurrielHandleEvents squrrielHandleEvents;
-        //private readonly ILocalizationService localizationService;
 
         public App(string[] args)
         {
@@ -37,60 +36,50 @@ namespace Mayhem.Launcher
             settingsFileService = (ISettingsFileService)host.Services.GetService(typeof(ISettingsFileService));
             navigationService = (INavigationService)host.Services.GetService(typeof(INavigationService));
             squrrielHandleEvents = (ISqurrielHandleEvents)host.Services.GetService(typeof(ISqurrielHandleEvents));
-            // = (ILocalizationService)host.Services.GetService(typeof(ILocalizationService));
             logger.LogWarning(string.Join(",", args));
-            Init();
+            Init(string.Join(",", args));
         }
 
         private void ConfigureServices(IServiceCollection services)
-            {
-                services.AddScoped<INavigationService, NavigationService>();
-                services.AddScoped<ISettingsFileService, SettingsFileService>();
-                services.AddScoped<IVersionService, VersionService>();
-                services.AddScoped<ISqurrielHandleEvents, SqurrielHandleEvents>();
-                services.AddScoped<ILocalizationService, LocalizationService>();
-                services.AddSingleton<MainWindow>();
-                services.AddSingleton<PathSettings>();
-                services.AddSingleton<LoginWindow>();
-                services.AddHttpClient();
-            }
+    {
+            services.AddScoped<INavigationService, NavigationService>();
+            services.AddScoped<ISettingsFileService, SettingsFileService>();
+            services.AddScoped<IVersionService, VersionService>();
+            services.AddScoped<ISqurrielHandleEvents, SqurrielHandleEvents>();
+            services.AddScoped<ILocalizationService, LocalizationService>();
+            services.AddSingleton<MainWindow>();
+            services.AddSingleton<PathSettings>();
+            services.AddSingleton<LoginWindow>();
+            services.AddHttpClient();
+        }
 
-            private void Init()
-            {
-            /*foreach (string item in e.Args)
-            {
-                logger.LogInformation($"Params 123 => {item}");
-            }*/
+        private void Init(string args)
+        {
+
+            logger.LogInformation($"SingleApplicationCheck! start => {args}");
             SingleApplicationCheck();
+            logger.LogInformation($"SingleApplicationCheck! end => {args}");
             squrrielHandleEvents.SetDefaultConfiguration();
+            logger.LogInformation($"SetDefaultConfiguration! => {args}");
 
-            /*foreach (string item in e.Args)
-            {
-                logger.LogInformation($"Params {item}");
-            }*/
-
-            //navigationService.Show<MainWindow>();
-            //navigationService.Hide<MainWindow>();
             Window windows = null;
             if (IsFirstRun())
             {
-                logger.LogInformation("Nie Istnieje!");
                     settingsFileService.TryCreate();
                 windows = navigationService.Show<PathSettings>();
-                }
-                else
+            }
+            else
             {
-                logger.LogInformation("Istnieje!");
-                    if (!settingsFileService.IsFileExist())
-                    {
-                        logger.LogCritical("Configuration file not exist.");
-                        Application.Current.Shutdown();
-                    }
-                    else if (!settingsFileService.IsGamePathExist())
-                    {
-                        logger.LogCritical("The path to the game folder has not been set correctly.");
-                        Application.Current.Shutdown();
-                    }
+                if (!settingsFileService.IsFileExist())
+                {
+                    logger.LogCritical("Configuration file not exist.");
+                    Application.Current.Shutdown();
+                }
+                else if (!settingsFileService.IsGamePathExist())
+                {
+                    logger.LogCritical("The path to the game folder has not been set correctly.");
+                    Application.Current.Shutdown();
+                }
                 windows = navigationService.Show<LoginWindow>();
             }
 

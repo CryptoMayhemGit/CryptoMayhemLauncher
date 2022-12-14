@@ -10,7 +10,6 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using CryptoMayhemLauncher.Interfaces;
-using CryptoMayhemLauncher.Services;
 using Mayhem.Dal.Dto.Dtos;
 using Mayhem.Dal.Tables;
 using Mayhem.Launcher.Helpers;
@@ -27,8 +26,6 @@ namespace Mayhem.Launcher
         private readonly ILocalizationService localizationService;
         private readonly INavigationService navigationService;
         private readonly ILogger<MainWindow> loggerMainWindow;
-
-        private UpdateManager manager;
 
         public MainWindow(INavigationService navigationService, ISettingsFileService settingsFileService, IVersionService versionService, ILogger<MainWindow> loggerMainWindow, ILocalizationService localizationService)
         {
@@ -151,7 +148,7 @@ namespace Mayhem.Launcher
             }
         }
 
-        private void SetPaths()
+        private void SetPaths(UpdateManager manager)
         {
             rootPath = settingsFileService.GetContent().GamePath;
             gameZip = Path.Combine(manager.RootAppDirectory, "Build.zip");
@@ -367,21 +364,22 @@ namespace Mayhem.Launcher
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             SetMetodOnTop();
-            manager = await UpdateManager
-                .GitHubUpdateManager(@"https://github.com/AdriaGames/CryptoMayhemLauncher");
 
             try
             {
-                CurrentVersionTextBox.Text = $"V{manager.CurrentlyInstalledVersion()}";
+                using (UpdateManager manager = await UpdateManager.GitHubUpdateManager(@"https://github.com/AdriaGames/TestTDSLauncher"))
+                {
+                    CurrentVersionTextBox.Text = $"V{manager.CurrentlyInstalledVersion()}";
+                    SetPaths(manager);
+                }
             }
             catch (Exception ex)
             {
                 loggerMainWindow.LogError($"Current version is not uploaded on GitHub. Error Message: {ex.Message}");
             }
 
-            SetPaths();
             RunDispatcherTimerJob();
-            //CheckForUpdates();
+            CheckForUpdates();
         }
 
         private void SetMetodOnTop()
@@ -583,27 +581,6 @@ namespace Mayhem.Launcher
             {
                 UpdateGame();
             }
-
-            /*if (File.Exists(gameExe) && Status == LauncherStatus.ready)
-            {
-                ProcessStartInfo startInfo = new ProcessStartInfo(gameExe);
-                Process.Start(startInfo);
-            
-            navigationService.Hide<MainWindow>();
-            }
-            else if (Status == LauncherStatus.failed)
-            {
-                CheckForUpdates();
-            }
-            else if (Status == LauncherStatus.install || Status == LauncherStatus.updateGame)
-            {
-                InstallOrUpdate();
-            }*/
-            /*
-            else if (Status == LauncherStatus.failed)
-            {
-                CheckForUpdates();
-            }*/
         }
 
         private void Logout_Click(object sender, RoutedEventArgs e)

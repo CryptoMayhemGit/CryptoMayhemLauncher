@@ -5,7 +5,7 @@ namespace CryptoMayhemLauncher.Interfaces
 {
     public interface ISqurrielHandleEvents
     {
-        void UpdateApp(UpdateManager manager, Version v);
+        void UpdateApp(UpdateManager manager, string newVersion);
         void SetDefaultConfiguration();
     }
 }

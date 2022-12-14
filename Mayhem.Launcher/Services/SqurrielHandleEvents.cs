@@ -1,5 +1,6 @@
 ﻿using CryptoMayhemLauncher.Interfaces;
 using IWshRuntimeLibrary;
+using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using Squirrel;
 using System;
@@ -16,41 +17,83 @@ namespace CryptoMayhemLauncher.Services
     public class SqurrielHandleEvents : ISqurrielHandleEvents
     {
         private readonly ISettingsFileService settingsFileService;
+        private readonly ILogger<SqurrielHandleEvents> logger;
 
-        public SqurrielHandleEvents(ISettingsFileService settingsFileService)
+        public SqurrielHandleEvents(ISettingsFileService settingsFileService, ILogger<SqurrielHandleEvents> logger)
         {
             this.settingsFileService = settingsFileService;
+            this.logger = logger;
         }
 
         public void SetDefaultConfiguration()
         {
-            using (UpdateManager manager = new UpdateManager(@"https://github.com/AdriaGames/CryptoMayhemLauncher"))
+            using (UpdateManager manager = new UpdateManager(@"https://github.com/AdriaGames/TestTDSLauncher"))
             {
                 SquirrelAwareApp.HandleEvents(
-                 onInitialInstall: v => PrepareApp(manager, v),
-                 onAppUpdate: v => UpdateApp(manager, v),
+                 onInitialInstall: v => InstallApp(manager, $"app-{v.Major}.{v.Minor}.{v.Build}"),
+                 onAppUpdate: v => UpdateApp(manager, $"app-{v.Major}.{v.Minor}.{v.Build}"),
                  onAppUninstall: v => RemoveApp());
             }
         }
 
-        public void UpdateApp(UpdateManager manager, Version v)
+        public void UpdateApp(UpdateManager manager, string newVersion)
         {
-            DeleteDesktopShortcut();
-            DeleteStartMenuShortcut();
-            RemoveProtocol();
-            PrepareApp(manager, v);
+            try
+            {
+                logger.LogInformation("UpdateApp Start");
+                DeleteDesktopShortcut();
+                DeleteStartMenuShortcut();
+                RemoveProtocol();
+                InstallApp(manager, newVersion);
+                logger.LogInformation("UpdateApp End");
+            }
+            catch (Exception ex)
+            {
+                logger.LogError($"UpdateApp Error. ErrorMessage: {ex.Message}, StackTrace: {ex.StackTrace}");
+            }
         }
 
         private void RemoveApp()
         {
-            KillAllLaunchers();
-            KillAllTDS();
+            try
+            {
+                logger.LogInformation("RemoveApp Start");
+                KillAllLaunchers();
+                KillAllTDS();
 
-            DeleteDesktopShortcut();
-            DeleteStartMenuShortcut();
-            RemoveProtocol();
-            RemoveGameFolder();
+                DeleteDesktopShortcut();
+                DeleteStartMenuShortcut();
+                RemoveProtocol();
+                RemoveGameFolder();
+                logger.LogInformation("RemoveApp End");
+            }
+            catch (Exception ex)
+            {
+                logger.LogError($"RemoveApp Error. ErrorMessage: {ex.Message}, StackTrace: {ex.StackTrace}");
+            }
         }
+
+        private void InstallApp(UpdateManager manager, string newVersion)
+        {
+            try
+            {
+                logger.LogInformation("InstallApp Start");
+                string exeName = Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().Location);
+                string rootDirectory = manager.RootAppDirectory;
+                RemoveStubFile(exeName, rootDirectory);
+
+                string latestRunFilePath = GetLatestRunFilePath(newVersion, exeName, rootDirectory);
+
+                CreateDesktopShortcut(latestRunFilePath);
+                CreateStartMenuShortcut(latestRunFilePath);
+                AddProtocol(latestRunFilePath);
+                logger.LogInformation("InstallApp End");
+            }
+            catch (Exception ex)
+            {
+                logger.LogError($"InstallApp Error. ErrorMessage: {ex.Message}, StackTrace: {ex.StackTrace}");
+            }
+    }
 
         private void KillAllTDS()
         {
@@ -83,6 +126,7 @@ namespace CryptoMayhemLauncher.Services
             }
             catch (IOException ex)
             {
+                logger.LogInformation($"RemoveGameFolder Error. ErrorMessage: {ex.Message}, StackTrace: {ex.StackTrace}");
             }
         }
 
@@ -92,22 +136,9 @@ namespace CryptoMayhemLauncher.Services
             System.IO.File.Delete(Path.Combine(desktopPath, "Mayhem Launcher.lnk"));
         }
 
-        private void PrepareApp(UpdateManager manager, Version v)
+        private static string GetLatestRunFilePath(string newVersion, string exeName, string rootDirectory)
         {
-            string exeName = Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().Location);
-            string rootDirectory = manager.RootAppDirectory;
-            RemoveStubFile(exeName, rootDirectory);
-
-            string latestRunFilePath = GetLatestRunFilePath(v, exeName, rootDirectory);
-
-            CreateDesktopShortcut(latestRunFilePath);
-            CreateStartMenuShortcut(latestRunFilePath);
-            AddProtocol(latestRunFilePath);
-        }
-
-        private static string GetLatestRunFilePath(Version v, string exeName, string rootDirectory)
-        {
-            string updateVersionFolder = Path.Combine(rootDirectory, $"app-{v.Major}.{v.Minor}.{v.Build}");
+            string updateVersionFolder = Path.Combine(rootDirectory, newVersion);
             string updateStubPath = Path.Combine(updateVersionFolder, $"{exeName}.exe");
             return updateStubPath;
         }
@@ -128,7 +159,6 @@ namespace CryptoMayhemLauncher.Services
             string shortcutAddress = $"{(string)shell.SpecialFolders.Item(ref shDesktop)}\\Mayhem Launcher.lnk";
             IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
             shortcut.Description = "Mayhem Launcher";
-            shortcut.Hotkey = "Ctrl+Shift+N";
             shortcut.TargetPath = latestRunFilePath;
             shortcut.Save();
         }
