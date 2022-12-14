@@ -367,7 +367,7 @@ namespace Mayhem.Launcher
 
             try
             {
-                using (UpdateManager manager = await UpdateManager.GitHubUpdateManager(@"https://github.com/AdriaGames/TestTDSLauncher"))
+                using (UpdateManager manager = await UpdateManager.GitHubUpdateManager(@"https://github.com/AdriaGames/CryptoMayhemLauncher"))
                 {
                     CurrentVersionTextBox.Text = $"V{manager.CurrentlyInstalledVersion()}";
                     SetPaths(manager);

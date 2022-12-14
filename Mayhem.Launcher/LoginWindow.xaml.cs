@@ -182,7 +182,7 @@ namespace Mayhem.Launcher
 
             try
             {
-                using (UpdateManager manager = await UpdateManager.GitHubUpdateManager(@"https://github.com/AdriaGames/TestTDSLauncher"))
+                using (UpdateManager manager = await UpdateManager.GitHubUpdateManager(@"https://github.com/AdriaGames/CryptoMayhemLauncher"))
                 {
                     squrrielHandleEvents.UpdateApp(manager, $"app-{newVersion}");
                 }
@@ -297,7 +297,7 @@ namespace Mayhem.Launcher
 
             try
             {
-                using (UpdateManager manager = await UpdateManager.GitHubUpdateManager(@"https://github.com/AdriaGames/TestTDSLauncher"))
+                using (UpdateManager manager = await UpdateManager.GitHubUpdateManager(@"https://github.com/AdriaGames/CryptoMayhemLauncher"))
                 {
                     SetVersion(manager);
                 }
@@ -313,7 +313,7 @@ namespace Mayhem.Launcher
         private async Task CheckUpdateOrStart()
         {
             UpdateInfo updateInfo = null;
-            using (UpdateManager manager = await UpdateManager.GitHubUpdateManager(@"https://github.com/AdriaGames/TestTDSLauncher"))
+            using (UpdateManager manager = await UpdateManager.GitHubUpdateManager(@"https://github.com/AdriaGames/CryptoMayhemLauncher"))
             {
                 updateInfo = await manager.CheckForUpdate();
             }
@@ -562,7 +562,7 @@ namespace Mayhem.Launcher
             try
             {
                 string executable = string.Empty;
-                using (UpdateManager manager = await UpdateManager.GitHubUpdateManager(@"https://github.com/AdriaGames/TestTDSLauncher"))
+                using (UpdateManager manager = await UpdateManager.GitHubUpdateManager(@"https://github.com/AdriaGames/CryptoMayhemLauncher"))
                 {
                     loggerLoginWindow.LogError($"UpdateApplication.manager.UpdateApp");
                     await manager.UpdateApp();

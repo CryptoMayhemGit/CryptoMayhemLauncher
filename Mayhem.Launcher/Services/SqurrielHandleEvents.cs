@@ -27,7 +27,7 @@ namespace CryptoMayhemLauncher.Services
 
         public void SetDefaultConfiguration()
         {
-            using (UpdateManager manager = new UpdateManager(@"https://github.com/AdriaGames/TestTDSLauncher"))
+            using (UpdateManager manager = new UpdateManager(@"https://github.com/AdriaGames/CryptoMayhemLauncher"))
             {
                 SquirrelAwareApp.HandleEvents(
                  onInitialInstall: v => InstallApp(manager, $"app-{v.Major}.{v.Minor}.{v.Build}"),
