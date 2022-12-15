@@ -379,7 +379,6 @@ namespace Mayhem.Launcher
             }
 
             RunDispatcherTimerJob();
-            CheckForUpdates();
         }
 
         private void SetMetodOnTop()
