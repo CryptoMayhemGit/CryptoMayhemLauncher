@@ -301,17 +301,25 @@ namespace Mayhem.Launcher
                 {
                     SetVersion(manager);
                 }
+            }
+            catch (Exception ex)
+            {
+                loggerLoginWindow.LogError($"Current version is not uploaded on GitHub. Error Message: {ex.Message} StackTrace: {ex.StackTrace}");
+            }
 
+            try
+            {
                 await CheckUpdateOrStart();
             }
             catch (Exception ex)
             {
-                loggerLoginWindow.LogError($"Current version is not uploaded on GitHub. Error Message: {ex.Message}");
+                loggerLoginWindow.LogError($"Update status. Error Message: {ex.Message} StackTrace: {ex.StackTrace}");
             }
         }
 
         private async Task CheckUpdateOrStart()
         {
+            loggerLoginWindow.LogInformation($"CheckUpdateOrStart start");
             UpdateInfo updateInfo = null;
             using (UpdateManager manager = await UpdateManager.GitHubUpdateManager(@"https://github.com/AdriaGames/CryptoMayhemLauncher"))
             {
@@ -320,13 +328,17 @@ namespace Mayhem.Launcher
 
             if (updateInfo.ReleasesToApply.Count > 0)
             {
+                loggerLoginWindow.LogInformation($"CheckUpdateOrStart Update");
                 Status = LoginWindowStatus.Update;
                 await UpdateApplication();
             }
             else
             {
+                loggerLoginWindow.LogInformation($"CheckUpdateOrStart Login");
                 Status = LoginWindowStatus.Login;
             }
+
+            loggerLoginWindow.LogInformation($"CheckUpdateOrStart end");
         }
 
         private static IntPtr HandleMessages(IntPtr handle, int message, IntPtr wParameter, IntPtr lParameter, ref Boolean handled)
