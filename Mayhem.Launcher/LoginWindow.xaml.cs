@@ -453,7 +453,8 @@ namespace Mayhem.Launcher
                 return;
             }
 
-            string url = "https://play.cryptomayhem.io/launcher/";
+            string currentLocalization = localizationService.GetDefaultLanguage();
+            string url = $"https:////play.cryptomayhem.io/{currentLocalization}/launcher/";
             Process.Start(new ProcessStartInfo
             {
                 FileName = url,
