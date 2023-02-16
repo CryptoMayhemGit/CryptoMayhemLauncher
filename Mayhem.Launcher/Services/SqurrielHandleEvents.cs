@@ -178,10 +178,6 @@ namespace CryptoMayhemLauncher.Services
             shortcut.TargetPath = latestRunFilePath;
             shortcut.Description = "Click to edit Mayhem settings";//TODO fix params
             shortcut.Save();
-
-            
-
-             
         }
 
         [DllImport("shell32.dll")]

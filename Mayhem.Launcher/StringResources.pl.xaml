@@ -17,7 +17,6 @@
 
     <system:String x:Key="MainWindow_SettingsLauncherUpdateTextBlock">Aktualna</system:String>
     <system:String x:Key="MainWindow_NewUpdateTextBlock">Dostępna aktualizacja</system:String>
-    <system:String x:Key="MainWindow_ThirdPartiesDocumentsTextBlock">Informacje prawne</system:String>
     <system:String x:Key="MainWindow_UserTermsDocumentsTextBlock">Zasady i warunki</system:String>
     <system:String x:Key="MainWindow_PrivacyPolicyDocumentsTextBlock">Polityka prywatności</system:String>
 

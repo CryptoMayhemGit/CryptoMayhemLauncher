@@ -517,12 +517,6 @@ namespace Mayhem.Launcher
             }
         }
 
-        private void ThirdPartyDocuments_Click(object sender, RoutedEventArgs e)
-        {
-            string currentLanguage = localizationService.GetDefaultLanguage();
-            GoToWebside($"https:////cryptomayhem.io/{currentLanguage}/legal-compliance");
-        }
-
         private void TermsAndConditions_Click(object sender, RoutedEventArgs e)
         {
             string currentLanguage = localizationService.GetDefaultLanguage();

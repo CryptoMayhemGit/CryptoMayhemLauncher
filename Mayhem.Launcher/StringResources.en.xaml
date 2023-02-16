@@ -17,7 +17,6 @@
 
     <system:String x:Key="MainWindow_SettingsLauncherUpdateTextBlock">Current</system:String>
     <system:String x:Key="MainWindow_NewUpdateTextBlock">Update available</system:String>
-    <system:String x:Key="MainWindow_ThirdPartiesDocumentsTextBlock">Legal compliance &amp; information</system:String>
     <system:String x:Key="MainWindow_UserTermsDocumentsTextBlock">Terms &amp; conditions</system:String>
     <system:String x:Key="MainWindow_PrivacyPolicyDocumentsTextBlock">Privacy policy</system:String>
 

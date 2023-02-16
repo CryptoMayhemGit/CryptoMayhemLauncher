@@ -156,10 +156,7 @@
                     <TextBlock Margin="20,0,0,0" x:Name="SettingsLauncherUpdateTextBlock" Text="{DynamicResource MainWindow_SettingsLauncherUpdateTextBlock}" FontSize="14" Foreground="#FF00D62E" FontFamily="Montserrat" Width="124"/>
                 </StackPanel>
 
-                <StackPanel Name="SettingsDocuments" Height="100" Width="296" Margin="223,-114,0,0" Visibility="Hidden" >
-                    <Button Style="{StaticResource DisableOnMouseOverButtonStyle}" Cursor="Hand" Background="Transparent" BorderBrush="Transparent" Width="auto" HorizontalAlignment="Left" Margin="0,4,0,4" Click="ThirdPartyDocuments_Click">
-                        <TextBlock x:Name="ThirdPartiesDocumentsTextBlock" Text="{DynamicResource MainWindow_ThirdPartiesDocumentsTextBlock}" HorizontalAlignment="Left" Foreground="#FFF2F2F2" FontFamily="Montserrat" FontSize="14" />
-                    </Button>
+                <StackPanel Name="SettingsDocuments" Height="66" Width="260" Margin="223,-114,0,0" Visibility="Hidden" >
                     <Button Style="{StaticResource DisableOnMouseOverButtonStyle}" Cursor="Hand" Background="Transparent" BorderBrush="Transparent" Width="auto" HorizontalAlignment="Left" Margin="0,4,0,4" Click="TermsAndConditions_Click">
                         <TextBlock x:Name="UserTermsDocumentsTextBlock" Text="{DynamicResource MainWindow_UserTermsDocumentsTextBlock}" HorizontalAlignment="Left" Foreground="#FFF2F2F2" FontFamily="Montserrat" FontSize="14" />
                     </Button>
@@ -442,6 +439,6 @@
                     Margin="0,15,0,0" IsEnabled="False" Content="Update"/>
                 <Button Click="CheckForUpdatesButton_Click" Content="Check"/>
             </StackPanel>-->
-            </Grid>
-        </Viewbox>
+        </Grid>
+    </Viewbox>
 </Window>
