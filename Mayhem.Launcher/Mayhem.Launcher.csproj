@@ -249,6 +249,15 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="Vlc.DotNet.Core, Version=3.1.0.0, Culture=neutral, PublicKeyToken=84529da31f4eb963, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vlc.DotNet.Core.3.1.0\lib\net45\Vlc.DotNet.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Vlc.DotNet.Core.Interops, Version=3.1.0.0, Culture=neutral, PublicKeyToken=84529da31f4eb963, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vlc.DotNet.Core.Interops.3.1.0\lib\net45\Vlc.DotNet.Core.Interops.dll</HintPath>
+    </Reference>
+    <Reference Include="Vlc.DotNet.Wpf, Version=3.1.0.0, Culture=neutral, PublicKeyToken=84529da31f4eb963, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vlc.DotNet.Wpf.3.1.0\lib\net45\Vlc.DotNet.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -264,6 +273,7 @@
     <Compile Include="Helpers\ResourceAccessor.cs" />
     <Compile Include="Interfaces\ISqurrielHandleEvents.cs" />
     <Compile Include="Interfaces\ILocalizationService.cs" />
+    <Compile Include="Interfaces\IVersionService.cs" />
     <Compile Include="LoginWindowStatus.cs" />
     <Compile Include="LauncherStatus.cs" />
     <Compile Include="LoginWindow.xaml.cs">
@@ -290,6 +300,7 @@
     <Compile Include="Services\SettingsFileService.cs" />
     <Compile Include="Services\SqurrielHandleEvents.cs" />
     <Compile Include="Services\LocalizationService.cs" />
+    <Compile Include="Services\LivepeerService.cs" />
     <Compile Include="Services\VersionService.cs" />
     <Compile Include="UIElements\ProgressBar\CustomProgressBar.xaml.cs">
       <DependentUpon>CustomProgressBar.xaml</DependentUpon>
@@ -310,7 +321,7 @@
     <Compile Include="Interfaces\IActivable.cs" />
     <Compile Include="Interfaces\INavigationService.cs" />
     <Compile Include="Interfaces\ISettingsFileService.cs" />
-    <Compile Include="Interfaces\IVersionService.cs" />
+    <Compile Include="Interfaces\ILivepeerService.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -605,9 +616,10 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\squirrel.windows.2.0.1\build\squirrel.windows.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\squirrel.windows.2.0.1\build\squirrel.windows.props'))" />
+    <Error Condition="!Exists('..\packages\VideoLAN.LibVLC.Windows.3.0.18\build\VideoLAN.LibVLC.Windows.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\VideoLAN.LibVLC.Windows.3.0.18\build\VideoLAN.LibVLC.Windows.targets'))" />
   </Target>
   <PropertyGroup>
-    <Version>1.0.7</Version>
+    <Version>1.0.8</Version>
   </PropertyGroup>
   <Target Name="AfterBuild" Condition=" '$(Configuration)' == 'Release'">
     <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
@@ -616,4 +628,5 @@
     <Exec Command="C:\Users\pawel\Downloads\NuGet.exe pack $(SolutionDir)Mayhem.Launcher\ReleaseSpec.nuspec -Version $(Version) -Properties Configuration=Release -OutputDirectory $(SolutionDir)Deployment\GeneratedNugets" />
     <Exec Command="C:\Unity\MayhemLauncherTDS\packages\squirrel.windows.2.0.1\tools\Squirrel.exe --framework-version=net48 --releasify $(SolutionDir)Deployment\GeneratedNugets\CryptoMayhemLauncher.$(Version).nupkg -n &quot;/a /f C:\Users\pawel\Downloads\cert\certificate.pfx /p 26cj1EwyjKH /fd sha384 /tr http://timestamp.comodoca.com/rfc3161 /td sha384&quot; --releaseDir=$(SolutionDir)Deployment\Releases --setupIcon=$(SolutionDir)Mayhem.Launcher\Img\Icons\Icon.ico --icon=$(SolutionDir)Mayhem.Launcher\Img\Icons\Icon.ico --no-msi" />
   </Target>
+  <Import Project="..\packages\VideoLAN.LibVLC.Windows.3.0.18\build\VideoLAN.LibVLC.Windows.targets" Condition="Exists('..\packages\VideoLAN.LibVLC.Windows.3.0.18\build\VideoLAN.LibVLC.Windows.targets')" />
 </Project>

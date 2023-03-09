@@ -3,7 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Mayhem.Launcher" xmlns:ndc="clr-namespace:Mayhem.Launcher.UIElements.ProgressBar"
+        xmlns:local="clr-namespace:Mayhem.Launcher" 
+        xmlns:ndc="clr-namespace:Mayhem.Launcher.UIElements.ProgressBar" 
+        xmlns:vlc="clr-namespace:Vlc.DotNet.Wpf;assembly=Vlc.DotNet.Wpf"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen" 
         Title="MainWindow"
@@ -401,7 +403,7 @@
 
             </StackPanel>
 
-            <TextBlock x:Name="AvailableGameListTitleText" Text="{DynamicResource MainWindow_AvailableGameListTitleText}" Margin="51,495,1358,279" FontSize="24" Foreground="#FFF2F2F2" FontFamily="Nulshock Rg"/>
+            <TextBlock x:Name="AvailableGameListTitleText" Text="{DynamicResource MainWindow_AvailableGameListTitleText}" Margin="51,495,1138,310" FontSize="24" Foreground="#FFF2F2F2" FontFamily="Nulshock Rg"/>
 
             <TextBlock x:Name="NewsTitleText" Text="{DynamicResource MainWindow_NewsTitleText}" Margin="52,92,847,735" FontSize="24" Foreground="#FFF2F2F2" FontFamily="Nulshock Rg" RenderTransformOrigin="0.456,-0.605"/>
             <StackPanel Orientation="Horizontal" Height="300.9" Width="369.75" Margin="768,533,398,30">
@@ -414,13 +416,7 @@
                 </StackPanel>
             </StackPanel>
             <StackPanel x:Name="LastGameToInstall" Orientation="Horizontal" Height="300.9" Width="369.75" Margin="1138,533,28,30">
-                <StackPanel.Background>
-                    <ImageBrush TileMode="None" ImageSource="Img/OtherGames.png"/>
-                </StackPanel.Background>
-                <StackPanel Margin="40,0,0,-200" Orientation="Vertical" Height="86" Width="291">
-                    <TextBlock Text="{DynamicResource MainWindow_OtherGamesTitleTextBlock}" FontSize="13.5" Foreground="#FFF2F2F2" FontFamily="Montserrat" HorizontalAlignment="Left" Height="25" Width="269"/>
-                    <TextBlock Text="{DynamicResource MainWindow_OtherGamesDescriptionTextBlock}" FontSize="12" Foreground="#66F2F2F2" FontFamily="Montserrat" Width="290" HorizontalAlignment="Left" Height="41" TextWrapping="Wrap"/>
-                </StackPanel>
+                <vlc:VlcControl x:Name="vlcPlayer" Width="369.75" />
             </StackPanel>
 
 

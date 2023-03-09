@@ -10,7 +10,7 @@
     <system:String x:Key="MainWindow_LegalDocumentsSettingSectionText">Dokumenty prawne</system:String>
 
     <system:String x:Key="MainWindow_NewsTitleText">AKTUALNOŚCI</system:String>
-    <system:String x:Key="MainWindow_AvailableGameListTitleText">GRY</system:String>
+    <system:String x:Key="MainWindow_AvailableGameListTitleText">GRY &amp; WIDEO</system:String>
     <system:String x:Key="MainWindow_TDSToInstallTitle">TOP-DOWN SHOOTER</system:String>
     <system:String x:Key="MainWindow_InstallButtonTextBlock">ZAINSTALUJ</system:String>
     <system:String x:Key="MainWindow_LogOutTextBlock">Odłącz portfel</system:String>

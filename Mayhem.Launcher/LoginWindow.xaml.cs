@@ -41,7 +41,7 @@ namespace Mayhem.Launcher
             this.loggerLoginWindow = loggerLoginWindow;
             this.squrrielHandleEvents = squrrielHandleEvents;
             httpClient = httpClientFactory.CreateClient();
-            httpClient.Timeout = TimeSpan.FromSeconds(5);
+            httpClient.Timeout = TimeSpan.FromSeconds(30);
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             Initialize();
             SetResolution(482, 600);

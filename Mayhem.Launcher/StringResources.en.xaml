@@ -10,7 +10,7 @@
     <system:String x:Key="MainWindow_LegalDocumentsSettingSectionText">Legal documents</system:String>
 
     <system:String x:Key="MainWindow_NewsTitleText">NEWS</system:String>
-    <system:String x:Key="MainWindow_AvailableGameListTitleText">GAMES</system:String>
+    <system:String x:Key="MainWindow_AvailableGameListTitleText">GAMES &amp; VIDEOS</system:String>
     <system:String x:Key="MainWindow_TDSToInstallTitle">TOP-DOWN SHOOTER</system:String>
     <system:String x:Key="MainWindow_InstallButtonTextBlock">INSTALL</system:String>
     <system:String x:Key="MainWindow_LogOutTextBlock">Log out</system:String>

@@ -45,6 +45,7 @@ namespace Mayhem.Launcher
             services.AddScoped<INavigationService, NavigationService>();
             services.AddScoped<ISettingsFileService, SettingsFileService>();
             services.AddScoped<IVersionService, VersionService>();
+            services.AddScoped<ILivepeerService, LivepeerService>();
             services.AddScoped<ISqurrielHandleEvents, SqurrielHandleEvents>();
             services.AddScoped<ILocalizationService, LocalizationService>();
             services.AddSingleton<MainWindow>();

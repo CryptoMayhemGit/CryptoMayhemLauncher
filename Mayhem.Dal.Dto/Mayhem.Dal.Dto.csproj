@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dtos\BuildVersion.cs" />
+    <Compile Include="Dtos\LivepeerAssetDto.cs" />
     <Compile Include="Dtos\LatestVersionDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

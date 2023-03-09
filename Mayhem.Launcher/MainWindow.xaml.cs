@@ -3,7 +3,10 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Net;
+using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -16,20 +19,23 @@ using Mayhem.Launcher.Helpers;
 using Mayhem.Launcher.Models;
 using Microsoft.Extensions.Logging;
 using Squirrel;
+using Vlc.DotNet.Wpf;
 
 namespace Mayhem.Launcher
 {
     public partial class MainWindow : Window, IActivable
     {
         private readonly IVersionService versionService;
+        private readonly ILivepeerService livepeerService;
         private readonly ISettingsFileService settingsFileService;
         private readonly ILocalizationService localizationService;
         private readonly INavigationService navigationService;
         private readonly ILogger<MainWindow> loggerMainWindow;
 
-        public MainWindow(INavigationService navigationService, ISettingsFileService settingsFileService, IVersionService versionService, ILogger<MainWindow> loggerMainWindow, ILocalizationService localizationService)
+        public MainWindow(INavigationService navigationService, ISettingsFileService settingsFileService, ILivepeerService livepeerService, IVersionService versionService, ILogger<MainWindow> loggerMainWindow, ILocalizationService localizationService)
         {
             this.navigationService = navigationService;
+            this.livepeerService = livepeerService;
             this.loggerMainWindow = loggerMainWindow;
             this.settingsFileService = settingsFileService;
             this.versionService = versionService;
@@ -110,11 +116,28 @@ namespace Mayhem.Launcher
             SetLanguageImage();
 
 
-
             Loaded += (s, e) =>
             {
                 MainWindow_Loaded(s, e);
             };
+        }
+
+        private void RunVideo()
+        {
+            var currentAssembly = Assembly.GetEntryAssembly();
+            var currentDirectory = new FileInfo(currentAssembly.Location).DirectoryName;
+            // Default installation path of VideoLAN.LibVLC.Windows
+            var libDirectory = new DirectoryInfo(Path.Combine(currentDirectory, "libvlc", IntPtr.Size == 4 ? "win-x86" : "win-x64"));
+            vlcPlayer.SourceProvider.CreatePlayer(libDirectory/* pass your player parameters here */);
+            vlcPlayer.SourceProvider.MediaPlayer.Play(new Uri(livepeerService.GetNextAssetUrl()));
+            vlcPlayer.SourceProvider.MediaPlayer.EndReached += MediaPlayer_EndReached;
+
+            vlcPlayer.SourceProvider.MediaPlayer.Audio.IsMute = true;
+        }
+
+        private void MediaPlayer_EndReached(object sender, EventArgs e)
+        {
+            ThreadPool.QueueUserWorkItem(_ => vlcPlayer.SourceProvider.MediaPlayer.Play(new Uri(livepeerService.GetNextAssetUrl())));
         }
 
         public void UpdateLocalization()
@@ -363,6 +386,8 @@ namespace Mayhem.Launcher
 
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            await livepeerService.Init();
+            RunVideo();
             SetMetodOnTop();
 
             try
