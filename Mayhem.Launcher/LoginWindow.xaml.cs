@@ -246,7 +246,7 @@ namespace Mayhem.Launcher
                 string jsonRequest = System.Text.Json.JsonSerializer.Serialize(authorizationApiRequest);
 
                 var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await httpClient.PostAsync($"https://mayhemtdsauthorizationapi.azurewebsites.net/api/Authorization/Login", content);
+                HttpResponseMessage response = await httpClient.PostAsync($"https://adriagames-mayhemtdsauthorization-api.azurewebsites.net/api/Authorization/Login", content);
                 var apiResult = await response.Content.ReadAsStringAsync();
                 if (response.IsSuccessStatusCode)
                 {

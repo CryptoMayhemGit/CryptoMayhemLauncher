@@ -32,7 +32,7 @@ namespace CryptoMayhemLauncher.Services
             HttpResponseMessage response;
             try
             {
-                response = await httpClient.GetAsync($"https://mayhemtdsversionapi.azurewebsites.net/api/GameVersion/GameVersion");
+                response = await httpClient.GetAsync($"https://adriagames-mayhemtdsversion-api.azurewebsites.net/api/GameVersion/GameVersion");
             }
             catch (Exception ex)
             {

@@ -619,14 +619,14 @@
     <Error Condition="!Exists('..\packages\VideoLAN.LibVLC.Windows.3.0.18\build\VideoLAN.LibVLC.Windows.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\VideoLAN.LibVLC.Windows.3.0.18\build\VideoLAN.LibVLC.Windows.targets'))" />
   </Target>
   <PropertyGroup>
-    <Version>1.0.9</Version>
+    <Version>1.1.0</Version>
   </PropertyGroup>
   <Target Name="AfterBuild" Condition=" '$(Configuration)' == 'Release'">
     <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
       <Output TaskParameter="Assemblies" ItemName="myAssemblyInfo" />
     </GetAssemblyIdentity>
     <Exec Command="C:\Users\pawel\Downloads\NuGet.exe pack $(SolutionDir)Mayhem.Launcher\ReleaseSpec.nuspec -Version $(Version) -Properties Configuration=Release -OutputDirectory $(SolutionDir)Deployment\GeneratedNugets" />
-    <Exec Command="C:\Unity\MayhemLauncherTDS\packages\squirrel.windows.2.0.1\tools\Squirrel.exe --framework-version=net48 --releasify $(SolutionDir)Deployment\GeneratedNugets\CryptoMayhemLauncher.$(Version).nupkg -n &quot;/a /f C:\Users\pawel\Downloads\cert\New\newCert.cer /p mhh266ZMN@87e8yp /fd sha384 /tr http://timestamp.comodoca.com/rfc3161 /td sha384&quot; --releaseDir=$(SolutionDir)Deployment\Releases --setupIcon=$(SolutionDir)Mayhem.Launcher\Img\Icons\Icon.ico --icon=$(SolutionDir)Mayhem.Launcher\Img\Icons\Icon.ico --no-msi" />
+    <Exec Command="C:\Unity\MayhemLauncherTDS\packages\squirrel.windows.2.0.1\tools\Squirrel.exe --framework-version=net48 --releasify $(SolutionDir)Deployment\GeneratedNugets\CryptoMayhemLauncher.$(Version).nupkg --releaseDir=$(SolutionDir)Deployment\Releases --setupIcon=$(SolutionDir)Mayhem.Launcher\Img\Icons\Icon.ico --icon=$(SolutionDir)Mayhem.Launcher\Img\Icons\Icon.ico --no-msi" />
   </Target>
   <Import Project="..\packages\VideoLAN.LibVLC.Windows.3.0.18\build\VideoLAN.LibVLC.Windows.targets" Condition="Exists('..\packages\VideoLAN.LibVLC.Windows.3.0.18\build\VideoLAN.LibVLC.Windows.targets')" />
 </Project>
